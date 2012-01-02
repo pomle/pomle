@@ -1,0 +1,16 @@
+.album {
+
+}
+
+.album .image {
+	border: solid 1px black;
+	display: block;
+	float: left;
+	height: 199px;
+	margin: 0 -1px -1px 0;
+	width: 199px;
+}
+
+.album .image img {
+	display: block;
+}

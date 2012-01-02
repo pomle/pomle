@@ -1,6 +1,8 @@
 <?
 class Post extends \Manager\Common\DB
 {
+	const TYPE = 'post';
+
 	public static function addToDB()
 	{
 		$query = "INSERT INTO Posts (timeCreated, isPublished) VALUES(UNIX_TIMESTAMP(), timeCreated)";
