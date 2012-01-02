@@ -15,6 +15,21 @@ $tree = array (
       'policy' => 'AllowViewLocale',
     ),
   ),
+  _('Innehåll') => 
+  array (
+    0 => 
+    array (
+      'caption' => _('Album'),
+      'href' => 'AlbumOverview.php',
+      'policy' => 'AllowViewAlbum',
+    ),
+    1 => 
+    array (
+      'caption' => _('Dagbok'),
+      'href' => 'DiaryOverview.php',
+      'policy' => 'AllowViewDiary',
+    ),
+  ),
   _('System') => 
   array (
     0 => 
