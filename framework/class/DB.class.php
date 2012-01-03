@@ -1,4 +1,7 @@
 <?
+class DBException extends \Exception
+{}
+
 class DB
 {
 	const PROVIDER = 'MySQL';
@@ -18,6 +21,16 @@ class DB
 	public static function assoc($Result)
 	{
 		return $Result->fetch_assoc();
+	}
+
+	public static function row($Result)
+	{
+		return $Result->fetch_row();
+	}
+
+	public static function countRows($Result)
+	{
+		return $Result->num_rows;
 	}
 
 	public static function fetch($query)
@@ -40,6 +53,7 @@ class DB
 
 	private static function escapeString($value)
 	{
+		if( !is_string($value) ) throw New DBException(sprintf('%s requires arg #1 to be string, %s given', __METHOD__, gettype($value)));
 		return mysqli_real_escape_string(self::$MySQLi, $value);
 	}
 
@@ -97,7 +111,7 @@ class DB
 
 			### String
 			case 's':
-				return "'" . self::escapeString($var) . "'";
+				return "'" . self::escapeString((string)$var) . "'";
 		}
 
 		return '0';
@@ -105,8 +119,7 @@ class DB
 
 	public static function query($query)
 	{
-		self::queryAndFetchResult($query);
-		return true;
+		return self::queryAndFetchResult($query);
 	}
 
 	public static function queryAndCountAffected($query)
@@ -119,20 +132,21 @@ class DB
 	public static function queryAndFetchArray($query)
 	{
 		$Result = self::queryAndFetchResult($query);
+
 		$array = array();
 
 		while($row = $Result->fetch_assoc())
 		{
-			switch(count($row))
+			switch($Result->field_count)
 			{
 				case 1:
 					$array[] = current($row);
-					break;
+				break;
 
 				case 2:
 					list($id, $value) = array_values($row);
 					$array[$id] = $value;
-					break;
+				break;
 
 				default:
 					list($id) = array_values($row);
@@ -149,9 +163,9 @@ class DB
 
 		if( $Result->num_rows > 0 ) {
 
-			$values = $Result->fetch_assoc(); // Adds keyword-based values
+			$values = $Result->fetch_assoc(); ### Adds keyword-based values
 
-			if( count($values) == 1 ) return reset($values);
+			if( count($values) == 1 ) return reset($values); ### Return first value if only one
 
 			return $values;
 		}
@@ -162,10 +176,10 @@ class DB
 	public static function queryAndFetchResult($query)
 	{
 		self::$queryCount++;
-		//self::$lastQuery = $query;
-		//self::$allQueries[] = $query;
+		#self::$lastQuery = $query;
+		#self::$allQueries[] = $query;
 
-		if( !$result = mysqli_query(self::$MySQLi, $query) )
+		if( !$Result = mysqli_query(self::$MySQLi, $query) )
 		{
 			if( DEBUG )
 				throw new Exception(mysqli_error(self::$MySQLi)."\n".$query);
@@ -176,7 +190,7 @@ class DB
 			}
 		}
 
-		return $result;
+		return $Result;
 	}
 
 	public static function queryAndGetID($query)
