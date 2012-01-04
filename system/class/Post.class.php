@@ -59,4 +59,9 @@ class Post extends \Manager\Common\DB
 	{
 		return $this->$key;
 	}
+
+	public function __isset($key)
+	{
+		return isset($this->$key);
+	}
 }

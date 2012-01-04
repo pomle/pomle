@@ -22,7 +22,7 @@ foreach($postIDs as $postID)
 			$mediaPool[] = $Media->mediaHash;
 	}
 
-	$mediaHash = reset($mediaPool);
+	$mediaHash = (string)(isset($Post->PreviewMedia) ? $Post->PreviewMedia : reset($mediaPool));
 
 	shuffle($mediaPool);
 

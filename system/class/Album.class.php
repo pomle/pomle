@@ -23,7 +23,7 @@ class Album extends Post
 		$albumIDs = array_keys($albums);
 
 
-		$query = \DB::prepareQuery("SELECT postID, previewMediaID FROM PostAlbums WHERE previewMediaID AND postID IN %a", $albumIDs);
+		$query = \DB::prepareQuery("SELECT pa.postID, m.ID AS mediaID FROM PostAlbums pa JOIN Media m ON m.ID = pa.previewMediaID AND pa.postID IN %a", $albumIDs);
 		$previewMediaIDs = \DB::queryAndFetchArray($query);
 
 		$media = \Manager\Media::loadFromDB($previewMediaIDs);
@@ -47,7 +47,8 @@ class Album extends Post
 				FROM
 					PostAlbumMedia
 				WHERE
-					postID IN %a
+					isVisible = 1
+					AND postID IN %a
 				ORDER BY
 					sortOrder ASC",
 				$albumIDs);
