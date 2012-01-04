@@ -32,7 +32,6 @@ footer,header,hgroup,menu,nav,section{
   display:block;
 }
 body{
-  border-color: #9db0a2;
   line-height:1;
 }
 ol,ul{
@@ -73,24 +72,27 @@ table{
 @font-face { font-family: Delicious; font-weight: bold; src: url('../font/delicious-bold.otf'); }
 
 .transition {
-
-}
-.transition.smooth {
 	transition-property: all;
-	transition-duration: .15s;
 	transition-timing-function: ease;
-	/* Firefox 4 */
 	-moz-transition-property: all;
-	-moz-transition-duration:.15s;
 	-moz-transition-timing-function: ease;
-	/* Safari and Chrome */
 	-webkit-transition-property: all;
-	-webkit-transition-duration:.15s;
 	-webkit-transition-timing-function: ease;
-	/* Opera */
 	-o-transition-property: all;
-	-o-transition-duration:.15s;
 	-o-transition-timing-function: ease;
+}
+.transition.fast {
+	transition-duration: .15s;
+	-moz-transition-duration: .15s;
+	-webkit-transition-duration: .15s;
+	-o-transition-duration: .15s;
+}
+
+.transition.smooth {
+	transition-duration: 1s;
+	-moz-transition-duration: 1s;
+	-webkit-transition-duration: 1s;
+	-o-transition-duration: 1s;
 }
 
 .darkened, .lighted {
@@ -117,6 +119,7 @@ a {
 }
 
 body {
+	background: #0f0f0f;
 	font-family: Arial, sans-serif;
 	margin: 0 20px;
 }
@@ -151,15 +154,22 @@ h4 {
 }
 
 .footer {
-	border-top: solid 1px #9d9d9d;
 	color: #9d9d9d;
 	clear: both;
 	font-size: 10px;
 	height: 100px;
-	margin: 10px 0 0 0;
+
 	padding: 10px 0 0px 0;
 }
 
+.footer .related .item {
+	margin-right: 5px;
+	opacity: .15;
+}
+
+.footer .related .item:hover {
+	opacity: 1;
+}
 
 .bricktiles {
 
@@ -209,10 +219,10 @@ h4 {
 	top: -25px;
 	width: 300px;
 
-	transform: rotateY(18deg) rotateX(1deg);
-	-webkit-transform: rotateY(18deg) rotateX(1deg);
-	-moz-transform: rotateY(18deg) rotateX(1deg);
-	-o-transform: rotateY(18deg) rotateX(1deg);
+	transform: rotateY(18deg) rotateX(4deg);
+	-webkit-transform: rotateY(18deg) rotateX(4deg);
+	-moz-transform: rotateY(18deg) rotateX(4deg);
+	-o-transform: rotateY(18deg) rotateX(4deg);
 }
 
 
@@ -250,4 +260,33 @@ h4 {
 
 .bricktiles .tile:hover .timestamp {
 	opacity: 1;
+}
+
+
+.pageIndex {
+	margin: 5px 0 0 0;
+}
+
+.pageIndex .pageNumber {
+	float: left;
+	margin: 0 5px 5px 0;
+}
+
+.pageIndex .pageNumber a {
+	background-color: #1a1a1a;
+	border-radius: 7px;
+	color: #b0b0b0;
+	display: table-cell;
+	/*font-family: Georgia;*/
+	font-size: 10px;
+	font-weight: bold;
+	height: 24px;
+	text-align: center;
+	vertical-align: middle;
+	width: 24px;
+}
+
+.pageIndex .pageNumber a:hover {
+	background-color: #e0006f;
+	color: #fff;
 }

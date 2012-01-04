@@ -13,8 +13,7 @@
 </head>
 
 <body>
-	<div class="header pageContainer">
-		<a href="/"><img src="/img/SiteLogo.png" alt=""></a>
-		&emsp; <a href="/DiaryOverview.php">Blog</a> | <a href="/AlbumOverview.php">Foto</a>
-	</div>
-	<div class="pageContent pageContainer">
+	<header class="header pageContainer">
+		<a href="/"><img src="/img/SiteLogo.png" alt="" height="38" width="159"></a>
+	</header>
+	<section class="pageContent pageContainer">

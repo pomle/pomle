@@ -21,7 +21,7 @@ class BrickTile
 			{
 				?>
 				<a href="<? echo $item['href']; ?>" class="tile" data-mediapool="<? echo htmlspecialchars(json_encode($item['mediaHashPool'])); ?>">
-					<div class="content transition smooth">
+					<div class="content transition fast">
 						<div class="image">
 							<div class="timestamp darkened medium"><? echo htmlspecialchars($item['timestamp']); ?></div>
 							<h1 class="caption darkened medium"><? echo htmlspecialchars($item['caption']); ?></h1>

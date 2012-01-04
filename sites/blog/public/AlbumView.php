@@ -14,7 +14,7 @@ require HEADER;
 	{
 		$mediaURL = \Media\Producer\BrickTile::createFromMedia($Media)->getAlbumImage();
 		?>
-		<li class="image"><? printf('<a href="%s"><img src="%s" alt=""></a>', \URL::albumImage($Album->postID, $Media->mediaID), $mediaURL); ?></li>
+		<li class="container"><? printf('<a href="%s" class="image" style="background-image: url(\'%s\');"><div class="overlay"></div></a>', \URL::albumImage($Album->postID, $Media->mediaID), $mediaURL); ?></li>
 		<?
 	}
 	?>

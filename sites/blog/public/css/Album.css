@@ -1,16 +1,50 @@
 .album {
+}
 
+.album .container {
+	border: solid 1px black;
+	float: left;
+	margin: 0 -1px -1px 0;
 }
 
 .album .image {
-	border: solid 1px black;
+	background-position: center;
 	display: block;
-	float: left;
 	height: 199px;
-	margin: 0 -1px -1px 0;
 	width: 199px;
 }
 
-.album .image img {
-	display: block;
+.album .image .overlay {
+	box-shadow: 0 0 20px 0px rgba(0,0,0,.8) inset;
+	height: 100%;
+}
+
+.album .image .overlay:hover {
+	background-image: url('../img/white-transparent-25.png');
+}
+
+.frame {
+	background: transparent url('/img/AlbumImageFrame.png') 0 0 repeat;
+	height: 752px !important;
+	position: relative;
+	width: 1000px;
+}
+
+.frame .image {
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100%;
+}
+
+.overlay {
+	box-shadow: 0 0 30px rgba(0,0,0,.8) inset;
+	height: 100%;
+}
+
+.frame .control {
+	opacity: 0;
+}
+
+.frame .control:hover {
+	opacity: 1;
 }
