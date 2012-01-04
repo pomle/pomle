@@ -1,12 +1,64 @@
 <?
 class AlbumMediaIO extends AjaxIO
 {
+	private function addMediaToAlbum(\Media\Common\_Root $Media, $albumID)
+	{
+		$query = \DB::prepareQuery("INSERT INTO
+			PostAlbumMedia (
+				ID,
+				postID,
+				mediaID,
+				isVisible,
+				sortOrder,
+				comment,
+				tags
+			) SELECT
+				NULLIF(%u, 0),
+				%u,
+				%u,
+				%u,
+				COUNT(*),
+				null,
+				null
+			FROM
+				PostAlbumMedia
+			WHERE
+				postID = %u",
+			null,
+			$albumID,
+			$Media->mediaID,
+			true,
+			$albumID);
+
+		$rowID = \DB::queryAndGetID($query);
+
+		return $rowID;
+	}
+
 	public function delete()
 	{
 		$query = \DB::prepareQuery("DELETE FROM PostAlbumMedia WHERE ID = %u", $this->postAlbumMediaID);
 		\DB::query($query);
 
 		Message::addNotice(MESSAGE_ROW_DELETED);
+	}
+
+	public function download()
+	{
+		try
+		{
+			$url = $_POST['url'];
+
+			$Media = \Operation\Media::downloadFileToLibrary($url);
+
+			$result['postAlbumMediaID'] = $this->addMediaToAlbum($Media, $this->postID);
+
+			Message::addNotice(sprintf('"%s" OK', $url));
+		}
+		catch(Exception $e)
+		{
+			Message::addError(sprintf('"%s" misslyckades: %s', $url, $e->getMessage()));
+		}
 	}
 
 	public function load()
@@ -57,38 +109,9 @@ class AlbumMediaIO extends AjaxIO
 			{
 				$Media = \Operation\Media::importFileToLibrary($file['tmp_name'], $file['name'], $preferredMediaType);
 
-				$query = \DB::prepareQuery("INSERT INTO
-					PostAlbumMedia (
-						ID,
-						postID,
-						mediaID,
-						isVisible,
-						sortOrder,
-						comment,
-						tags
-					) SELECT
-						NULLIF(%u, 0),
-						%u,
-						%u,
-						%u,
-						COUNT(*),
-						null,
-						null
-					FROM
-						PostAlbumMedia
-					WHERE
-						postID = %u",
-					null,
-					$this->postID,
-					$Media->mediaID,
-					true,
-					$this->postID);
-
-				$rowID = \DB::queryAndGetID($query);
+				$result['postAlbumMediaID'] = $this->addMediaToAlbum($Media, $this->postID);
 
 				Message::addNotice(sprintf('"%s" OK', $file['name']));
-
-				$result['mediaID'] = $Media->mediaID;
 			}
 			catch(Exception $e)
 			{

@@ -99,5 +99,23 @@ echo $IOCall->getFoot();
 	?>
 
 </fieldset>
+
 <?
+echo $IOCall->getHead();
+$IOControl = new \Element\IOControl($IOCall);
+?>
+<fieldset>
+	<legend><? echo \Element\Tag::legend('world_link', _('Ladda ner')); ?></legend>
+
+	<?
+	echo \Element\Table::inputs()
+		->addRow(_('URL'), \Element\Input::text('url')->size(100))
+		;
+
+	echo $IOControl->setButtons(\Element\Button::IO('download', 'world_add', 'Download'));
+	?>
+</fieldset>
+<?
+echo $IOCall->getFoot();
+
 require FOOTER;
