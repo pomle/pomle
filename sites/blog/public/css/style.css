@@ -174,7 +174,10 @@ h4 {
 	width: 250px;
 	z-index: 100;
 
+	-perspective: 1000px;
 	-webkit-perspective: 1000px;
+	-moz-perspective: 1000px;
+	-o-perspective: 1000px;
 }
 
 .bricktiles .tile:hover {
@@ -191,7 +194,10 @@ h4 {
 	position: absolute;
 	width: 250px;
 
+	transform-style: preserve-3d;
 	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
 }
 
 .bricktiles .tile .content:hover {
@@ -203,7 +209,10 @@ h4 {
 	top: -25px;
 	width: 300px;
 
+	transform: rotateY(18deg) rotateX(1deg);
 	-webkit-transform: rotateY(18deg) rotateX(1deg);
+	-moz-transform: rotateY(18deg) rotateX(1deg);
+	-o-transform: rotateY(18deg) rotateX(1deg);
 }
 
 
