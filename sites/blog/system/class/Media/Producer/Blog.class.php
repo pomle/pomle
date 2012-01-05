@@ -7,4 +7,9 @@ class Blog extends CrossSite
 	{
 		return $this->getCustom(1000, 750, false);
 	}
+
+	public function getAlbumThumb()
+	{
+		return $this->getCustom(200, 200, true);
+	}
 }

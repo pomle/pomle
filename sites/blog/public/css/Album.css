@@ -2,20 +2,25 @@
 }
 
 .album .container {
-	border: solid 1px black;
-	float: left;
+
 	margin: 0 -1px -1px 0;
 }
 
 .album .image {
 	background-position: center;
-	display: block;
-	height: 199px;
-	width: 199px;
+	float: left;
+	height: 200px;
+	width: 200px;
+}
+
+.album .image.border {
+	border: solid 1px #000;
+	margin: -1px;
 }
 
 .album .image .overlay {
 	box-shadow: 0 0 20px 0px rgba(0,0,0,.8) inset;
+
 	height: 100%;
 }
 
@@ -36,7 +41,7 @@
 	height: 100%;
 }
 
-.overlay {
+.frame .overlay {
 	box-shadow: 0 0 30px rgba(0,0,0,.8) inset;
 	height: 100%;
 }

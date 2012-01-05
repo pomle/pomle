@@ -8,16 +8,14 @@ if( !$Album = \Album::loadOneFromDB($_GET['albumID']) )
 
 require HEADER;
 ?>
-<ul class="album clearfix">
+<div class="album clearfix">
 	<?
 	foreach($Album->media as $Media)
 	{
-		$mediaURL = \Media\Producer\BrickTile::createFromMedia($Media)->getAlbumImage();
-		?>
-		<li class="container"><? printf('<a href="%s" class="image" style="background-image: url(\'%s\');"><div class="overlay"></div></a>', \URL::albumImage($Album->postID, $Media->mediaID), $mediaURL); ?></li>
-		<?
+		$mediaURL = \Media\Producer\Blog::createFromMedia($Media)->getAlbumThumb();
+		printf('<a href="%s" class="image border" style="background-image: url(\'%s\');"><div class="overlay"></div></a>', \URL::albumImage($Album->postID, $Media->mediaID), $mediaURL);
 	}
 	?>
-</ul>
+</div>
 <?
 require FOOTER;
