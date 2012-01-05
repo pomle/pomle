@@ -1,0 +1,85 @@
+.brickTile {
+
+}
+
+.brickTile .tile {
+	background-color: transparent;
+	float: left;
+	height: 150px;
+	position: relative;
+	width: 250px;
+	z-index: 100;
+
+	-perspective: 1000px;
+	-webkit-perspective: 1000px;
+	-moz-perspective: 1000px;
+	-o-perspective: 1000px;
+}
+
+.brickTile .tile:hover {
+	z-index: 200;
+}
+
+.brickTile .tile .content {
+	background-color: #fff;
+	border: solid 1px #000;
+	height: 149px;
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	width: 249px;
+
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+}
+
+.brickTile .tile:hover .content {
+	border: none;
+	box-shadow: 0 0 15px rgba(0,0,0,1);
+	-moz-box-shadow: none;
+	height: 200px;
+	left: -18px;
+	overflow: hidden;
+	top: -25px;
+	width: 300px;
+
+	transform: rotateY(18deg) rotateX(4deg);
+	-webkit-transform: rotateY(18deg) rotateX(4deg);
+	-moz-transform: rotateY(18deg) rotateX(4deg);
+	-o-transform: rotateY(18deg) rotateX(4deg);
+}
+
+
+.brickTile .tile .caption {
+	border-radius: 0 8px 0 0;
+	bottom: 0;
+	color: #fff;
+	font-family: Delicious;
+	font-size: 22px;
+	left: 0;
+	max-width: 230px;
+	padding: 4px 6px;
+	position: absolute;
+	z-index: 200;
+}
+
+
+.brickTile .tile .timestamp {
+	border-radius: 0 0 0 8px;
+	color: #fff;
+	font-family: Delicious;
+	font-size: 16px;
+	opacity: 0;
+	padding: 5px 8px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 200;
+}
+
+.brickTile .tile:hover .timestamp {
+	opacity: 1;
+}

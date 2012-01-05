@@ -15,7 +15,9 @@
 
 .album .image.border {
 	border: solid 1px #000;
-	margin: -1px;
+	margin: 0 -1px -1px 0;
+	height: 199px;
+	width: 199px;
 }
 
 .album .image .overlay {

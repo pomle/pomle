@@ -13,7 +13,14 @@
 </head>
 
 <body>
-	<header class="header pageContainer">
-		<a href="/"><img src="/img/SiteLogo.png" alt="" height="38" width="159"></a>
-	</header>
-	<section class="pageContent pageContainer">
+	<div class="pageContainer">
+		<header class="header">
+			<form action="/Search.php" method="get">
+			<div class="search">
+				<input type="text" name="q" value="<? if( isset($_GET['q']) ) echo htmlspecialchars($_GET['q']); ?>">
+			</div>
+			</form>
+
+			<a href="/"><img src="/img/SiteLogo.png" alt="" height="38" width="159"></a>
+		</header>
+		<section class="pageContent">

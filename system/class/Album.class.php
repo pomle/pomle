@@ -1,7 +1,7 @@
 <?
 class Album extends Post
 {
-	const TYPE = 'album';
+	const TYPE = POST_TYPE_ALBUM;
 
 	protected
 		$PreviewMedia,
