@@ -34,7 +34,7 @@ var BrickTile =
 
 	randomizeMap: function(brickTile)
 	{
-		var tiles = brickTile.find('.tile');
+		var tiles = brickTile.find('.tile').filter('[data-mediapool]');
 		tiles = this.getViewportTiles(tiles); // Remove tiles outside of viewport
 		return this.randomizeTile(this.getRandomTile(tiles));
 	},

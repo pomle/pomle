@@ -19,6 +19,7 @@ class BrickTile
 
 	public function __construct()
 	{
+		$this->useLongTime = false;
 		$this->items = array();
 	}
 
@@ -56,7 +57,7 @@ class BrickTile
 	{
 		$mediaPool = array();
 
-		if( $Post::TYPE == POST_TYPE_ALBUM )
+		if( in_array($Post::TYPE, array(POST_TYPE_DIARY, POST_TYPE_ALBUM)) )
 		{
 			foreach($Post->media as $Media)
 				$mediaPool[] = $Media->mediaHash;
@@ -70,14 +71,14 @@ class BrickTile
 
 		$mediaURL = \Media\Producer\BrickTile::createFromHash($previewMediaHash)->getTile();
 
-		return $this->addItem(\URL::album($Post), $Post->title, $mediaURL, $mediaPool, \Format::date($Post->timePublished));
+		return $this->addItem($Post->getURL(), $Post->title, $mediaURL, $mediaPool, \Format::date($Post->timePublished));
 	}
 
 	public function getTileHTML($item)
 	{
 		ob_start();
 		?>
-		<a href="<? echo $item['href']; ?>" class="tile transition fast" data-mediapool="<? echo htmlspecialchars(json_encode($item['mediaHashPool'])); ?>">
+		<a href="<? echo $item['href']; ?>" class="tile transition fast" <? if( count($item['mediaHashPool']) ) printf('data-mediapool="%s"', htmlspecialchars(json_encode($item['mediaHashPool']))); ?>">
 			<div class="content transition fast">
 				<div class="timestamp darkened medium"><? echo htmlspecialchars($item['timestamp']); ?></div>
 				<h1 class="caption darkened medium"><? echo htmlspecialchars($item['caption']); ?></h1>

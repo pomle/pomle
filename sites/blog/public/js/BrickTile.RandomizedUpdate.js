@@ -1,4 +1,4 @@
-$(document).ready(function()
+$(function()
 {
 	var tileMap = $('.brickTile');
 	var minTime = 1000;

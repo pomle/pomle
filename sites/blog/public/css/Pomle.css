@@ -1,5 +1,6 @@
 @font-face { font-family: Delicious; src: url('../font/delicious-roman.otf'); }
 @font-face { font-family: Delicious; font-weight: bold; src: url('../font/delicious-bold.otf'); }
+@font-face { font-family: SilkScreen; src: url('../font/SilkScreen.ttf'); }
 
 .transition {
 	transition-property: all;
@@ -49,8 +50,10 @@ a {
 }
 
 body {
+	color: #4f4f4f;
 	background: #0f0f0f;
 	font-family: Arial, sans-serif;
+	font-size: 10pt;
 	margin: 0 10px;
 }
 
@@ -67,30 +70,37 @@ h4 {
 	max-width: 1000px;
 }
 
-.header {
+header {
 	font-size: 12px;
 	margin-top: 25px;
 	margin-bottom: 15px;
 	padding: 0 1px;
 }
 
-.header .search {
+header .caption {
+	font-family: Delicious;
+	font-weight: normal;
+	font-size: 24pt;
+	margin-left: 50px;
+}
+
+header .search {
 	float: right;
 }
 
-.header .search input {
-	background: #fff;
+header .search input {
+	background: #fff url('../img/Magnifier.png') 3px 50% no-repeat;
 	border: none;
-	border-radius: 7px;
-	color: #b5b5b5;
-	padding: 3px 5px;
+	border-radius: 10px;
+	color: #a1a1a1;
+	padding: 3px 5px 3px 22px;
 }
 
 .pageContent {
 
 }
 
-.footer {
+footer {
 	color: #9d9d9d;
 	clear: both;
 	font-size: 10px;
@@ -99,12 +109,12 @@ h4 {
 	padding: 10px 0 0px 0;
 }
 
-.footer .related .item {
+footer .related .item {
 	margin-right: 5px;
 	opacity: .15;
 }
 
-.footer .related .item:hover {
+footer .related .item:hover {
 	opacity: 1;
 }
 

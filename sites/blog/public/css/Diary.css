@@ -1,0 +1,67 @@
+.diary {
+	background: #e8e8e8;
+	color: #454545;
+	border-radius: 20px;
+	font-family: 'Calibri', 'Arial', 'Helvetica', sans-serif;
+	line-height: 1.5;
+	max-width: 640px;
+	padding: 20px 30px;
+	padding-right: 100px;
+	text-align: justify;
+}
+
+.diary .header {
+	color: #4d443e;
+	margin-bottom: 10px;
+}
+
+.diary h1 {
+	font-family: Delicious;
+	font-size: 24pt;
+	line-height: 1;
+}
+
+.diary .header ul {
+	list-style: disc inside none;
+}
+
+.diary .header .timestamp {
+	font-family: Georgia;
+}
+
+
+.diary p,
+.diary .codeblock {
+	margin-bottom: 1em;
+	text-align: left;
+}
+
+.diary code {
+	font-family: monospace;
+}
+
+.diary p {
+	text-align: justify;
+}
+
+.diary .codeblock {
+	background-color: #D3F986;
+	border-radius: 10px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	color: #4b6812;
+	font-family: monospace;
+	padding: 10px;
+}
+
+.diary .media {
+	text-align: center;
+}
+
+.diary .media.image {
+
+}
+
+.diary .media.image img {
+	box-shadow: 0px 6px 15px -3px rgba(0,0,0,.9);
+	margin: 15px 0 15px 0;
+}

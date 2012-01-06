@@ -8,31 +8,44 @@ $pageLen = 11;
 $pageStart = $pageLen * $page;
 
 $query = \DB::prepareQuery("SELECT
-		ID
+		p.ID,
+		COALESCE(MAX(pam.timeCreated), p.timePublished) AS timeFresh
 	FROM
-		Posts
-		JOIN PostAlbums ON postID = ID
+		Posts p
+		LEFT JOIN PostDiaries pd ON pd.postID = p.ID
+		LEFT JOIN PostAlbumMedia pam ON pam.postID = p.ID
 	WHERE
-		isPublished = 1
+		p.isPublished = 1
+		AND p.type IN %A
+	GROUP BY
+		p.ID
 	ORDER BY
-		timePublished DESC
+		timeFresh DESC
 	LIMIT %u, %u",
+	array(POST_TYPE_DIARY, POST_TYPE_ALBUM),
 	$pageStart,
 	$pageLen + 1);
 
 $postIDs = \DB::queryAndFetchArray($query);
 
-$posts = \Album::loadFromDB($postIDs);
+$posts = \Post::loadAutoTypedFromDB(array_slice(array_keys($postIDs), 0, $pageLen));
 
-postSort($postIDs, $posts);
+$BrickTile = new \Element\BrickTile();
+foreach($postIDs as $postID => $timeFresh)
+{
+	if( !isset($posts[$postID]) ) continue;
+	$Post = $posts[$postID];
+	$Post->timePublished = $timeFresh;
+	$BrickTile->addPost($Post);
+}
 
-$BrickTile = \Element\BrickTile::createFromPosts(array_slice($posts, 0, $pageLen), null);
-
-if( count($posts) > $pageLen )
+if( count($postIDs) > $pageLen )
 {
 	$mediaURL = \Media\Producer\BrickTile::createFromHash('6ba739cd51f91b5e7b8c6e2877d81d60')->getTile();
 	$BrickTile->addItem(sprintf('/index.php?page=%u', $page+1), 'Go Deeper »', $mediaURL);
 }
+
+$pageCaption = 'Timeline';
 
 require HEADER;
 

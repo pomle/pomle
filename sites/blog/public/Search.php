@@ -5,8 +5,27 @@ $js[] = '/js/BrickTile.RandomizedUpdate.js';
 
 $question = $_GET['q'];
 
+### Search Diary
 $query = \DB::prepareQuery("SELECT
-		p.ID
+		p.ID,
+		p.timePublished
+	FROM
+		PostDiaries pd
+		JOIN Posts p ON p.ID = pd.postID
+	WHERE
+		p.isPublished = 1
+		AND (p.title LIKE %S OR pd.content LIKE %S)
+	ORDER BY
+		p.timePublished DESC",
+	$question,
+	$question);
+
+$diaryIDs = \DB::queryAndFetchArray($query);
+
+### Search Album
+$query = \DB::prepareQuery("SELECT
+		p.ID,
+		p.timePublished
 	FROM
 		PostAlbums pa
 		JOIN Posts p ON p.ID = pa.postID
@@ -23,13 +42,25 @@ $query = \DB::prepareQuery("SELECT
 	$question,
 	$question);
 
-$postIDs = \DB::queryAndFetchArray($query);
+$albumIDs = \DB::queryAndFetchArray($query);
 
-$posts = \Album::loadFromDB($postIDs);
 
-postSort($postIDs, $posts);
+$postIDs = $diaryIDs + $albumIDs;
 
-$BrickTile = \Element\BrickTile::createFromPosts($posts, null);
+$posts = \Post::loadAutoTypedFromDB(array_keys($postIDs));
+
+arsort($postIDs, SORT_NUMERIC);
+
+#header("Content-type: text/plain");
+#print_r($postIDs);
+#die();
+
+$BrickTile = new \Element\BrickTile();
+foreach($postIDs as $postID => $timestamp)
+	if( isset($posts[$postID]) )
+		$BrickTile->addPost($posts[$postID]);
+
+$pageCaption = 'Sök';
 
 require HEADER;
 

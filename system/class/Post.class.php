@@ -3,11 +3,44 @@ class Post extends \Manager\Common\DB
 {
 	const TYPE = 'post';
 
+	protected
+		$PreviewMedia,
+		$media;
+
+
 	public static function addToDB()
 	{
 		$query = "INSERT INTO Posts (timeCreated, isPublished) VALUES(UNIX_TIMESTAMP(), timeCreated)";
 		$postID = \DB::queryAndGetID($query);
 		return static::loadOneFromDB($postID);
+	}
+
+	public static function loadAutoTypedFromDB($postIDs)
+	{
+		$query = \DB::prepareQuery("SELECT ID, type FROM Posts WHERE ID IN %a ORDER BY type", $postIDs);
+		$result = \DB::queryAndFetchResult($query);
+
+		$types = array();
+		while($row = \DB::assoc($result))
+			$types[$row['type']][] = (int)$row['ID'];
+
+		$posts = array();
+
+		foreach($types as $type => $ids)
+		{
+			switch($type)
+			{
+				case POST_TYPE_DIARY:
+					$posts += \Diary::loadFromDB($ids);
+				break;
+
+				case POST_TYPE_ALBUM:
+					$posts += \Album::loadFromDB($ids);
+				break;
+			}
+		}
+
+		return $posts;
 	}
 
 	public static function loadFromDB($postIDs)
@@ -63,5 +96,17 @@ class Post extends \Manager\Common\DB
 	public function __isset($key)
 	{
 		return isset($this->$key);
+	}
+
+
+	public function addMedia(\Media\Common\_Root $Media)
+	{
+		$this->media[] = $Media;
+		return $this;
+	}
+
+	public function getURL()
+	{
+		return false;
 	}
 }

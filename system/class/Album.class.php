@@ -3,16 +3,17 @@ class Album extends Post
 {
 	const TYPE = POST_TYPE_ALBUM;
 
-	protected
-		$PreviewMedia,
-		$media;
-
 
 	public static function addToDB()
 	{
 		$Post = parent::addToDB();
+
 		$query = \DB::prepareQuery("INSERT INTO PostAlbums (postID) VALUES(%u)", $Post->postID);
 		\DB::query($query);
+
+		$query = \DB::prepareQuery("UPDATE Posts SET type = %s WHERE ID = %u", self::TYPE, $Post->postID);
+		\DB::query($query);
+
 		return $Post;
 	}
 
@@ -86,9 +87,8 @@ class Album extends Post
 	}
 
 
-	public function addMedia(\Media\Common\_Root $Media)
+	public function getURL()
 	{
-		$this->media[] = $Media;
-		return $this;
+		return sprintf('/AlbumView.php?albumID=%u', $this->postID);
 	}
 }

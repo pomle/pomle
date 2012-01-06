@@ -112,7 +112,19 @@ $IOControl = new \Element\IOControl($IOCall);
 		->addRow(_('URL'), \Element\Input::text('url')->size(100))
 		;
 
-	echo $IOControl->setButtons(\Element\Button::IO('download', 'world_add', 'Download'));
+	echo $IOControl->setButtons(\Element\Button::IO('download', 'world_add', _('Hämta')));
+	?>
+</fieldset>
+
+<fieldset>
+	<legend><? echo \Element\Tag::legend('world_link', _('Ladda ner')); ?></legend>
+
+	<?
+	echo \Element\Table::inputs()
+		->addRow(_('Media ID'), \Element\Input::text('mediaID'))
+		;
+
+	echo $IOControl->setButtons(\Element\Button::IO('importMedia', 'add', 'Importera'));
 	?>
 </fieldset>
 <?

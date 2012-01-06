@@ -7,6 +7,8 @@ define('DIR_SITE', DIR_SITES . 'blog/');
 define('DIR_SITE_SYSTEM', DIR_SITE . 'system/');
 define('DIR_SITE_CLASS', DIR_SITE_SYSTEM . 'class/');
 define('DIR_SITE_INCLUDE', DIR_SITE_SYSTEM . 'include/');
+define('DIR_SITE_RESOURCE', DIR_SITE_SYSTEM . 'resource/');
+
 define('DIR_ELEMENT', DIR_SITE_SYSTEM . 'element/');
 
 define('HEADER', DIR_ELEMENT . 'Header.inc.php');
@@ -15,6 +17,8 @@ define('FOOTER', DIR_ELEMENT . 'Footer.inc.php');
 require DIR_SITE_INCLUDE . 'Functions.inc.php';
 
 addIncludePath(DIR_SITE_CLASS);
+
+setlocale(LC_ALL, 'sv_SE.UTF8');
 
 $css = array();
 $css[] = '/css/Shitfest.css';

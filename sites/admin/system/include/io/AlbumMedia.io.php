@@ -63,6 +63,18 @@ class AlbumMediaIO extends AjaxIO
 		}
 	}
 
+	public function importMedia()
+	{
+		$this->importArgs('mediaID');
+
+		if( !$Media = \Manager\Media::loadOneFromDB($this->mediaID) )
+			throw New Exception('Invalid Media ID');
+
+		$this->addMediaToAlbum($Media, $this->postID);
+
+		Message::addNotice(sprintf('Media #%u imported', $Media->mediaID));
+	}
+
 	public function load()
 	{
 		global $result;

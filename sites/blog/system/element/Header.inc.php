@@ -7,6 +7,7 @@
 	foreach($css as $path)
 		printf('<link rel="stylesheet" type="text/css" href="%s">', $path);
 	?>
+	<meta name="viewport" content="width=820">
 	<!--[if IE]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -22,5 +23,6 @@
 			</form>
 
 			<a href="/"><img src="/img/SiteLogo.png" alt="" height="38" width="159"></a>
+			<? if(isset($pageCaption)) printf('<span class="caption">%s</span>', htmlspecialchars($pageCaption)); ?>
 		</header>
 		<section class="pageContent">
