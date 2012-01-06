@@ -22,7 +22,14 @@
 			</div>
 			</form>
 
-			<a href="/"><img src="/img/SiteLogo.png" alt="" height="38" width="159"></a>
-			<? if(isset($pageCaption)) printf('<span class="caption">%s</span>', htmlspecialchars($pageCaption)); ?>
+			<div>
+				<a href="/"><img src="/img/SiteLogo.png" alt="" height="38" width="159"></a>
+				<? if(isset($pageCaption)) printf('<span class="caption">%s</span>', htmlspecialchars($pageCaption)); ?>
+			</div>
+			<nav>
+				<a href="/DiaryOverview.php"><img src="/img/Menu_Item_Diary.png" alt="Dagbok (numera känt som blogg) - här skriver saker med debaterbar intressehalt."></a>
+				<a href="/AlbumOverview.php"><img src="/img/Menu_Item_Album.png" alt="Fotoalbum - innehåller förstås bilder på skit jag fotograferat och tycker om"></a>
+				<a href="/TrackOverview.php"><img src="/img/Menu_Item_Track.png" alt="Musik - Låtar jag älskar och vad som spelas just nu hos mig"></a>
+			</nav>
 		</header>
 		<section class="pageContent">

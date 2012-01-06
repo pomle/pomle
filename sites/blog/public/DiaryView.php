@@ -16,7 +16,10 @@ require HEADER;
 		</ul>
 	</div>
 	<?
-	echo $Diary->getHTMLContent();
+	if( strpos($Diary->content, '>') ) ### If we find a end tag we assume the post is modern and therefore HTML-aware
+		echo $Diary->getHTMLContent();
+	else ### Or we add simple, old-school line breaks
+		echo nl2br($Diary->content);
 	?>
 </div>
 <?

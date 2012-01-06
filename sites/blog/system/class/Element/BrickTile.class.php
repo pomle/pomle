@@ -21,6 +21,11 @@ class BrickTile
 	{
 		$this->useLongTime = false;
 		$this->items = array();
+
+		$this->fallbackImageURLs = array(
+			POST_TYPE_DIARY => '/img/BrickTile_Fallback_Diary.jpg',
+			POST_TYPE_TRACK => '/img/BrickTile_Fallback_Track.png'
+		);
 	}
 
 	public function __toString()
@@ -30,26 +35,19 @@ class BrickTile
 		<div class="brickTile">
 			<?
 			foreach($this->items as $item)
-				echo $this->getTileHTML($item);
+			{
+				list($imageURL, $href, $mainText, $smallText, $mediaHashs, $class) = $item;
+				echo $this->getTileHTML($imageURL, $href, $mainText, $smallText, $mediaHashs, $class);
+			}
 			?>
 		</div>
 		<?
 		return ob_get_clean();
 	}
 
-
-	public function addItem($href, $caption, $imageURL, $mediaHashPool = null, $timestamp = null)
+	public function addItem($imageURL, $href = null, $mainText = null, $smallText = null, $mediaHashs = null, $class = null)
 	{
-		if( !is_array($mediaHashPool) ) $mediaHashPool = array();
-
-		$this->items[] = array(
-			'href' => $href,
-			'caption' => $caption,
-			'timestamp' => $timestamp,
-			'imageURL' => $imageURL,
-			'mediaHashPool' => $mediaHashPool
-		);
-
+		$this->items[] = array($imageURL, $href, $mainText, $smallText, $mediaHashs, $class);
 		return $this;
 	}
 
@@ -66,23 +64,28 @@ class BrickTile
 		$previewMediaHash = (string)(isset($Post->PreviewMedia) ? $Post->PreviewMedia : reset($mediaPool));
 
 		shuffle($mediaPool);
-
 		$mediaPool = array_slice($mediaPool, 0, 10);
 
-		$mediaURL = \Media\Producer\BrickTile::createFromHash($previewMediaHash)->getTile();
+		if( $previewMediaHash )
+			$imageURL = \Media\Producer\BrickTile::createFromHash($previewMediaHash)->getTile();
+		elseif( isset($this->fallbackImageURLs[$Post::TYPE]) )
+			$imageURL = $this->fallbackImageURLs[$Post::TYPE];
+		else
+			$imageURL = false;
 
-		return $this->addItem($Post->getURL(), $Post->title, $mediaURL, $mediaPool, \Format::date($Post->timePublished));
+		return $this->addItem($imageURL, $Post->getURL(), $Post->title, \Format::date($Post->timePublished), $mediaPool, $Post::TYPE);
 	}
 
-	public function getTileHTML($item)
+	public function getTileHTML($imageURL, $href = null, $mainText = null, $smallText = null, $mediaHashs = null, $class = null)
 	{
 		ob_start();
 		?>
-		<a href="<? echo $item['href']; ?>" class="tile transition fast" <? if( count($item['mediaHashPool']) ) printf('data-mediapool="%s"', htmlspecialchars(json_encode($item['mediaHashPool']))); ?>">
-			<div class="content transition fast">
-				<div class="timestamp darkened medium"><? echo htmlspecialchars($item['timestamp']); ?></div>
-				<h1 class="caption darkened medium"><? echo htmlspecialchars($item['caption']); ?></h1>
-				<img src="<? echo $item['imageURL']; ?>" alt="">
+		<a href="<? echo $href; ?>" class="tile <? echo $class; ?>" <? if( is_array($mediaHashs) ) printf('data-mediapool="%s"', htmlspecialchars(json_encode($mediaHashs))); ?>">
+			<div class="content">
+				<div class="badge"></div>
+				<div class="smallText darkened medium"><? echo htmlspecialchars($smallText); ?></div>
+				<h1 class="mainText darkened medium"><? echo htmlspecialchars($mainText); ?></h1>
+				<? if( $imageURL ) printf('<img src="%s" alt="">', $imageURL); ?>
 			</div>
 		</a>
 		<?

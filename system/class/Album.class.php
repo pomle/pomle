@@ -21,24 +21,10 @@ class Album extends Post
 	{
 		$albums = parent::loadFromDB($postIDs);
 
-		$albumIDs = array_keys($albums);
-
-
-		$query = \DB::prepareQuery("SELECT pa.postID, m.ID AS mediaID FROM PostAlbums pa JOIN Media m ON m.ID = pa.previewMediaID AND pa.postID IN %a", $albumIDs);
-		$previewMediaIDs = \DB::queryAndFetchArray($query);
-
-		$media = \Manager\Media::loadFromDB($previewMediaIDs);
-
-		foreach($previewMediaIDs as $postID => $mediaID)
-		{
-			if( !isset($media[$mediaID]) || !isset($albums[$postID]) ) continue;
-
-			$albums[$postID]->PreviewMedia = $media[$mediaID];
-		}
-
-
 		if( $skipMedia === false )
 		{
+			$albumIDs = array_keys($albums);
+
 			$query = \DB::prepareQuery("SELECT
 					mediaID,
 					postID,
@@ -77,13 +63,6 @@ class Album extends Post
 		}
 
 		return $albums;
-	}
-
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->media = array();
 	}
 
 

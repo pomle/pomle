@@ -44,8 +44,25 @@ $query = \DB::prepareQuery("SELECT
 
 $albumIDs = \DB::queryAndFetchArray($query);
 
+### Search Tracks
+$query = \DB::prepareQuery("SELECT
+		p.ID,
+		p.timePublished
+	FROM
+		PostTracks plt
+		JOIN Posts p ON p.ID = plt.postID
+	WHERE
+		p.isPublished = 1
+		AND (plt.artist LIKE %S OR plt.track LIKE %S)
+	ORDER BY
+		p.timePublished DESC",
+	$question,
+	$question);
 
-$postIDs = $diaryIDs + $albumIDs;
+$trackIDs = \DB::queryAndFetchArray($query);
+
+
+$postIDs = $diaryIDs + $albumIDs + $trackIDs;
 
 $posts = \Post::loadAutoTypedFromDB(array_keys($postIDs));
 

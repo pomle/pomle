@@ -79,13 +79,6 @@ class Diary extends Post
 	}
 
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->media = array();
-	}
-
-
 	public function getHTMLContent()
 	{
 		$content = $this->content;

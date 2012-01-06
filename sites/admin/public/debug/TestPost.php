@@ -1,6 +1,28 @@
 <?
 require '_Debug.inc.php';
 
+$query = \DB::prepareQuery("SELECT ID FROM Posts WHERE type = %s", POST_TYPE_TRACK);
+$postIDs = \DB::queryAndFetchArray($query);
+
+$posts = \Track::loadFromDB($postIDs);
+
+print_r($posts);
+
+die();
+
+$Post = reset(Track::loadFromDB(30265));
+
+print_r($Post);
+#$Post->isPublished = false;
+#$Post->timePublished = time();
+#$Post->title = 'Pomle';
+#$Post->uri = 'Pomle';
+
+Track::saveToDB($Post);
+print_r($Post);
+
+die();
+
 $query = \DB::prepareQuery("SELECT
 		p.ID,
 		COALESCE(MAX(pam.timeCreated), p.timePublished) AS timeFresh

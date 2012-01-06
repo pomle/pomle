@@ -22,7 +22,7 @@ $query = \DB::prepareQuery("SELECT
 	ORDER BY
 		timeFresh DESC
 	LIMIT %u, %u",
-	array(POST_TYPE_DIARY, POST_TYPE_ALBUM),
+	array(POST_TYPE_ALBUM, POST_TYPE_DIARY, POST_TYPE_TRACK),
 	$pageStart,
 	$pageLen + 1);
 
@@ -40,10 +40,7 @@ foreach($postIDs as $postID => $timeFresh)
 }
 
 if( count($postIDs) > $pageLen )
-{
-	$mediaURL = \Media\Producer\BrickTile::createFromHash('6ba739cd51f91b5e7b8c6e2877d81d60')->getTile();
-	$BrickTile->addItem(sprintf('/index.php?page=%u', $page+1), 'Go Deeper »', $mediaURL);
-}
+	$BrickTile->addItem('/img/NextPage_Timeline.jpg', sprintf('/index.php?page=%u', $page+1), 'Go Deeper »');
 
 $pageCaption = 'Timeline';
 

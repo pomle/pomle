@@ -2,30 +2,6 @@
 @font-face { font-family: Delicious; font-weight: bold; src: url('../font/delicious-bold.otf'); }
 @font-face { font-family: SilkScreen; src: url('../font/SilkScreen.ttf'); }
 
-.transition {
-	transition-property: all;
-	transition-timing-function: ease;
-	-moz-transition-property: all;
-	-moz-transition-timing-function: ease;
-	-webkit-transition-property: all;
-	-webkit-transition-timing-function: ease;
-	-o-transition-property: all;
-	-o-transition-timing-function: ease;
-}
-.transition.fast {
-	transition-duration: .15s;
-	-moz-transition-duration: .15s;
-	-webkit-transition-duration: .15s;
-	-o-transition-duration: .15s;
-}
-
-.transition.smooth {
-	transition-duration: 1s;
-	-moz-transition-duration: 1s;
-	-webkit-transition-duration: 1s;
-	-o-transition-duration: 1s;
-}
-
 .darkened, .lighted {
 	background-position: 0 0;
 	background-repeat: repeat;
@@ -51,7 +27,7 @@ a {
 
 body {
 	color: #4f4f4f;
-	background: #0f0f0f;
+	background: #0f0f0f url('../img/Noise_Dark.png') repeat;
 	font-family: Arial, sans-serif;
 	font-size: 10pt;
 	margin: 0 10px;
@@ -96,6 +72,14 @@ header .search input {
 	padding: 3px 5px 3px 22px;
 }
 
+header nav a {
+	opacity: .3;
+}
+
+header nav a:hover {
+	opacity: 1;
+}
+
 .pageContent {
 
 }
@@ -116,33 +100,4 @@ footer .related .item {
 
 footer .related .item:hover {
 	opacity: 1;
-}
-
-.pageIndex {
-	clear: both;
-	margin: 10px 0 0 0;
-}
-
-.pageIndex .pageNumber {
-	float: left;
-	margin: 0 5px 5px 0;
-}
-
-.pageIndex .pageNumber a {
-	background-color: #1a1a1a;
-	border-radius: 0 7px 0 7px;
-	color: #767676;
-	display: table-cell;
-	/*font-family: Georgia;*/
-	font-size: 10px;
-	font-weight: bold;
-	height: 24px;
-	text-align: center;
-	vertical-align: middle;
-	width: 24px;
-}
-
-.pageIndex .pageNumber a:hover {
-	background-color: #008aff;
-	color: #fff;
 }

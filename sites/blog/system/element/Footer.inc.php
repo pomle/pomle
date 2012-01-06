@@ -1,7 +1,7 @@
 		</section>
 		<footer class="footer">
 			<div class="related">
-				<a class="item" href="http://www.last.fm/user/pomle"><img src="/img/Icon_LastFM.png" alt="Last.fm" height="24" width="24"></a><a class="item" href="http://www.songkick.com/users/Pomle"><img src="/img/Icon_SongKick.png" alt="Last.fm" height="24" width="24"></a><a class="item" href="http://www.facebook.com/pontus.alexander"><img src="/img/Icon_Facebook.png" alt="Facebook" height="24" width="24"></a><a class="item" href="http://www.youtube.com/user/pomdeterre"><img src="/img/Icon_YouTube.png" alt="YouTube" height="24" width="24"></a>
+				<a class="item" href="http://www.last.fm/user/pomle"><img src="/img/Icon_LastFM.png" alt="Last.fm" height="16" width="16"></a><a class="item" href="http://www.songkick.com/users/Pomle"><img src="/img/Icon_SongKick.png" alt="Last.fm" height="16" width="16"></a><a class="item" href="http://www.facebook.com/pontus.alexander"><img src="/img/Icon_Facebook.png" alt="Facebook" height="16" width="16"></a><a class="item" href="http://www.youtube.com/user/pomdeterre"><img src="/img/Icon_YouTube.png" alt="YouTube" height="16" width="16"></a>
 			</div>
 		</footer>
 	</div>

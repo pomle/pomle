@@ -32,12 +32,9 @@ foreach(array_slice($postIDs, 0, $pageLen) as $postID)
 
 
 if( count($posts) > $pageLen )
-{
-	$mediaURL = \Media\Producer\BrickTile::createFromHash('6ba739cd51f91b5e7b8c6e2877d81d60')->getTile();
-	$BrickTile->addItem(sprintf('/DiaryOverview.php?page=%u', $page+1), 'Nästa sida »', $mediaURL);
-}
+	$BrickTile->addItem('/img/NextPage_Diary.jpg', sprintf('/DiaryOverview.php?page=%u', $page+1), 'Nästa sida »');
 
-$pageCaption = 'Blog';
+$pageCaption = 'Blogg';
 
 require HEADER;
 

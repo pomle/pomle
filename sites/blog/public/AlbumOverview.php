@@ -4,7 +4,7 @@ require '../Init.inc.php';
 $js[] = '/js/BrickTile.RandomizedUpdate.js';
 
 $page = (int)abs($_GET['page']);
-$pageLen = 11;
+$pageLen = 23;
 $pageStart = $pageLen * $page;
 
 $query = \DB::prepareQuery("SELECT
@@ -32,10 +32,7 @@ foreach(array_slice($postIDs, 0, $pageLen) as $postID)
 
 
 if( count($posts) > $pageLen )
-{
-	$mediaURL = \Media\Producer\BrickTile::createFromHash('6ba739cd51f91b5e7b8c6e2877d81d60')->getTile();
-	$BrickTile->addItem(sprintf('/AlbumOverview.php?page=%u', $page+1), 'Nästa sida »', $mediaURL);
-}
+	$BrickTile->addItem('/img/NextPage_Timeline.jpg', sprintf('/AlbumOverview.php?page=%u', $page+1), 'Nästa sida »');
 
 $pageCaption = 'Fotoalbum';
 
