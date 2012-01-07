@@ -11,7 +11,7 @@ require HEADER;
 <div class="diary">
 	<div class="header">
 		<h1><? echo htmlspecialchars($Diary->title); ?></h1>
-		<ul>
+		<ul class="details">
 			<li><span class="timestamp"><? echo htmlspecialchars(\Format::timestamp($Diary->timePublished)); ?></span></li>
 		</ul>
 	</div>
