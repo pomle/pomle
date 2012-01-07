@@ -84,7 +84,7 @@ class Post extends \Manager\Common\DB
 			$Post->title = $post['title'];
 			$Post->uri = $post['uri'];
 
-			$mediaIDs[$Post->postID] = (int)$post['previewMediaID'];
+			$mediaIDs[$Post->postID] = $Post->previewMediaID = (int)$post['previewMediaID'];
 
 			$posts[$Post->postID] = $Post;
 		}
@@ -141,6 +141,8 @@ class Post extends \Manager\Common\DB
 			$Post->timePublished,
 			$Post->title,
 			niceurl($Post->uri ?: $Post->title));
+
+		throw New Exception($query);
 
 		if( $postID = \DB::queryAndGetID($query) )
 			$Post->postID = (int)$postID;

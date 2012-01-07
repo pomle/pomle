@@ -11,12 +11,11 @@ $Stmt = new \Query\Select("SELECT
 		m.fileHash AS mediaHash
 	FROM
 		Posts p
-		JOIN PostAlbums pa ON pa.postID = p.ID
+		JOIN PostDiaries pd ON pd.postID = p.ID
 		LEFT JOIN Media m ON m.ID = p.previewMediaID");
 
-if( $filter['search'] )
-{
-}
+if( $search = $filter['search'] )
+	$Stmt->addWhere("(p.title LIKE %S OR pd.content LIKE %S)", $search, $search);
 
 $Antiloop
 	->setDataset($Stmt)

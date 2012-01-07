@@ -1,34 +1,46 @@
 <?
 namespace Plugin;
 
-class Embed
+class Embed extends Plugin
 {
-	const YOUTUBE_WIDTH = 700;
-	const YOUTUBE_HEIGHT = 400;
-	const YOUTUBE_COLOR1 = '';
-	const YOUTUBE_COLOR2 = '';
-	const YOUTUBE_BORDER = 0;
+	const TAG = 'embed';
 
 
-	public function __construct()
-	{}
-
-
-	public function getHTML($attr)
+	public function getHTML()
 	{
-		switch($attr['type'])
+		switch($this->type)
 		{
 			case 'youtube':
-				return $this->getYouTubeHTML($attr['id'], $attr['text']);
+				return $this->getYouTubeHTML($this->id);
 			break;
 		}
 	}
 
-	private function getYouTubeHTML($id, $text = '', $href = '')
+	public function getPreviewImageURL()
 	{
-		$w = static::YOUTUBE_WIDTH;
-		$h = static::YOUTUBE_HEIGHT;
+		if( $this->type == 'youtube' )
+		{
+			$pageURL = sprintf('http://www.youtube.com/watch?v=%s', $this->id);
+			$pageHTML = file_get_contents($pageURL);
 
+			if( preg_match('/<meta property="og:image" content="(.*)">/U', $pageHTML, $match) )
+				return $match[1];
+		}
+
+		return false;
+	}
+
+	public function getPreviewMedia()
+	{
+		if( $imageURL = $this->getPreviewImageURL() )
+			if( $Media = \Operation\Media::downloadFileToLibrary($imageURL, MEDIA_TYPE_IMAGE) )
+				return $Media;
+
+		return false;
+	}
+
+	private function getYouTubeHTML($id)
+	{
 		return sprintf('<iframe class="youtube-player" type="text/html" src="http://www.youtube.com/embed/%s" frameborder="0"></iframe>', $id, $w, $h);
 	}
 }

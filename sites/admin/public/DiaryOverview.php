@@ -7,7 +7,7 @@ require '../Init.inc.php';
 
 $pageTitle = _('Dagbok');
 
-$List = \Element\Antiloop::getAsDomObject('Diaries');
+$List = \Element\Antiloop::getAsDomObject('Diaries.Edit');
 
 require HEADER;
 

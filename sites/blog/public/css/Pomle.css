@@ -2,24 +2,6 @@
 @font-face { font-family: Delicious; font-weight: bold; src: url('../font/delicious-bold.otf'); }
 @font-face { font-family: SilkScreen; src: url('../font/SilkScreen.ttf'); }
 
-.darkened, .lighted {
-	background-position: 0 0;
-	background-repeat: repeat;
-}
-
-.darkened.deep {
-	background-image: url('../img/black-transparent-75.png');
-}
-
-.darkened.medium {
-	background-image: url('../img/black-transparent-50.png');
-}
-
-.darkened.shallow {
-	background-image: url('../img/black-transparent-25.png');
-}
-
-
 a {
 	color: #0096ff;
 	text-decoration: none;

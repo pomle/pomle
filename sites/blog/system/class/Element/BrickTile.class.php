@@ -19,7 +19,8 @@ class BrickTile
 
 	public function __construct()
 	{
-		$this->useLongTime = false;
+		$this->layout = 'matrix';
+
 		$this->items = array();
 
 		$this->fallbackImageURLs = array(
@@ -32,7 +33,7 @@ class BrickTile
 	{
 		ob_start();
 		?>
-		<div class="brickTile">
+		<div class="brickTile <? echo $this->layout; ?>">
 			<?
 			foreach($this->items as $item)
 			{
@@ -80,14 +81,14 @@ class BrickTile
 	{
 		ob_start();
 		?>
-		<a href="<? echo $href; ?>" class="tile <? echo $class; ?>" <? if( is_array($mediaHashs) ) printf('data-mediapool="%s"', htmlspecialchars(json_encode($mediaHashs))); ?>">
+		<div class="item <? echo $class; ?>" <? if( is_array($mediaHashs) && count($mediaHashs) ) printf('data-mediapool="%s"', htmlspecialchars(json_encode($mediaHashs))); ?>>
 			<div class="content">
+				<a href="<? echo $href; ?>" class="image"><? if( $imageURL ) printf('<img src="%s" alt="">', $imageURL); ?></a>
+				<a href="<? echo $href; ?>" class="mainText"><? echo htmlspecialchars($mainText); ?></a>
+				<div class="smallText"><? echo htmlspecialchars($smallText); ?></div>
 				<div class="badge"></div>
-				<div class="smallText darkened medium"><? echo htmlspecialchars($smallText); ?></div>
-				<h1 class="mainText darkened medium"><? echo htmlspecialchars($mainText); ?></h1>
-				<? if( $imageURL ) printf('<img src="%s" alt="">', $imageURL); ?>
 			</div>
-		</a>
+		</div>
 		<?
 		return ob_get_clean();
 	}

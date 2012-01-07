@@ -1,18 +1,17 @@
 <?
 namespace Plugin;
 
-class External
+class External extends Plugin
 {
-	public function __construct()
-	{}
+	const TAG = 'external';
 
 
-	public function getHTML($attr)
+	public function getHTML()
 	{
-		switch($attr['type'])
+		switch($this->type)
 		{
 			case 'image':
-				return $this->getImageHTML($attr['src'], $attr['text'], $attr['href']);
+				return $this->getImageHTML($this->src, $this->text, $this->href);
 			break;
 		}
 	}

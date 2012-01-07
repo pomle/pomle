@@ -1,43 +1,41 @@
 <?
 namespace Plugin;
 
-class Media
+class Media extends Plugin
 {
+	const TAG = 'media';
+
 	protected static $imageLinkAttr = array();
 	protected static $imageZoomAttr = array();
 
-	public function __construct()
-	{}
-
-
-	public function getHTML($attr)
+	public function getHTML()
 	{
 		try
 		{
-			switch($attr['type'])
+			switch($this->type)
 			{
 				case 'image':
-					return $this->getImageHTML($attr['hash'], $attr['text'], $attr['href']);
+					return $this->getImageHTML($this->hash, $this->text, $this->href);
 				break;
 
 				case 'video':
-					return $this->getVideoHTML($attr['hash'], $attr['text'], $attr['href'], $attr['preview']);
+					return $this->getVideoHTML($this->hash, $this->text, $this->href, $this->preview);
 				break;
 			}
 		}
 		catch(\Exception $e)
 		{
-			if( isDebug() ) return '[Story Plugin Media Parse Failed: ' . $e->getMessage() . ']';
+			if( isDebug() ) return '[Plugin Media Parse Failed: ' . $e->getMessage() . ']';
 		}
 
 		return '';
 	}
 
-	protected function getMediaURL($hash)
+	public function getMedia()
 	{
-		$Media = Media::createFromHash($hash);
-		$Media->getURL();
+		return \Manager\Media::loadOneFromDB($this->mediaID);
 	}
+
 
 	protected function getImageHTML($hash, $text = '', $href = '', $isZoomable = true)
 	{

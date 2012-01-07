@@ -1,13 +1,22 @@
-.brickTile {
-	/*-moz-transition-property: all;
-	-moz-transition-timing-function: ease;
-	-webkit-transition-property: all;
-	-webkit-transition-timing-function: ease;
-	-o-transition-property: all;
-	-o-transition-timing-function: ease;*/
+/* ### COMMON ### */
+.brickTile .item.album .badge {
+	background-image: url('../img/BrickTile_Badge_Album.png');
 }
 
-.brickTile .tile {
+.brickTile .item.diary .badge {
+	background-image: url('../img/BrickTile_Badge_Diary.png');
+}
+
+.brickTile .item.track .badge {
+	background-image: url('../img/BrickTile_Badge_Track.png');
+}
+
+
+/* ### MATRIX ### */
+.brickTile.matrix {
+}
+
+.brickTile.matrix .item {
 	-moz-transition: all  ease .5s;
 	-webkit-transition: all  ease .5s;
 
@@ -24,15 +33,15 @@
 	-o-perspective: 1000px;
 }
 
-.brickTile .tile:hover {
+.brickTile.matrix .item:hover {
 	-moz-transition-duration: 0;
 	-webkit-transition-duration: 0;
 	z-index: 200;
 }
 
-.brickTile .tile .content {
-	-moz-transition: all  ease .5s;
-	-webkit-transition: all  ease .5s;
+.brickTile.matrix .item .content {
+	-moz-transition: all  ease .35s;
+	-webkit-transition: all  ease .35s;
 
 	background-color: #fff;
 	border: solid 1px #000;
@@ -49,7 +58,7 @@
 	-o-transform-style: preserve-3d;
 }
 
-.brickTile .tile:hover .content {
+.brickTile.matrix .item:hover .content {
 	-moz-transition-duration: .15s;
 	-webkit-transition-duration: .15s;
 
@@ -69,7 +78,8 @@
 }
 
 
-.brickTile .tile .mainText {
+.brickTile.matrix .item .mainText {
+	background: url('../img/black-transparent-50.png');
 	border-radius: 0 8px 0 0;
 	bottom: 0;
 	color: #fff;
@@ -83,7 +93,8 @@
 }
 
 
-.brickTile .tile .smallText {
+.brickTile.matrix .item .smallText {
+	background: url('../img/black-transparent-50.png');
 	border-radius: 0 0 0 8px;
 	color: #fff;
 	font-family: Delicious;
@@ -96,12 +107,12 @@
 	z-index: 200;
 }
 
-.brickTile .tile:hover .smallText {
+.brickTile.matrix .item:hover .smallText {
 	-webkit-transition-property: opacity;
 	opacity: 1;
 }
 
-.brickTile .tile .badge {
+.brickTile.matrix .item .badge {
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	left: 0;
@@ -113,18 +124,74 @@
 	z-index: 200;
 }
 
-.brickTile .tile:hover .badge {
+.brickTile.matrix .item:hover .badge {
 	opacity: 1;
 }
 
-.brickTile .tile.album .badge {
-	background-image: url('../img/BrickTile_Badge_Album.png');
+
+/* ### LIST ### */
+.brickTile.list {
 }
 
-.brickTile .tile.diary .badge {
-	background-image: url('../img/BrickTile_Badge_Diary.png');
+.brickTile.list .item {
+	clear: both;
+	display: block;
+	margin: 10px 0;
+	position: relative;
+	max-width: 600px;
 }
 
-.brickTile .tile.track .badge {
-	background-image: url('../img/BrickTile_Badge_Track.png');
+.brickTile.list .item:hover {
 }
+
+.brickTile.list .item .content {
+	background: url('../img/black-transparent-25.png');
+	border-radius: 20px;
+	overflow: hidden;
+}
+
+.brickTile.list .item:hover .content {
+
+}
+
+.brickTile.list .image {
+	border-radius: 0;
+	display: block;
+	float: left;
+	height: 100px;
+	margin: 0 10px 0 0;
+	overflow: hidden;
+	position: relative;
+	width: 100px;
+}
+
+.brickTile.list .image img {
+	left: -25px;
+	height: 100px;
+	position: absolute;
+}
+
+
+.brickTile.list .item .mainText {
+	display: block;
+	font-family: Delicious;
+	font-size: 22px;
+	margin-top: 10px;
+}
+
+
+.brickTile.list .item .smallText {
+	font-family: Georgia;
+	font-size: 16px;
+}
+
+.brickTile.list .item:hover .smallText {
+
+}
+
+
+
+
+
+
+

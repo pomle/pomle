@@ -8,8 +8,9 @@
 		printf('<link rel="stylesheet" type="text/css" href="%s">', $path);
 	?>
 	<meta name="viewport" content="width=820">
+	<link rel="alternate" type="application/rss+xml" title="<? echo htmlspecialchars($rssTitle); ?>" href="<? echo $rssHref; ?>">
 	<!--[if IE]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 </head>
 

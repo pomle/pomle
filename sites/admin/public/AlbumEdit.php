@@ -5,20 +5,20 @@ require '../Init.inc.php';
 
 if( !isset($_GET['postID']) )
 {
-	$Album = \Album::addToDB();
-	header(sprintf('Location: /AlbumEdit.php?postID=%u', $Album->postID));
+	$Post = \Album::addToDB();
+	header(sprintf('Location: /AlbumEdit.php?postID=%u', $Post->postID));
 	exit();
 }
 
-$Album = \Album::loadOneFromDB($_GET['postID']);
+$Post = \Album::loadOneFromDB($_GET['postID']);
 
-if( !$Album )
+if( !$Post )
 	echo \Element\Page::error(MESSAGE_ROW_MISSING);
 
-$permParams = array('postID' => $Album->postID);
+$permParams = array('postID' => $Post->postID);
 
 $pageTitle = _('Album');
-$pageSubtitle = $Album->title;
+$pageSubtitle = $Post->title;
 
 
 require HEADER;
@@ -30,13 +30,8 @@ echo $IOCall->getHead();
 <fieldset>
 	<legend><? echo \Element\Tag::legend('application_double', _('Egenskaper')); ?></legend>
 	<?
-	$size = 40;
-	echo \Element\Table::inputs()
-		->addRow(_('Aktiv'), \Element\Input::checkbox('isPublished', $Album->isPublished))
-		->addRow(_('Titel'), \Element\Input::text('title', $Album->title)->size($size))
-		->addRow(_('Datum'), \Element\Input::text('timePublished', \Format::timestamp($Album->timePublished))->size($size))
-		#->addRow(_('Grafik'), '<input disabled="disabled" style="width: 960px; height: 320px;" name="thumb" class="image pinky">')
-		;
+	echo new \Element\Form\Post($Post);
+
 	$Control = new \Element\IOControl($IOCall);
 	$Control
 		->addButton(new \Element\Button\Save())

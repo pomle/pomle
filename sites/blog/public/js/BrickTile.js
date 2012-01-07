@@ -34,13 +34,19 @@ var BrickTile =
 
 	randomizeMap: function(brickTile)
 	{
-		var tiles = brickTile.find('.tile').filter('[data-mediapool]');
+		var tiles = brickTile.find('.item').filter('[data-mediapool!="[]"]');
+
+		if( tiles.length == 0 ) return false;
+
 		tiles = this.getViewportTiles(tiles); // Remove tiles outside of viewport
+
 		return this.randomizeTile(this.getRandomTile(tiles));
 	},
 
 	randomizeTile: function(tile, onComplete)
 	{
+		if( !tile ) return false;
+
 		if( this.ajaxRunning ) return false;
 
 		var hashPoolJSON;
@@ -52,6 +58,8 @@ var BrickTile =
 		if( !hashPool ) return false; // parseJSON failed or no mediaHashes in pool
 
 		var mediaHash = this.getArrayRandom(hashPool);
+
+		if( !mediaHash ) return false;
 
 		//console.log(mediaHash);
 

@@ -20,6 +20,9 @@ addIncludePath(DIR_SITE_CLASS);
 
 setlocale(LC_ALL, 'sv_SE.UTF8');
 
+$rssHref = 'Pomle.com RSS Feed';
+$rssHref = '/index.php?showAs=rss';
+
 $css = array();
 $css[] = '/css/Shitfest.css';
 $css[] = '/css/Pomle.css';

@@ -44,6 +44,8 @@ if( count($postIDs) > $pageLen )
 
 $pageCaption = 'Timeline';
 
+$BrickTile->layout = 'list';
+
 require HEADER;
 
 echo

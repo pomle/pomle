@@ -49,14 +49,7 @@ class Diary extends Post
 
 				$Post->content = $row['content'];
 
-				$tags = null;
-				/*if( preg_match_all('%<(flipblog)?:media.+(hash="(.+)").+/?>%U', $Post->content, $tags) )
-				{
-					print_r($tags);
-				}*/
-
-				if( preg_match_all('%<(flipblog)?:media.+(mediaID="([0-9]+)").+/?>%U', $Post->content, $match) )
-					$mediaIDs = array_merge($mediaIDs, $Post->mediaIDs = $match[3]);
+				$mediaIDs = array_merge($mediaIDs, $Post->mediaIDs = $Post->getContentMediaIDs());
 			}
 
 			$medias = \Manager\Media::loadFromDB($mediaIDs);
@@ -78,6 +71,36 @@ class Diary extends Post
 		return $diaries;
 	}
 
+	public static function saveToDB(\Diary $Diary)
+	{
+		parent::saveToDB($Diary);
+
+		$query = \DB::prepareQuery("INSERT INTO PostDiaries (postID, content) VALUES(%u %s) ON DUPLICATE KEY UPDATE content = VALUES(content)", $Diary->postID, $Diary->content);
+		\DB::query($query);
+
+		return true;
+	}
+
+
+	public function getContentMediaHashes()
+	{
+		$mediaHashes = array();
+
+		if( preg_match_all('%<(flipblog)?:media.+(hash="(.+)").+/?>%U', $Post->content, $match) )
+			$mediaHashes = array_merge($mediaHashes, $match[3]);
+
+		return $mediaHashes;
+	}
+
+	public function getContentMediaIDs()
+	{
+		$mediaIDs = array();
+
+		if( preg_match_all('%<(flipblog)?:media.+(mediaID="([0-9]+)").+/?>%U', $this->content, $match) )
+			$mediaIDs = array_merge($mediaIDs, $match[3]);
+
+		return $mediaIDs;
+	}
 
 	public function getHTMLContent()
 	{
@@ -91,41 +114,43 @@ class Diary extends Post
 
 		$replacements = array
 		(
-			"\t" => '&nbsp;&nbsp;&nbsp;&nbsp;'
+			"\t" => '&nbsp;&nbsp;&nbsp;&nbsp;' ### Tabs >> four HTML no-break spaces
 		);
 
 		$content = str_replace(array_keys($replacements), $replacements, $content);
 
-
-		if( preg_match_all('%<flipblog:([A-Za-z]+) .*/>%', $content, $tags) )
-		{
-			### Loop thru all tags and parse their attributes
-			foreach($tags[0] as $index => $tag)
-			{
-				$type = $tags[1][$index];
-				$pluginName = '\\Plugin\\' . ucfirst($type);
-
-				if( class_exists($pluginName) )
-				{
-					$Plugin = new $pluginName();
-
-					preg_match_all('%([A-Za-z]+)="(.*)"%U', $tag, $attributes);
-
-					$dataPairs = array();
-
-					foreach($attributes[0] as $index => $attr)
-					{
-						$dataPairs[$attributes[1][$index]] = $attributes[2][$index];
-					}
-
-					$replacementHTML = $Plugin->getHTML($dataPairs);
-
-					$content = str_replace($tag, $replacementHTML, $content);
-				}
-			}
-		}
+		foreach($this->getPlugins() as $Plugin)
+			$content = str_replace($Plugin->source, $Plugin->getHTML(), $content);
 
 		return $content;
+	}
+
+	public function getPlugins()
+	{
+		$plugins = array();
+
+		foreach($this->getPluginTags() as $plugin => $tags)
+		{
+			$pluginClass = '\\Plugin\\' . ucfirst($plugin);
+
+			if( !class_exists($pluginClass) ) continue;
+
+			foreach($tags as $tag)
+				$plugins[] = new $pluginClass($tag);
+		}
+
+		return $plugins;
+	}
+
+	public function getPluginTags() ### Returns 2-dimensional array with first level containing plugin types and second level plugin tags
+	{
+		$tags = array();
+
+		if( preg_match_all('%<flipblog:([A-Za-z]+) .*/>%', $this->content, $matches) )
+			foreach(array_combine($matches[0], $matches[1]) as $tag => $type)
+				$tags[$type][] = $tag;
+
+		return $tags;
 	}
 
 	public function getURL()
