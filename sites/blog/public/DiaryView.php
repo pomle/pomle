@@ -16,10 +16,16 @@ require HEADER;
 		</ul>
 	</div>
 	<?
-	if( strpos($Diary->content, '>') ) ### If we find a end tag we assume the post is modern and therefore HTML-aware
+	if( preg_match('/(<p>)/', $Diary->content) ) ### If we find a <p> tag we assume the post is modern and therefore HTML-aware
+	{
+		printf('<!-- %s -->', 'RENDER TYPE: MODERN');
 		echo $Diary->getHTMLContent();
+	}
 	else ### Or we add simple, old-school line breaks
-		echo nl2br($Diary->content);
+	{
+		printf('<!-- %s -->', 'RENDER TYPE: OLDSCHOOL');
+		echo nl2br($Diary->getHTMLContent());
+	}
 	?>
 </div>
 <?

@@ -29,6 +29,12 @@ $tree = array (
       'href' => 'DiaryOverview.php',
       'policy' => 'AllowViewDiary',
     ),
+    2 => 
+    array (
+      'caption' => _('Hits'),
+      'href' => '/TrackOverview.php',
+      'policy' => 'AllowViewTrack',
+    ),
   ),
   _('System') => 
   array (

@@ -56,6 +56,8 @@ class Track extends Post
 			$Post->artistURL,
 			$Post->trackURL);
 
+		#throw New Exception($query);
+
 		\DB::query($query);
 
 		return true;

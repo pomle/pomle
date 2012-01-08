@@ -1,8 +1,8 @@
 $(function()
 {
 	var tileMap = $('.brickTile');
-	var minTime = 1000;
-	var devTime = 1000;
+	var minTime = 300;
+	var devTime = 3000;
 
 	var refreshRandomTile = function()
 	{
@@ -10,6 +10,6 @@ $(function()
 		setTimeout(refreshRandomTile, minTime + devTime * Math.random());
 	};
 
-	setTimeout(refreshRandomTile, 1000); // Initial wait
+	setTimeout(refreshRandomTile, 5000); // Initial wait
 });
 

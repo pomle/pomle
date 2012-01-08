@@ -21,10 +21,28 @@ class Album extends Post
 	{
 		$albums = parent::loadFromDB($postIDs);
 
+		$albumIDs = array_keys($albums);
+
+		$query = \DB::prepareQuery("SELECT
+				postID,
+				description
+			FROM
+				PostAlbums
+			WHERE
+				postID IN %a",
+			$albumIDs);
+
+		$result = \DB::queryAndFetchResult($query);
+
+		while($album = \DB::assoc($result))
+		{
+			$postID = (int)$row['postID'];
+			$Post = $album[$postID];
+			$Post->description = $row['description'];
+		}
+
 		if( $skipMedia === false )
 		{
-			$albumIDs = array_keys($albums);
-
 			$query = \DB::prepareQuery("SELECT
 					mediaID,
 					postID,
@@ -63,6 +81,16 @@ class Album extends Post
 		}
 
 		return $albums;
+	}
+
+	public static function saveToDB(\Album $Album)
+	{
+		parent::saveToDB($Diary);
+
+		$query = \DB::prepareQuery("INSERT INTO PostAlbums (postID, description) VALUES(%u %s) ON DUPLICATE KEY UPDATE description = VALUES(description)", $Album->postID, $Album->description);
+		\DB::query($query);
+
+		return true;
 	}
 
 

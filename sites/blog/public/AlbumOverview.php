@@ -3,36 +3,20 @@ require '../Init.inc.php';
 
 $js[] = '/js/BrickTile.RandomizedUpdate.js';
 
-$page = (int)abs($_GET['page']);
-$pageLen = 23;
-$pageStart = $pageLen * $page;
+$pageLen = 12;
 
-$query = \DB::prepareQuery("SELECT
-		p.ID
-	FROM
-		Posts p
-		JOIN PostAlbums pa ON pa.postID = p.ID
-	WHERE
-		p.isPublished = 1
-		AND p.type = 'album'
-	ORDER BY
-		p.timePublished DESC
-	LIMIT %u, %u",
-	$pageStart,
-	$pageLen + 1);
-
-$postIDs = \DB::queryAndFetchArray($query);
-
-$posts = \Album::loadFromDB($postIDs);
+$Fetcher = new \Fetch\Post($pageLen + 1, $pageLen * $pageIndex);
+$posts = $Fetcher->getAlbums();
 
 $BrickTile = new \Element\BrickTile();
-foreach(array_slice($postIDs, 0, $pageLen) as $postID)
-	if( isset($posts[$postID]) )
-		$BrickTile->addPost($posts[$postID]);
 
-
-if( count($posts) > $pageLen )
-	$BrickTile->addItem('/img/NextPage_Timeline.jpg', sprintf('/AlbumOverview.php?page=%u', $page+1), 'Nästa sida »');
+$i = 0;
+$hasMore = false;
+foreach($posts as $postID => $Post)
+{
+	if( $hasMore = (++$i > $pageLen) ) break;
+	$BrickTile->addPost($Post);
+}
 
 $pageCaption = 'Fotoalbum';
 
@@ -41,5 +25,8 @@ require HEADER;
 echo
 	$BrickTile
 	;
+
+$Paginator = new \Element\Paginator($page, max(1, $page - 4), min($page + 4, ceil($Fetcher->rowTotal / $pageLen)));
+echo $Paginator;
 
 require FOOTER;

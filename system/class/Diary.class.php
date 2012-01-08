@@ -44,11 +44,8 @@ class Diary extends Post
 			while($row = \DB::assoc($result))
 			{
 				$postID = (int)$row['postID'];
-
 				$Post = $diaries[$postID];
-
 				$Post->content = $row['content'];
-
 				$mediaIDs = array_merge($mediaIDs, $Post->mediaIDs = $Post->getContentMediaIDs());
 			}
 
@@ -75,7 +72,7 @@ class Diary extends Post
 	{
 		parent::saveToDB($Diary);
 
-		$query = \DB::prepareQuery("INSERT INTO PostDiaries (postID, content) VALUES(%u %s) ON DUPLICATE KEY UPDATE content = VALUES(content)", $Diary->postID, $Diary->content);
+		$query = \DB::prepareQuery("INSERT INTO PostDiaries (postID, content) VALUES(%u, %s) ON DUPLICATE KEY UPDATE content = VALUES(content)", $Diary->postID, $Diary->content);
 		\DB::query($query);
 
 		return true;

@@ -18,7 +18,7 @@ if( !$Post )
 $permParams = array('postID' => $Post->postID);
 
 $pageTitle = _('Dagbok');
-$pageSubtitle = $Post->title;
+$pageSubtitle = $Post->postID;
 
 
 require HEADER;

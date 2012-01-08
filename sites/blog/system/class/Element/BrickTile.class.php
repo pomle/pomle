@@ -19,13 +19,22 @@ class BrickTile
 
 	public function __construct()
 	{
-		$this->layout = 'matrix';
+		global $UserSettings;
+
+		$this->layout = isset($UserSettings->brickTileLayout) ? $UserSettings->brickTileLayout : 'matrix';
 
 		$this->items = array();
 
 		$this->fallbackImageURLs = array(
-			POST_TYPE_DIARY => '/img/BrickTile_Fallback_Diary.jpg',
-			POST_TYPE_TRACK => '/img/BrickTile_Fallback_Track.png'
+			POST_TYPE_DIARY => array
+			(
+				'/img/BrickTile_Fallback_Diary_Blue.png',
+				'/img/BrickTile_Fallback_Diary_Green.png',
+				'/img/BrickTile_Fallback_Diary_Orange.png',
+				'/img/BrickTile_Fallback_Diary_Purple.png',
+				'/img/BrickTile_Fallback_Diary_Swamp.png',
+			),
+			POST_TYPE_TRACK => array('/img/BrickTile_Fallback_Track.png')
 		);
 	}
 
@@ -34,26 +43,29 @@ class BrickTile
 		ob_start();
 		?>
 		<div class="brickTile <? echo $this->layout; ?>">
-			<?
-			foreach($this->items as $item)
-			{
-				list($imageURL, $href, $mainText, $smallText, $mediaHashs, $class) = $item;
-				echo $this->getTileHTML($imageURL, $href, $mainText, $smallText, $mediaHashs, $class);
-			}
-			?>
+			<a href="/ajax/BrickTile.php" title="Växla vy" class="layoutSwitch"></a>
+			<div class="items">
+				<?
+				foreach($this->items as $item)
+					echo call_user_func_array(array($this, 'getTileHTML'), $item);
+				?>
+			</div>
 		</div>
+		<div class="brickTileCap"></div>
 		<?
 		return ob_get_clean();
 	}
 
-	public function addItem($imageURL, $href = null, $mainText = null, $smallText = null, $mediaHashs = null, $class = null)
+	public function addItem($imageURL, $href = null, $mainText = null, $smallText = null, $mediaHashs = null, $description = null, $class = null)
 	{
-		$this->items[] = array($imageURL, $href, $mainText, $smallText, $mediaHashs, $class);
+		$this->items[] = func_get_args();
 		return $this;
 	}
 
 	public function addPost(\Post $Post)
 	{
+		static $i;
+
 		$mediaPool = array();
 
 		if( in_array($Post::TYPE, array(POST_TYPE_DIARY, POST_TYPE_ALBUM)) )
@@ -61,6 +73,22 @@ class BrickTile
 			foreach($Post->media as $Media)
 				$mediaPool[] = $Media->mediaHash;
 		}
+
+		switch($Post::TYPE)
+		{
+			case POST_TYPE_DIARY:
+				$description = strip_tags($Post->content);
+			break;
+
+			case POST_TYPE_ALBUM:
+				$description = strip_tags($Post->description);
+			break;
+
+			default:
+				$description = null;
+			break;
+		}
+
 
 		$previewMediaHash = (string)(isset($Post->PreviewMedia) ? $Post->PreviewMedia : reset($mediaPool));
 
@@ -70,14 +98,17 @@ class BrickTile
 		if( $previewMediaHash )
 			$imageURL = \Media\Producer\BrickTile::createFromHash($previewMediaHash)->getTile();
 		elseif( isset($this->fallbackImageURLs[$Post::TYPE]) )
-			$imageURL = $this->fallbackImageURLs[$Post::TYPE];
+		{
+			$imageURLs = $this->fallbackImageURLs[$Post::TYPE];
+			$imageURL = $imageURLs[$i++ % count($imageURLs)];
+		}
 		else
 			$imageURL = false;
 
-		return $this->addItem($imageURL, $Post->getURL(), $Post->title, \Format::date($Post->timePublished), $mediaPool, $Post::TYPE);
+		return $this->addItem($imageURL, $Post->getURL(), $Post->title, \Format::date($Post->timePublished), $mediaPool, trim($description), $Post::TYPE);
 	}
 
-	public function getTileHTML($imageURL, $href = null, $mainText = null, $smallText = null, $mediaHashs = null, $class = null)
+	public function getTileHTML($imageURL, $href = null, $mainText = null, $smallText = null, $mediaHashs = null, $description = null, $class = null)
 	{
 		ob_start();
 		?>
@@ -87,6 +118,7 @@ class BrickTile
 				<a href="<? echo $href; ?>" class="mainText"><? echo htmlspecialchars($mainText); ?></a>
 				<div class="smallText"><? echo htmlspecialchars($smallText); ?></div>
 				<div class="badge"></div>
+				<div class="description"><? if( $description ) echo htmlspecialchars(mb_substr($description, 0, 155)), '&hellip;'; ?></div>
 			</div>
 		</div>
 		<?

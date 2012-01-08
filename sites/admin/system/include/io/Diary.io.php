@@ -1,5 +1,5 @@
 <?
-class AlbumIO extends AjaxIO
+class DiaryIO extends AjaxIO
 {
 	public function delete()
 	{
@@ -9,16 +9,30 @@ class AlbumIO extends AjaxIO
 		Message::addNotice(MESSAGE_ROW_DELETED);
 	}
 
+	public function load()
+	{
+		global $result;
+		$Post = \Diary::loadOneFromDB($this->postID);
+		$Post->timePublished = \Format::timestamp($Post->timePublished, true);
+		$result = $Post;
+	}
+
 	public function save()
 	{
-		$this->importArgs('isPublished', 'timePublished', 'title', 'content');
+		$this->importArgs('isPublished', 'timePublished', 'title', 'uri', 'content', 'previewMediaID');
 
 		$Post = \Diary::loadOneFromDB($this->postID);
 
 		$Post->isPublished = (bool)$this->isPublished;
 		$Post->timePublished = strtotime($this->timePublished);
 		$Post->title = $this->title;
+		$Post->uri = $this->uri;
 		$Post->content = $this->content;
+
+		if( $this->previewMediaID )
+			if( $Media = \Manager\Media::loadOneFromDB($this->previewMediaID) )
+				$Post->setPreviewMedia($Media);
+
 
 		if( !$Post->PreviewMedia )
 		{
@@ -46,7 +60,9 @@ class AlbumIO extends AjaxIO
 		\Diary::saveToDB($Post);
 
 		Message::addNotice(MESSAGE_ROW_UPDATED);
+
+		$this->load();
 	}
 }
 
-$AjaxIO = new AlbumIO($action, array('postID'));
+$AjaxIO = new DiaryIO($action, array('postID'));

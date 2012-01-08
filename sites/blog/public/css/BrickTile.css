@@ -1,19 +1,41 @@
 /* ### COMMON ### */
-.brickTile .item.album .badge {
+/*.brickTile .item.album .badge {
 	background-image: url('../img/BrickTile_Badge_Album.png');
 }
 
 .brickTile .item.diary .badge {
 	background-image: url('../img/BrickTile_Badge_Diary.png');
-}
+}*/
 
 .brickTile .item.track .badge {
 	background-image: url('../img/BrickTile_Badge_Track.png');
 }
 
+.brickTile .layoutSwitch {
+	background: url('../img/BoolSwitch.png');
+	background-position: 100% 100%;
+	height: 20px;
+	width: 79px;
+
+	-moz-transition: top  ease .5s;
+	-webkit-transition: top  ease .5s;
+}
+
+.brickTileCap {
+	clear: both;
+}
+
 
 /* ### MATRIX ### */
 .brickTile.matrix {
+	position: relative;
+}
+
+.brickTile.matrix .layoutSwitch {
+	background-position: 100% 0;
+	position: absolute;
+	right: 0;
+	top: -26px;
 }
 
 .brickTile.matrix .item {
@@ -77,6 +99,11 @@
 	-o-transform: rotateY(18deg) rotateX(4deg);
 }
 
+.brickTile.matrix .image {
+	display: block;
+	height: 100%;
+}
+
 
 .brickTile.matrix .item .mainText {
 	background: url('../img/black-transparent-50.png');
@@ -84,6 +111,7 @@
 	bottom: 0;
 	color: #fff;
 	font-family: Delicious;
+	font-weight: bold;
 	font-size: 22px;
 	left: 0;
 	max-width: 230px;
@@ -112,6 +140,10 @@
 	opacity: 1;
 }
 
+.brickTile.matrix .item .description {
+	display: none;
+}
+
 .brickTile.matrix .item .badge {
 	background-position: 0 0;
 	background-repeat: no-repeat;
@@ -131,6 +163,13 @@
 
 /* ### LIST ### */
 .brickTile.list {
+	position: relative;
+}
+
+.brickTile.list .layoutSwitch {
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .brickTile.list .item {
@@ -148,6 +187,7 @@
 	background: url('../img/black-transparent-25.png');
 	border-radius: 20px;
 	overflow: hidden;
+	position: relative;
 }
 
 .brickTile.list .item:hover .content {
@@ -155,20 +195,19 @@
 }
 
 .brickTile.list .image {
-	border-radius: 0;
+	border-radius: 12px 0 0 12px;
 	display: block;
 	float: left;
 	height: 100px;
 	margin: 0 10px 0 0;
 	overflow: hidden;
-	position: relative;
+	position: static;
 	width: 100px;
 }
 
 .brickTile.list .image img {
 	left: -25px;
 	height: 100px;
-	position: absolute;
 }
 
 
@@ -181,8 +220,13 @@
 
 
 .brickTile.list .item .smallText {
-	font-family: Georgia;
-	font-size: 16px;
+	color: #bfbfbf;
+	font-size: 11px;
+	margin: 2px 0 4px 0;
+}
+
+.brickTile.list .item .description {
+	font-size: 11px;
 }
 
 .brickTile.list .item:hover .smallText {

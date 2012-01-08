@@ -1,6 +1,12 @@
 <?
 require '_Debug.inc.php';
 
+$posts = \Post::loadAutoTypedFromDB(array(30148, 20335, 20314, 30501));
+
+print_r(array_keys($posts));
+
+die();
+
 $query = \DB::prepareQuery("SELECT ID FROM Posts WHERE type = %s", POST_TYPE_TRACK);
 $postIDs = \DB::queryAndFetchArray($query);
 

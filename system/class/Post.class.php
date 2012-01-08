@@ -24,32 +24,34 @@ class Post extends \Manager\Common\DB
 		while($row = \DB::assoc($result))
 			$types[$row['type']][] = (int)$row['ID'];
 
-		$posts = array();
+		$posts = array_fill_keys($postIDs, false);
 
 		foreach($types as $type => $ids)
 		{
 			switch($type)
 			{
 				case POST_TYPE_ALBUM:
-					$posts += \Album::loadFromDB($ids);
+					$posts = array_replace($posts, \Album::loadFromDB($ids));
 				break;
 
 				case POST_TYPE_DIARY:
-					$posts += \Diary::loadFromDB($ids);
+					$posts = array_replace($posts, \Diary::loadFromDB($ids));
 				break;
 
 				case POST_TYPE_TRACK:
-					$posts += \Track::loadFromDB($ids);
+					$posts = array_replace($posts, \Track::loadFromDB($ids));
 				break;
 			}
 		}
+
+		$posts = array_filter($posts);
 
 		return $posts;
 	}
 
 	public static function loadFromDB($postIDs)
 	{
-		$posts = array();
+		$posts = array_fill_keys($postIDs, false);
 
 		$query = \DB::prepareQuery("SELECT
 				p.ID AS postID,
@@ -97,6 +99,8 @@ class Post extends \Manager\Common\DB
 					$posts[$postID]->setPreviewMedia($media[$mediaID]);
 		}
 
+		$posts = array_filter($posts);
+
 		return $posts;
 	}
 
@@ -142,7 +146,7 @@ class Post extends \Manager\Common\DB
 			$Post->title,
 			niceurl($Post->uri ?: $Post->title));
 
-		throw New Exception($query);
+		#throw New Exception($query);
 
 		if( $postID = \DB::queryAndGetID($query) )
 			$Post->postID = (int)$postID;

@@ -20,6 +20,18 @@ addIncludePath(DIR_SITE_CLASS);
 
 setlocale(LC_ALL, 'sv_SE.UTF8');
 
+session_start();
+
+if( !isset($_SESSION['UserSettings']) )
+	$_SESSION['UserSettings'] = SiteSettings::createDefault();
+
+$UserSettings = $_SESSION['UserSettings'];
+
+
+$page = max(1, (int)$_GET['page']);
+$pageIndex = $page - 1;
+
+
 $rssHref = 'Pomle.com RSS Feed';
 $rssHref = '/index.php?showAs=rss';
 

@@ -10,6 +10,10 @@ class Embed extends Plugin
 	{
 		switch($this->type)
 		{
+			case 'vimeo':
+				return $this->getVimeoHTML($this->id);
+			break;
+
 			case 'youtube':
 				return $this->getYouTubeHTML($this->id);
 			break;
@@ -18,14 +22,22 @@ class Embed extends Plugin
 
 	public function getPreviewImageURL()
 	{
+		$pageHTML = null;
+
 		if( $this->type == 'youtube' )
 		{
 			$pageURL = sprintf('http://www.youtube.com/watch?v=%s', $this->id);
 			$pageHTML = file_get_contents($pageURL);
-
-			if( preg_match('/<meta property="og:image" content="(.*)">/U', $pageHTML, $match) )
-				return $match[1];
 		}
+
+		if( $this->type == 'vimeo' )
+		{
+			$pageURL = sprintf('http://vimeo.com/%s', $this->id);
+			$pageHTML = file_get_contents($pageURL);
+		}
+
+		if( preg_match('/<meta property="og:image" content="(.*)"/U', $pageHTML, $match) )
+			return $match[1];
 
 		return false;
 	}
@@ -39,8 +51,13 @@ class Embed extends Plugin
 		return false;
 	}
 
+	private function getVimeoHTML($id)
+	{
+		return sprintf('<iframe class="videoPlayer vimeo" src="http://player.vimeo.com/video/%s" frameborder="0"></iframe>', $id);
+	}
+
 	private function getYouTubeHTML($id)
 	{
-		return sprintf('<iframe class="youtube-player" type="text/html" src="http://www.youtube.com/embed/%s" frameborder="0"></iframe>', $id, $w, $h);
+		return sprintf('<iframe class="videoPlayer vimeo" type="text/html" src="http://www.youtube.com/embed/%s" frameborder="0"></iframe>', $id);
 	}
 }

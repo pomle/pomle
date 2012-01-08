@@ -3,79 +3,21 @@ require '../Init.inc.php';
 
 $js[] = '/js/BrickTile.RandomizedUpdate.js';
 
-$question = $_GET['q'];
+$pageLen = 12;
 
-### Search Diary
-$query = \DB::prepareQuery("SELECT
-		p.ID,
-		p.timePublished
-	FROM
-		PostDiaries pd
-		JOIN Posts p ON p.ID = pd.postID
-	WHERE
-		p.isPublished = 1
-		AND (p.title LIKE %S OR pd.content LIKE %S)
-	ORDER BY
-		p.timePublished DESC",
-	$question,
-	$question);
-
-$diaryIDs = \DB::queryAndFetchArray($query);
-
-### Search Album
-$query = \DB::prepareQuery("SELECT
-		p.ID,
-		p.timePublished
-	FROM
-		PostAlbums pa
-		JOIN Posts p ON p.ID = pa.postID
-		LEFT JOIN PostAlbumMedia pam ON pam.postID = pa.postID
-	WHERE
-		p.isPublished = 1
-		AND pam.isVisible = 1
-		AND (p.title LIKE %S OR pam.comment LIKE %S OR pam.tags LIKE %S)
-	GROUP BY
-		p.ID
-	ORDER BY
-		p.timePublished DESC",
-	$question,
-	$question,
-	$question);
-
-$albumIDs = \DB::queryAndFetchArray($query);
-
-### Search Tracks
-$query = \DB::prepareQuery("SELECT
-		p.ID,
-		p.timePublished
-	FROM
-		PostTracks plt
-		JOIN Posts p ON p.ID = plt.postID
-	WHERE
-		p.isPublished = 1
-		AND (plt.artist LIKE %S OR plt.track LIKE %S)
-	ORDER BY
-		p.timePublished DESC",
-	$question,
-	$question);
-
-$trackIDs = \DB::queryAndFetchArray($query);
+$Fetcher = new \Fetch\Post($pageLen + 1, $pageLen * $pageIndex);
+$posts = $Fetcher->getSearch($_GET['q']);
 
 
-$postIDs = $diaryIDs + $albumIDs + $trackIDs;
-
-$posts = \Post::loadAutoTypedFromDB(array_keys($postIDs));
-
-arsort($postIDs, SORT_NUMERIC);
-
-#header("Content-type: text/plain");
-#print_r($postIDs);
-#die();
-
+$i = 0;
+$hasMore = false;
 $BrickTile = new \Element\BrickTile();
-foreach($postIDs as $postID => $timestamp)
-	if( isset($posts[$postID]) )
-		$BrickTile->addPost($posts[$postID]);
+foreach($posts as $postID => $Post)
+{
+	if( $hasMore = (++$i > $pageLen) ) break;
+	$BrickTile->addPost($Post);
+}
+
 
 $pageCaption = 'Sök';
 
@@ -84,5 +26,8 @@ require HEADER;
 echo
 	$BrickTile
 	;
+
+$Paginator = new \Element\Paginator($page, max(1, $page - 4), $page + 4, sprintf('/Search.php?q=%s&amp;', htmlspecialchars(urlencode($_GET['q']))));
+echo $Paginator;
 
 require FOOTER;

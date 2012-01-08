@@ -17,8 +17,12 @@
 
 .diary h1 {
 	font-family: Delicious;
-	font-size: 24pt;
+	font-size: 32px;
 	line-height: 1;
+}
+
+.diary h2 {
+	font-size: 20px;
 }
 
 .diary .header ul {
@@ -66,11 +70,11 @@
 }
 
 .diary .media.image img {
-	box-shadow: 0px 6px 15px -3px rgba(0,0,0,.9);
+	box-shadow: 0px 5px 12px -3px rgba(0,0,0,1);
 	margin: 15px 0 15px 0;
 }
 
-.diary .youtube-player {
+.diary .videoPlayer {
 	height: 360px;
 	max-width: 640px;
 	width: 100%;

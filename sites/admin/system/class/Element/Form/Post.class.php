@@ -8,8 +8,9 @@ class Post extends \Element\Common\Root
 		$size = 40;
 		$this->Table = \Element\Table::inputs()
 			->addRow(_('Aktiv'), \Element\Input::checkbox('isPublished', $Post->isPublished))
+			->addRow(_('Datum'), \Element\Input::text('timePublished', \Format::timestamp($Post->timePublished ?: time(), true))->size($size))
 			->addRow(_('Titel'), \Element\Input::text('title', $Post->title)->size($size))
-			->addRow(_('Datum'), \Element\Input::text('timePublished', \Format::timestamp($Post->timePublished ?: time()))->size($size))
+			->addRow(_('URI'), \Element\Input::text('uri', $Post->uri)->size($size))
 			->addRow(_('MediaID'), \Element\Input::text('previewMediaID', $Post->previewMediaID)->size(5))
 			;
 	}

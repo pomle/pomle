@@ -1,3 +1,22 @@
+$(function()
+{
+	$('.brickTile .layoutSwitch').bind('click', function(e) {
+		e.preventDefault();
+		var brickTile = $('.brickTile');
+		brickTile.find('.items').fadeOut(
+			'fast',
+			function()
+			{
+				$(this).parent('.brickTile').toggleClass('matrix').toggleClass('list');
+				$(this).fadeIn();
+			}
+		);
+
+		$.get($(this).attr('href'));
+	});
+})
+
+
 var BrickTile =
 {
 	banned: {},

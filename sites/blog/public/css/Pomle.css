@@ -19,7 +19,6 @@ h1,
 h2,
 h3,
 h4 {
-	font-family: Delicious, sans-serif;
 	font-weight: bold;
 }
 
@@ -82,4 +81,60 @@ footer .related .item {
 
 footer .related .item:hover {
 	opacity: 1;
+}
+
+.paginator {
+	clear: both;
+	font-family: Delicious;s
+	overflow: hidden;
+	margin: 10px 0;
+}
+
+.paginator .prev,
+.paginator .next {
+	background: url('../img/white-transparent-50.png');
+	color: #fff;
+	font-size: 17px;
+	padding: 8px 15px;
+	min-width: 60px;
+}
+
+.paginator .prev {
+	border-radius: 0 0 20px 0;
+	float: left;
+	text-align: left;
+}
+
+.paginator .next {
+	border-radius: 0 0 0 20px;
+	float: right;
+	text-align: right;
+}
+
+.paginator .pageIndex {
+	margin-top: 6px;
+	text-align: center;
+}
+
+.paginator .pageIndex .pageNumber {
+	background: url('../img/white-transparent-50.png');
+	border-radius: 10px;
+	color: #fff;
+	display: inline-block;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 4px 0 6px 0;
+	margin: 2px;
+	width: 28px;
+}
+
+.paginator .pageIndex .pageNumber.isCurrent {
+	color: #0096ff;
+}
+
+.paginator .currentPageNumber {
+	color: #c5c5c5;
+	font-family: Georgia;
+	font-size: 24px;
+	text-align: center;
 }
