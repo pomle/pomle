@@ -31,6 +31,7 @@ $UserSettings = $_SESSION['UserSettings'];
 $page = max(1, (int)$_GET['page']);
 $pageIndex = $page - 1;
 
+$pageTitle = 'Pomle.com';
 
 $rssHref = 'Pomle.com RSS Feed';
 $rssHref = '/RSSFeed.php';
@@ -38,7 +39,12 @@ $rssHref = '/RSSFeed.php';
 $css = array();
 $css[] = '/css/Shitfest.css';
 $css[] = '/css/Pomle.css';
-#$css[] = '/css/Images.css';
+
+if( isset($_GET['showFramework']) )
+	$UserSettings->showFramework = (bool)$_GET['showFramework'];
+
+if( $UserSettings->showFramework === false )
+	$css[] = '/css/NoFramework.css';
 
 $js = array();
 $js[] = '//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
