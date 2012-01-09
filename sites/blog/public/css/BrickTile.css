@@ -180,6 +180,7 @@
 	position: absolute;
 	right: 0;
 	top: 0;
+	z-index: 2;
 }
 
 .brickTile.list .item {
@@ -198,6 +199,7 @@
 	border-radius: 20px;
 	overflow: hidden;
 	position: relative;
+	padding-right: 5px;
 }
 
 .brickTile.list .item:hover .content {
@@ -241,6 +243,7 @@
 
 .brickTile.list .item .description {
 	font-size: 11px;
+	margin: 0 0 2px 0;
 }
 
 .brickTile.list .item:hover .smallText {

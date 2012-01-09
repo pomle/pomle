@@ -24,6 +24,27 @@ var BrickTile =
 	images: {},
 	ajaxRunning: false,
 
+	cycleTile: function(tile)
+	{
+		var hashPool, cycleIndex;
+
+		if( !tile ) return false;
+
+		if( !(hashPool = this.getTileHashPool(tile)) )
+			return false;
+
+		if( !(cycleIndex = tile.data('cycleIndex')) )
+			cycleIndex = 0;
+
+		this.updateTileHash(tile, hashPool[cycleIndex]);
+
+		cycleIndex = (cycleIndex + 1) % hashPool.length;
+
+		tile.data('cycleIndex', cycleIndex);
+
+		return true;
+	},
+
 	getArrayRandom: function(a)
 	{
 		if( a.length == 0 ) return false;
@@ -36,47 +57,67 @@ var BrickTile =
 		return $(this.getArrayRandom(tiles));
 	},
 
+	getTileHashPool: function(tile)
+	{
+		if( !tile ) return false;
+
+		var hashPoolJSON;
+		if( !(hashPoolJSON = tile.attr('data-mediapool')) ) return false;
+
+		var hashPool = jQuery.parseJSON(hashPoolJSON);
+
+		if( !hashPool ) return false; // parseJSON failed or no mediaHashes in pool
+
+		return hashPool;
+	},
+
 	getViewportTiles: function(tiles)
 	{
 		var w = $(window);
-		var boundary = [w.scrollTop(), w.scrollTop() + w.height()];
+		var viewport = {top: w.scrollTop(), bottom: w.scrollTop() + w.height()};
 
 		return tiles.filter
 		(
 			function(index)
 			{
-				var overlap = [this.offsetTop, this.offsetTop + this.offsetHeight];
-				return (boundary[1] > overlap[0]) && (boundary[0] < overlap[1]);
+				var item = $(this);
+				var element = {top: item.offset().top, bottom: item.offset().top + item.height()};
+				return (viewport.bottom > element.top && viewport.top < element.bottom);
 			}
 		);
 	},
 
 	randomizeMap: function(brickTile)
 	{
-		var tiles = brickTile.find('.item').filter('[data-mediapool!="[]"]');
+		var tiles = brickTile.find('.item').filter('[data-mediapool]');
+
+		//console.log(tiles);
 
 		if( tiles.length == 0 ) return false;
 
 		tiles = this.getViewportTiles(tiles); // Remove tiles outside of viewport
 
-		return this.randomizeTile(this.getRandomTile(tiles));
+		if( tiles.length == 0 ) return false;
+
+		return this.cycleTile(this.getRandomTile(tiles));
 	},
 
 	randomizeTile: function(tile, onComplete)
 	{
-		if( !tile ) return false;
-
-		if( this.ajaxRunning ) return false;
-
-		var hashPoolJSON;
-		if( !(hashPoolJSON = tile.attr('data-mediapool')) ) return false;
-
-		var imgTag = tile.find('img');
-		var hashPool = jQuery.parseJSON(hashPoolJSON);
-
-		if( !hashPool ) return false; // parseJSON failed or no mediaHashes in pool
+		var hashPool = this.getTileHashPool(tile);
 
 		var mediaHash = this.getArrayRandom(hashPool);
+
+		if( !mediaHash ) return false;
+
+		this.updateTileHash(tile, mediaHash);
+
+		return true;
+	},
+
+	updateTileHash: function(tile, mediaHash)
+	{
+		if( this.ajaxRunning ) return false;
 
 		if( !mediaHash ) return false;
 
