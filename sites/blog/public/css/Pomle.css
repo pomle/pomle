@@ -25,32 +25,42 @@ h4 {
 .pageContainer {
 	margin: 0 auto;
 	max-width: 1000px;
+	min-width: 250px;
 }
 
 header {
 	font-size: 12px;
 	margin-top: 25px;
 	margin-bottom: 15px;
+	overflow: hidden;
 	padding: 0 1px;
+}
+
+header .range {
+	float: left;
 }
 
 header .caption {
 	font-family: Delicious;
 	font-weight: normal;
 	font-size: 24pt;
-	height: 42px;
+	float: left;
+	position: relative;
+	top: 7px;
 }
 
-header .caption .logo {
+header .logo {
 	background: url('../img/SiteLogo.png');
-	display: inline-block;
-	margin-right: 50px;
+	display: block;
+	float: left;
 	height: 38px;
+	margin: 0 40px 3px 0;
 	width: 159px;
 }
 
 header .search {
 	float: right;
+	margin: 0 0 5px 5px;
 }
 
 header .search input {
@@ -61,7 +71,13 @@ header .search input {
 	padding: 3px 5px 3px 22px;
 }
 
+header nav {
+	float: left;
+	clear: left;
+}
+
 header nav a {
+	height: 16px;
 	opacity: .3;
 }
 

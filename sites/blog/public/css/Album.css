@@ -34,7 +34,6 @@
 	background: transparent url('/img/AlbumImageFrame.png') 0 0 repeat;
 	height: 752px !important;
 	position: relative;
-	width: 1000px;
 }
 
 .frame .image {
@@ -122,16 +121,12 @@
 .frame .control .info {
 	background: url('../img/black-transparent-50.png');
 	border-radius: 18px;
-	bottom: 30px;
 	color: #fff;
-	left: 200px;
+	margin: 650px 10% 0 10%;
 	padding: 10px;
-	position: absolute;
-	width: 600px;
 }
 
 .frame .control .info .mediaURL {
-
 	font-size: 9px;
 	text-align: center;
 }
