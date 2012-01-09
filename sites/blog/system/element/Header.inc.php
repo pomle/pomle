@@ -23,9 +23,9 @@
 			</div>
 			</form>
 
-			<div>
-				<a href="/"><img src="/img/SiteLogo.png" alt="" height="38" width="159"></a>
-				<? if(isset($pageCaption)) printf('<span class="caption">%s</span>', htmlspecialchars($pageCaption)); ?>
+			<div class="caption">
+				<a href="/" class="logo"></a>
+				<? if(isset($pageCaption)) echo htmlspecialchars($pageCaption); ?>
 			</div>
 			<nav>
 				<a href="/DiaryOverview.php"><img src="/img/Menu_Item_Diary.png" alt="Dagbok (numera känt som blogg) - här skriver saker med debaterbar intressehalt."></a>

@@ -12,4 +12,9 @@ class Blog extends CrossSite
 	{
 		return $this->getCustom(200, 200, true);
 	}
+
+	public function getRSSPreview()
+	{
+		return $this->getCustom(150, 150, true);
+	}
 }

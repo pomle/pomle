@@ -177,6 +177,11 @@ class Post extends \Manager\Common\DB
 		return $this;
 	}
 
+	public function getSummary()
+	{
+		return false;
+	}
+
 	public function getURL()
 	{
 		return false;

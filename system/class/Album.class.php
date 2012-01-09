@@ -94,6 +94,11 @@ class Album extends Post
 	}
 
 
+	public function getSummary()
+	{
+		return $this->description;
+	}
+
 	public function getURL()
 	{
 		return sprintf('/AlbumView.php?albumID=%u', $this->postID);

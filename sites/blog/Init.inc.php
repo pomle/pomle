@@ -18,7 +18,7 @@ require DIR_SITE_INCLUDE . 'Functions.inc.php';
 
 addIncludePath(DIR_SITE_CLASS);
 
-setlocale(LC_ALL, 'sv_SE.UTF8');
+#setlocale(LC_ALL, 'sv_SE.UTF8');
 
 session_start();
 
@@ -33,11 +33,12 @@ $pageIndex = $page - 1;
 
 
 $rssHref = 'Pomle.com RSS Feed';
-$rssHref = '/index.php?showAs=rss';
+$rssHref = '/RSSFeed.php';
 
 $css = array();
 $css[] = '/css/Shitfest.css';
 $css[] = '/css/Pomle.css';
+#$css[] = '/css/Images.css';
 
 $js = array();
 $js[] = '//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';

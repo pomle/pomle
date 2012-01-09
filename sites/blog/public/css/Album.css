@@ -27,7 +27,7 @@
 }
 
 .album .image .overlay:hover {
-	background-image: url('../img/white-transparent-25.png');
+	background-image: url('../img/white-transparent-75.png');
 }
 
 .frame {
@@ -48,10 +48,90 @@
 	height: 100%;
 }
 
+.frame .busy {
+	background: #fff url('../img/MediaScrubberLoader.gif') no-repeat center;
+	border-radius: 10px;
+	display: none;
+	left: 470px;
+	height: 40px;
+	opacity: .5;
+	position: absolute;
+	top: 355px;
+	width: 40px;
+}
+
 .frame .control {
+	transition: opacity ease .3s;
+	-moz-transition: opacity ease .3s;
+	-o-transition: opacity ease .3s;
+	-webkit-transition: opacity ease .3s;
+	height: 100%;
 	opacity: 0;
+	position: relative;
 }
 
 .frame .control:hover {
 	opacity: 1;
+}
+
+.frame .control .pageIndex {
+	background: url('../img/black-transparent-50.png');
+	border-radius: 0 0 30px 30px;
+	color: #fff;
+	font-family: Delicious;
+	font-size: 24px;
+	margin: 0 auto;
+	padding: 5px 0;
+	text-align: center;
+	width: 200px;
+}
+
+.frame .control .prev,
+.frame .control .next
+{
+	background-image: url('../img/ImageSkip.png');
+	display: block;
+	height: 103px;
+	opacity: .3;
+	position: absolute;
+	top: 325px;
+	width: 51px;
+
+	transition: opacity ease .2s;
+	-moz-transition: opacity ease .2s;
+	-o-transition: opacity ease .2s;
+	-webkit-transition: opacity ease .2s;
+}
+
+.frame .control .prev:hover,
+.frame .control .next:hover
+{
+	opacity: .65;
+}
+
+.frame .control .prev {
+	background-position: -51px 0;
+	left: 0;
+}
+
+.frame .control .next {
+	background-position: 0 0;
+	right: 0;
+}
+
+.frame .control .info {
+	background: url('../img/black-transparent-50.png');
+	border-radius: 18px;
+	bottom: 30px;
+	color: #fff;
+	left: 200px;
+	padding: 10px;
+	position: absolute;
+	width: 600px;
+}
+
+.frame .control .info .mediaURL {
+
+	font-size: 9px;
+	text-align: center;
 }

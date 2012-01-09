@@ -150,6 +150,14 @@ class Diary extends Post
 		return $tags;
 	}
 
+	public function getSummary()
+	{
+		$lenLimit = 128;
+		$summary = trim(strip_tags($this->content));
+		if( mb_strlen($summary) > $lenLimit ) $summary = mb_substr($summary, 0, 164) . '...';
+		return $summary;
+	}
+
 	public function getURL()
 	{
 		return sprintf('/DiaryView.php?diaryID=%u', $this->postID);

@@ -58,6 +58,7 @@
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 	color: #4b6812;
 	font-family: monospace;
+	overflow: scroll;
 	padding: 10px;
 }
 

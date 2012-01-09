@@ -18,6 +18,7 @@
 	width: 79px;
 
 	-moz-transition: top  ease .5s;
+	-o-transition: top ease .5s;
 	-webkit-transition: top  ease .5s;
 }
 
@@ -40,6 +41,7 @@
 
 .brickTile.matrix .item {
 	-moz-transition: all  ease .5s;
+	-o-transition: all ease .5s;
 	-webkit-transition: all  ease .5s;
 
 	background-color: transparent;
@@ -57,12 +59,14 @@
 
 .brickTile.matrix .item:hover {
 	-moz-transition-duration: 0;
+	-o-transition-duration: 0;
 	-webkit-transition-duration: 0;
 	z-index: 200;
 }
 
 .brickTile.matrix .item .content {
 	-moz-transition: all  ease .35s;
+	-o-transition: all  ease .35s;
 	-webkit-transition: all  ease .35s;
 
 	background-color: #fff;
@@ -81,8 +85,9 @@
 }
 
 .brickTile.matrix .item:hover .content {
-	-moz-transition-duration: .15s;
-	-webkit-transition-duration: .15s;
+	-moz-transition-duration: .10s;
+	-o-transition-duration: .10s;
+	-webkit-transition-duration: .10s;
 
 	border: none;
 	box-shadow: 0 0 15px rgba(0,0,0,1);
@@ -102,6 +107,11 @@
 .brickTile.matrix .image {
 	display: block;
 	height: 100%;
+}
+
+.brickTile.matrix .image img {
+	min-height: 100%;
+	min-width: 100%;
 }
 
 
@@ -198,7 +208,7 @@
 	border-radius: 12px 0 0 12px;
 	display: block;
 	float: left;
-	height: 100px;
+	height: 60px;
 	margin: 0 10px 0 0;
 	overflow: hidden;
 	position: static;
@@ -208,21 +218,25 @@
 .brickTile.list .image img {
 	left: -25px;
 	height: 100px;
+	margin: -20px 0 0 -25px;
 }
 
 
 .brickTile.list .item .mainText {
 	display: block;
 	font-family: Delicious;
-	font-size: 22px;
-	margin-top: 10px;
+	font-size: 20px;
+	height: 23px;
+	margin-top: 2px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 
 .brickTile.list .item .smallText {
 	color: #bfbfbf;
-	font-size: 11px;
-	margin: 2px 0 4px 0;
+	font-size: 9px;
+	margin: 1px 0 3px 0;
 }
 
 .brickTile.list .item .description {
@@ -233,9 +247,25 @@
 
 }
 
+.brickTile.list .spotifySearch,
+.brickTile.list .lastFMLookUp {
+	display: inline-block;
+	text-indent: 16px;
+	height: 16px;
+	margin: -1px 3px 0 0;
+	opacity: .5;
+	overflow:hidden;
+	width: 16px;
+}
 
+.brickTile.list .spotifySearch:hover,
+.brickTile.list .lastFMLookUp:hover {
+	opacity: 1;
+}
 
-
-
-
-
+.brickTile.list .spotifySearch {
+	background: url('../img/Icon_Spotify.png') 0 0 no-repeat;
+}
+.brickTile.list .lastFMLookUp {
+	background: url('../img/Bullet_LastFM.png') 0 0 no-repeat;
+}

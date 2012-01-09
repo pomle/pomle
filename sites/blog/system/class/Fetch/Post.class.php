@@ -3,10 +3,11 @@ namespace Fetch;
 
 class Post
 {
-	public function __construct($limit, $offset = 0)
+	public function __construct($limit, $offset = 0, $sort = 'timePublished')
 	{
 		$this->limit = min($limit, 100);
 		$this->offset = $offset;
+		$this->sort = in_array($sort, array('title', 'timePublished')) ? $sort : 'timePublished';
 	}
 
 
@@ -21,7 +22,7 @@ class Post
 				p.isPublished = 1
 				AND p.type = %s
 			ORDER BY
-				p.timePublished DESC
+				{$this->sort} DESC
 			LIMIT %u, %u",
 			POST_TYPE_ALBUM,
 			$this->offset,
@@ -45,7 +46,7 @@ class Post
 				p.isPublished = 1
 				AND p.type = %s
 			ORDER BY
-				p.timePublished DESC
+				{$this->sort} DESC
 			LIMIT %u, %u",
 			POST_TYPE_DIARY,
 			$this->offset,
@@ -71,7 +72,7 @@ class Post
 				p.isPublished = 1
 				AND (p.title LIKE %S OR pd.content LIKE %S)
 			ORDER BY
-				p.timePublished DESC",
+				{$this->sort} DESC",
 			$question,
 			$question);
 
@@ -92,7 +93,7 @@ class Post
 			GROUP BY
 				p.ID
 			ORDER BY
-				p.timePublished DESC",
+				{$this->sort} DESC",
 			$question,
 			$question,
 			$question);
@@ -110,7 +111,7 @@ class Post
 				p.isPublished = 1
 				AND (plt.artist LIKE %S OR plt.track LIKE %S)
 			ORDER BY
-				p.timePublished DESC",
+				{$this->sort} DESC",
 			$question,
 			$question);
 
@@ -131,7 +132,7 @@ class Post
 	{
 		$query = \DB::prepareQuery("SELECT
 				p.ID,
-				COALESCE(MAX(pam.timeCreated), p.timePublished) AS timeFresh
+				COALESCE(MAX(pam.timeCreated), p.timePublished) AS timePublished
 			FROM
 				Posts p
 				LEFT JOIN PostDiaries pd ON pd.postID = p.ID
@@ -142,7 +143,7 @@ class Post
 			GROUP BY
 				p.ID
 			ORDER BY
-				timeFresh DESC
+				{$this->sort} DESC
 			LIMIT %u, %u",
 			array(POST_TYPE_ALBUM, POST_TYPE_DIARY, POST_TYPE_TRACK),
 			$this->offset,
@@ -152,11 +153,11 @@ class Post
 
 		$posts = \Post::loadAutoTypedFromDB(array_keys($postIDs));
 
-		foreach($postIDs as $postID => $timeFresh)
+		foreach($postIDs as $postID => $timePublished)
 		{
 			if( !isset($posts[$postID]) ) continue;
 			$Post = $posts[$postID];
-			$Post->timePublished = $timeFresh;
+			$Post->timePublished = $timePublished;
 		}
 
 		return $posts;
@@ -173,7 +174,7 @@ class Post
 				p.isPublished = 1
 				AND p.type = %s
 			ORDER BY
-				p.timePublished DESC
+				{$this->sort} DESC
 			LIMIT %u, %u",
 			POST_TYPE_TRACK,
 			$this->offset,
@@ -186,10 +187,10 @@ class Post
 
 	public function queryAndFetchArrayAndTotal($query)
 	{
-		if( preg_match('/(FROM.+)(ORDER|LIMIT)/smU', $query, $match) )
+		/*if( preg_match('/(FROM.+)(ORDER|LIMIT)/smU', $query, $match) )
 		{
 			$this->rowTotal = \DB::queryAndFetchOne("SELECT COUNT(*) " . $match[1]);
-		}
+		}*/
 
 		return \DB::queryAndFetchArray($query);
 	}

@@ -64,6 +64,16 @@ class Track extends Post
 	}
 
 
+	public function getSummary()
+	{
+		return sprintf(
+			'<a href="http://open.spotify.com/search/%s" class="spotifySearch">Spotify Sök</a>' .
+			'<a href="%s" class="lastFMLookUp">LastFM Lookup</a>',
+			urlencode(sprintf('%s %s', $this->artist, $this->track)),
+			$this->artistURL
+		);
+	}
+
 	public function getURL()
 	{
 		return $this->trackURL;

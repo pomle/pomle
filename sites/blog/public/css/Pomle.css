@@ -38,7 +38,15 @@ header .caption {
 	font-family: Delicious;
 	font-weight: normal;
 	font-size: 24pt;
-	margin-left: 50px;
+	height: 42px;
+}
+
+header .caption .logo {
+	background: url('../img/SiteLogo.png');
+	display: inline-block;
+	margin-right: 50px;
+	height: 38px;
+	width: 159px;
 }
 
 header .search {

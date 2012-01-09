@@ -3,6 +3,8 @@ require '../Init.inc.php';
 
 $js[] = '/js/BrickTile.RandomizedUpdate.js';
 
+$rssHref = '/RSSFeed.php?type=' . POST_TYPE_DIARY;
+
 $pageLen = 12;
 
 $Fetcher = new \Fetch\Post($pageLen + 1, $pageLen * $pageIndex);
@@ -26,7 +28,7 @@ echo
 	$BrickTile
 	;
 
-$Paginator = new \Element\Paginator($page, max(1, $page - 4), min($page + 4, ceil($Fetcher->rowTotal / $pageLen)));
+$Paginator = new \Element\Paginator($page, max(1, $page - 4), $page + 4);
 echo $Paginator;
 
 require FOOTER;

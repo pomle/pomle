@@ -74,20 +74,7 @@ class BrickTile
 				$mediaPool[] = $Media->mediaHash;
 		}
 
-		switch($Post::TYPE)
-		{
-			case POST_TYPE_DIARY:
-				$description = strip_tags($Post->content);
-			break;
-
-			case POST_TYPE_ALBUM:
-				$description = strip_tags($Post->description);
-			break;
-
-			default:
-				$description = null;
-			break;
-		}
+		$description = $Post->getSummary();
 
 
 		$previewMediaHash = (string)(isset($Post->PreviewMedia) ? $Post->PreviewMedia : reset($mediaPool));
@@ -105,7 +92,7 @@ class BrickTile
 		else
 			$imageURL = false;
 
-		return $this->addItem($imageURL, $Post->getURL(), $Post->title, \Format::date($Post->timePublished), $mediaPool, trim($description), $Post::TYPE);
+		return $this->addItem($imageURL, $Post->getURL(), htmlspecialchars($Post->title), htmlspecialchars(\Format::date($Post->timePublished)), $mediaPool, $description, $Post::TYPE);
 	}
 
 	public function getTileHTML($imageURL, $href = null, $mainText = null, $smallText = null, $mediaHashs = null, $description = null, $class = null)
@@ -115,10 +102,10 @@ class BrickTile
 		<div class="item <? echo $class; ?>" <? if( is_array($mediaHashs) && count($mediaHashs) ) printf('data-mediapool="%s"', htmlspecialchars(json_encode($mediaHashs))); ?>>
 			<div class="content">
 				<a href="<? echo $href; ?>" class="image"><? if( $imageURL ) printf('<img src="%s" alt="">', $imageURL); ?></a>
-				<a href="<? echo $href; ?>" class="mainText"><? echo htmlspecialchars($mainText); ?></a>
-				<div class="smallText"><? echo htmlspecialchars($smallText); ?></div>
+				<a href="<? echo $href; ?>" class="mainText"><? echo $mainText; ?></a>
+				<div class="smallText"><? echo $smallText; ?></div>
 				<div class="badge"></div>
-				<div class="description"><? if( $description ) echo htmlspecialchars(mb_substr($description, 0, 155)), '&hellip;'; ?></div>
+				<div class="description"><? if( $description ) echo $description; ?></div>
 			</div>
 		</div>
 		<?
