@@ -42,11 +42,12 @@ echo $IOCall->getHead();
 		$size = 60;
 
 		echo \Element\Table::inputs()
+			->addRow(_('Last FM ID'), \Element\Input::text('lastFmID', $Post->lastFmID))
 			->addRow(_('Artist'), \Element\Input::text('artist', $Post->artist)->size($size))
 			->addRow(_('Låt'), \Element\Input::text('track', $Post->track)->size($size))
 			->addRow(_('URL Artist'), \Element\Input::text('artistURL', $Post->artistURL)->size($size))
 			->addRow(_('URL Låt'), \Element\Input::text('trackURL', $Post->trackURL)->size($size))
-			->addRow(_('Last FM ID'), \Element\Input::text('lastFmID', $Post->lastFmID))
+			->addRow(_('Spotify URI'), \Element\Input::text('spotifyURI', $Post->spotifyURI)->size($size))
 			;
 		?>
 
