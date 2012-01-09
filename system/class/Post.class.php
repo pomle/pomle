@@ -3,12 +3,21 @@ class Post extends \Manager\Common\DB
 {
 	const TYPE = 'post';
 
+	public
+		$postID,
+		$isPublished,
+		$timeCreated,
+		$timeModified,
+		$timePublished,
+		$title,
+		$uri;
+
 	protected
 		$PreviewMedia,
 		$media;
 
 
-	public static function addToDB()
+	final public static function addToDB()
 	{
 		$Post = new static();
 		self::saveToDB($Post);
@@ -107,6 +116,9 @@ class Post extends \Manager\Common\DB
 	public static function saveToDB(\Post $Post)
 	{
 		if( !isset($Post->timeCreated) ) $Post->timeCreated = time();
+		if( !isset($Post->uri) ) $Post->uri = $Post->title;
+
+		$Post->uri = niceurl($Post->uri);
 
 		$query = \DB::prepareQuery("INSERT INTO
 			Posts (
@@ -144,7 +156,7 @@ class Post extends \Manager\Common\DB
 			$Post->timeModified = time(),
 			$Post->timePublished,
 			$Post->title,
-			niceurl($Post->uri ?: $Post->title));
+			$Post->uri);
 
 		#throw New Exception($query);
 
@@ -157,6 +169,7 @@ class Post extends \Manager\Common\DB
 
 	public function __construct()
 	{
+		$this->isPublished = false;
 		$this->media = array();
 	}
 

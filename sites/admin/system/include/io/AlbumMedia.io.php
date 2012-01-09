@@ -103,7 +103,7 @@ class AlbumMediaIO extends AjaxIO
 
 		if( $this->isAlbumPreview )
 		{
-			$query = \DB::prepareQuery("UPDATE PostAlbums SET previewMediaID = (SELECT mediaID FROM PostAlbumMedia WHERE ID = %u) WHERE postID = %u", $this->postAlbumMediaID, $this->postID);
+			$query = \DB::prepareQuery("UPDATE Posts SET previewMediaID = (SELECT mediaID FROM PostAlbumMedia WHERE ID = %u) WHERE ID = %u", $this->postAlbumMediaID, $this->postID);
 			\DB::query($query);
 		}
 

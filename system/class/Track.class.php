@@ -24,6 +24,7 @@ class Track extends Post
 				$Post->track = $track['track'];
 				$Post->artistURL = $track['artistURL'];
 				$Post->trackURL = $track['trackURL'];
+				$Post->spotifyURI = $track['spotifyURI'];
 			}
 		}
 
@@ -41,20 +42,24 @@ class Track extends Post
 				artist,
 				track,
 				artistURL,
-				trackURL
+				trackURL,
+				spotifyURI
 			) VALUES (
 				%u,
 				%u,
 				%s,
 				%s,
 				NULLIF(%s, ''),
-				NULLIF(%s, ''))",
+				NULLIF(%s, ''),
+				NULLIF(%s, '')
+			)",
 			$Post->postID,
 			$Post->lastFmID,
 			$Post->artist,
 			$Post->track,
 			$Post->artistURL,
-			$Post->trackURL);
+			$Post->trackURL,
+			$Post->spotifyURI);
 
 		#throw New Exception($query);
 
@@ -67,9 +72,9 @@ class Track extends Post
 	public function getSummary()
 	{
 		return sprintf(
-			'<a href="http://open.spotify.com/search/%s" class="spotifySearch">Spotify Sök</a>' .
+			'<a href="%s" class="spotifySearch">Spotify Sök</a>' .
 			'<a href="%s" class="lastFMLookUp">LastFM Lookup</a>',
-			urlencode(sprintf('%s %s', $this->artist, $this->track)),
+			isset($this->spotifyURI) ? $this->spotifyURI : 'spotify:search:' . urlencode(preg_replace('/[-]/', ' ', $this->artist . ' ' . $this->track)),
 			$this->artistURL
 		);
 	}

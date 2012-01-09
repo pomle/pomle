@@ -100,7 +100,7 @@ class TrackIO extends AjaxIO
 
 	public function save()
 	{
-		$this->importArgs('isPublished', 'timePublished', 'title', 'uri',  'previewMediaID', 'artist', 'track', 'artistURL', 'trackURL');
+		$this->importArgs('isPublished', 'timePublished', 'title', 'uri',  'previewMediaID', 'artist', 'track', 'artistURL', 'trackURL', 'spotifyURI');
 
 		$Post = \Track::loadOneFromDB($this->postID);
 
@@ -113,6 +113,7 @@ class TrackIO extends AjaxIO
 		$Post->track = $this->track;
 		$Post->artistURL = $this->artistURL;
 		$Post->trackURL = $this->trackURL;
+		$Post->spotifyURI = $this->spotifyURI;
 
 		if( $this->previewMediaID )
 			if( $Media = \Manager\Media::loadOneFromDB($this->previewMediaID) )

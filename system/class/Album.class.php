@@ -4,24 +4,15 @@ class Album extends Post
 	const TYPE = POST_TYPE_ALBUM;
 
 
-	public static function addToDB()
-	{
-		$Post = parent::addToDB();
+	public
+		$description;
 
-		$query = \DB::prepareQuery("INSERT INTO PostAlbums (postID) VALUES(%u)", $Post->postID);
-		\DB::query($query);
-
-		$query = \DB::prepareQuery("UPDATE Posts SET type = %s WHERE ID = %u", self::TYPE, $Post->postID);
-		\DB::query($query);
-
-		return $Post;
-	}
 
 	public static function loadFromDB($postIDs, $skipMedia = false)
 	{
-		$albums = parent::loadFromDB($postIDs);
+		$posts = parent::loadFromDB($postIDs);
 
-		$albumIDs = array_keys($albums);
+		$postIDs = array_keys($posts);
 
 		$query = \DB::prepareQuery("SELECT
 				postID,
@@ -30,21 +21,23 @@ class Album extends Post
 				PostAlbums
 			WHERE
 				postID IN %a",
-			$albumIDs);
+			$postIDs);
 
 		$result = \DB::queryAndFetchResult($query);
 
-		while($album = \DB::assoc($result))
+		while($post = \DB::assoc($result))
 		{
 			$postID = (int)$row['postID'];
-			$Post = $album[$postID];
+			$Post = $post[$postID];
 			$Post->description = $row['description'];
+			$Post->skipMedia = $skipMedia;
 		}
 
 		if( $skipMedia === false )
 		{
 			$query = \DB::prepareQuery("SELECT
 					mediaID,
+					ID AS postAlbumMediaID,
 					postID,
 					isVisible,
 					comment,
@@ -56,41 +49,110 @@ class Album extends Post
 					AND postID IN %a
 				ORDER BY
 					sortOrder ASC",
-				$albumIDs);
+				$postIDs);
 
-			$albumMedias = \DB::queryAndFetchArray($query);
+			$postMedias = \DB::queryAndFetchArray($query);
 
-			$mediaIDs = array_keys($albumMedias);
+			$mediaIDs = array_keys($postMedias);
 
 			$media = \Manager\Media::loadFromDB($mediaIDs);
 
-			foreach($albumMedias as $mediaID => $albumMedia)
+			foreach($postMedias as $mediaID => $postMedia)
 			{
 				if( !isset($media[$mediaID]) ) continue;
 
-				$postID = (int)$albumMedia['postID'];
-				$Album = $albums[$postID];
+				$postID = (int)$postMedia['postID'];
+				$Post = $posts[$postID];
 				$Media = $media[$mediaID];
 
-				$Media->isVisible = (bool)$albumMedia['isVisible'];
-				$Media->comment = $albumMedia['comment'];
-				$Media->tags = $albumMedia['tags'];
+				$Media->postAlbumMediaID = (int)$postMedias['postAlbumMediaID'];
+				$Media->isVisible = (bool)$postMedia['isVisible'];
+				$Media->comment = $postMedia['comment'];
+				$Media->tags = $postMedia['tags'];
 
-				$Album->addMedia($Media);
+				$Post->addMedia($Media);
 			}
 		}
 
-		return $albums;
+		return $posts;
 	}
 
-	public static function saveToDB(\Album $Album)
+	public static function saveToDB(\Album $Post)
 	{
-		parent::saveToDB($Diary);
+		parent::saveToDB($Post);
 
-		$query = \DB::prepareQuery("INSERT INTO PostAlbums (postID, description) VALUES(%u %s) ON DUPLICATE KEY UPDATE description = VALUES(description)", $Album->postID, $Album->description);
+		$query = \DB::prepareQuery("INSERT INTO
+			PostAlbums (
+				postID,
+				description
+			) VALUES(
+				%u,
+				NULLIF(%s, '')
+			) ON DUPLICATE KEY UPDATE
+				description = VALUES(description)",
+			$Post->postID,
+			$Post->description);
+
 		\DB::query($query);
 
+		if( $Post->skipMedia === false )
+		{
+			$sortOrder = 0;
+			foreach($Post->media as $Media)
+			{
+				if( !isset($Media->sortOrder) ) $Media->sortOrder = $sortOrder++;
+				self::saveMediaToDB($Post->postID, $Media);
+			}
+		}
+
 		return true;
+	}
+
+	public static function saveMediaToDB($postID, \Media\Common\_Root $Media)
+	{
+		$query = \DB::prepareQuery("INSERT INTO
+				PostAlbumMedia (
+					ID,
+					postID,
+					mediaID,
+					timeCreated,
+					isVisible,
+					sortOrder,
+					comment,
+					tags
+				) VALUES(
+					NULLIF(%u, 0),
+					%u,
+					%u,
+					UNIX_TIMESTAMP(),
+					%u,
+					%u,
+					NULLIF(%s, ''),
+					NULLIF(%s, '')
+				) ON DUPLICATE KEY UPDATE
+					isVisible = VALUES(isVisible),
+					sortOrder = VALUES(sortOrder),
+					comment = VALUES(comment),
+					tags = VALUES(tags)",
+				$Media->postAlbumMediaID,
+				$postID,
+				$Media->mediaID,
+				$Media->isVisible,
+				$Media->sortOrder,
+				$Media->comment,
+				$Media->tags);
+
+		if( $rowID = \DB::queryAndGetID($query) )
+			$Media->postAlbumMediaID = (int)$rowID;
+
+		return true;
+	}
+
+
+	public function __construct()
+	{
+		$this->skipMedia = false;
+		parent::__construct();
 	}
 
 

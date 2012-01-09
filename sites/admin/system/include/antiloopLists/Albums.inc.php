@@ -5,6 +5,7 @@ defaultSort($params, 'timeModified', true);
 
 $Stmt = new \Query\Select("SELECT
 		p.ID AS postID,
+		p.isPublished,
 		IFNULL(p.timeModified, p.timeCreated) AS timeModified,
 		p.timePublished,
 		p.title,
@@ -14,9 +15,8 @@ $Stmt = new \Query\Select("SELECT
 		JOIN PostAlbums pa ON pa.postID = p.ID
 		LEFT JOIN Media m ON m.ID = p.previewMediaID");
 
-if( $filter['search'] )
-{
-}
+if( $search = $filter['search'] )
+	$Stmt->addWhere("(p.title LIKE %S OR pa.description LIKE %S)", $search, $search);
 
 $Antiloop
 	->setDataset($Stmt)
@@ -29,7 +29,8 @@ $Antiloop
 	(
 		Field::id('postID'),
 		Field::thumb(),
+		Field::enabled('isPublished'),
+		Field::text('title', _('Titel')),
 		Field::time('timeModified', _('Ändringstid'), 'time'),
-		Field::time('timePublished', _('Publiceringstid'), 'time'),
-		Field::text('title', _('Titel'))
+		Field::time('timePublished', _('Publiceringstid'), 'time')
 	);

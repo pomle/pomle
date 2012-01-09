@@ -6,6 +6,8 @@ $css[] = '/css/Diary.css';
 if( !$Diary = \Diary::loadOneFromDB($_GET['diaryID']) )
 	die('Not Found');
 
+$pageTitle = $Diary->title;
+
 require HEADER;
 ?>
 <div class="diary">
@@ -15,18 +17,20 @@ require HEADER;
 			<li><span class="timestamp"><? echo htmlspecialchars(\Format::timestamp($Diary->timePublished)); ?></span></li>
 		</ul>
 	</div>
-	<?
-	if( preg_match('/(<p>)/', $Diary->content) ) ### If we find a <p> tag we assume the post is modern and therefore HTML-aware
-	{
-		printf('<!-- %s -->', 'RENDER TYPE: MODERN');
-		echo $Diary->getHTMLContent();
-	}
-	else ### Or we add simple, old-school line breaks
-	{
-		printf('<!-- %s -->', 'RENDER TYPE: OLDSCHOOL');
-		echo nl2br($Diary->getHTMLContent());
-	}
-	?>
+	<div class="content">
+		<?
+		if( preg_match('/(<p>)/', $Diary->content) ) ### If we find a <p> tag we assume the post is modern and therefore HTML-aware
+		{
+			printf('<!-- %s -->', 'RENDER TYPE: MODERN');
+			echo $Diary->getHTMLContent();
+		}
+		else ### Or we add simple, old-school line breaks
+		{
+			printf('<!-- %s -->', 'RENDER TYPE: OLDSCHOOL');
+			echo nl2br($Diary->getHTMLContent());
+		}
+		?>
+	</div>
 </div>
 <?
 require FOOTER;

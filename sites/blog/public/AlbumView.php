@@ -6,6 +6,8 @@ $css[] = '/css/Album.css';
 if( !$Album = \Album::loadOneFromDB($_GET['albumID']) )
 	die('Not Found');
 
+$pageTitle = $Album->title;
+
 require HEADER;
 ?>
 <div class="album clearfix">

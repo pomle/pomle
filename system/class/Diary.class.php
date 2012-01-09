@@ -7,24 +7,11 @@ class Diary extends Post
 		$content;
 
 
-	public static function addToDB()
-	{
-		$Post = parent::addToDB();
-
-		$query = \DB::prepareQuery("INSERT INTO PostDiaries (postID) VALUES(%u)", $Post->postID);
-		\DB::query($query);
-
-		$query = \DB::prepareQuery("UPDATE Posts SET type = %s WHERE ID = %u", self::TYPE, $Post->postID);
-		\DB::query($query);
-
-		return $Post;
-	}
-
 	public static function loadFromDB($postIDs, $skipContent = false)
 	{
-		$diaries = parent::loadFromDB($postIDs);
+		$posts = parent::loadFromDB($postIDs);
 
-		$diaryIDs = array_keys($diaries);
+		$postIDs = array_keys($posts);
 
 		if( $skipContent === false )
 		{
@@ -35,7 +22,7 @@ class Diary extends Post
 					PostDiaries
 				WHERE
 					postID IN %a",
-				$diaryIDs);
+				$postIDs);
 
 			$result = \DB::queryAndFetchResult($query);
 
@@ -44,14 +31,14 @@ class Diary extends Post
 			while($row = \DB::assoc($result))
 			{
 				$postID = (int)$row['postID'];
-				$Post = $diaries[$postID];
+				$Post = $posts[$postID];
 				$Post->content = $row['content'];
 				$mediaIDs = array_merge($mediaIDs, $Post->mediaIDs = $Post->getContentMediaIDs());
 			}
 
 			$medias = \Manager\Media::loadFromDB($mediaIDs);
 
-			foreach($diaries as $Post)
+			foreach($posts as $Post)
 			{
 				if( isset($Post->mediaIDs) )
 				{
@@ -62,17 +49,17 @@ class Diary extends Post
 					unset($Post->mediaIDs);
 				}
 			}
-			reset($diaries);
+			reset($posts);
 		}
 
-		return $diaries;
+		return $posts;
 	}
 
-	public static function saveToDB(\Diary $Diary)
+	public static function saveToDB(\Diary $Post)
 	{
-		parent::saveToDB($Diary);
+		parent::saveToDB($Post);
 
-		$query = \DB::prepareQuery("INSERT INTO PostDiaries (postID, content) VALUES(%u, %s) ON DUPLICATE KEY UPDATE content = VALUES(content)", $Diary->postID, $Diary->content);
+		$query = \DB::prepareQuery("INSERT INTO PostDiaries (postID, content) VALUES(%u, %s) ON DUPLICATE KEY UPDATE content = VALUES(content)", $Post->postID, $Post->content);
 		\DB::query($query);
 
 		return true;
