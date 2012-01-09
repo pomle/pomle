@@ -14,6 +14,3 @@ require DIR_INCLUDE . 'Functions.inc.php';
 define('POST_TYPE_ALBUM', 'album');
 define('POST_TYPE_DIARY', 'diary');
 define('POST_TYPE_TRACK', 'track');
-
-define('LAST_FM_API_KEY', 'b934445a490b43b42fd02d2ae9407595');
-define('LAST_FM_API_SECRET', 'aff70a07faee4e8590157256a9146b74');
