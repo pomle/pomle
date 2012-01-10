@@ -20,7 +20,7 @@ class Post extends \Manager\Common\DB
 	final public static function addToDB()
 	{
 		$Post = new static();
-		self::saveToDB($Post);
+		static::saveToDB($Post);
 		return $Post;
 	}
 
