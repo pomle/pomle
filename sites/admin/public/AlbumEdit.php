@@ -5,12 +5,12 @@ require '../Init.inc.php';
 
 if( !isset($_GET['postID']) )
 {
-	$Post = \Album::addToDB();
+	$Post = \Post\Album::addToDB();
 	header(sprintf('Location: /AlbumEdit.php?postID=%u', $Post->postID));
 	exit();
 }
 
-$Post = \Album::loadOneFromDB($_GET['postID']);
+$Post = \Post\Album::loadOneFromDB($_GET['postID']);
 
 if( !$Post )
 	echo \Element\Page::error(MESSAGE_ROW_MISSING);

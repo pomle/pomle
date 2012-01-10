@@ -61,7 +61,7 @@ class Media extends Plugin
 		}
 		elseif( $isZoomable )
 		{
-			$imageZoomedURL = sprintf('/AlbumImage.php?mediaHash=%s', $hash);
+			$imageZoomedURL = sprintf('/Media.php?mediaHash=%s', $hash);
 			$elementHTML.= '<a href="' . $imageZoomedURL . '" ' . join(' ', static::$imageZoomAttr) . '>' . $imageHTML . '</a>';
 		}
 		else

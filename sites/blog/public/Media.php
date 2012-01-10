@@ -17,7 +17,7 @@ elseif( isset($_GET['mediaID']) )
 if( $Media_Primary )
 {
 	### If this image is to be displayed as a browseable group of images, get them
-	if( isset($_GET['albumID']) && ($Album = \Album::loadOneFromDB($_GET['albumID'])) )
+	if( isset($_GET['albumID']) && ($Album = \Post\Album::loadOneFromDB($_GET['albumID'])) )
 		$media = $Album->media;
 	elseif( isset($_GET['mediaID']) && is_array($_GET['mediaID']) )
 		$media = \Manager\Media::loadFromDB($_GET['mediaID']);

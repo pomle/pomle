@@ -38,15 +38,15 @@ class Post extends \Manager\Common\DB
 			switch($type)
 			{
 				case POST_TYPE_ALBUM:
-					$posts = array_replace($posts, \Album::loadFromDB($ids));
+					$posts = array_replace($posts, \Post\Album::loadFromDB($ids));
 				break;
 
 				case POST_TYPE_DIARY:
-					$posts = array_replace($posts, \Diary::loadFromDB($ids));
+					$posts = array_replace($posts, \Post\Diary::loadFromDB($ids));
 				break;
 
 				case POST_TYPE_TRACK:
-					$posts = array_replace($posts, \Track::loadFromDB($ids));
+					$posts = array_replace($posts, \Post\Track::loadFromDB($ids));
 				break;
 			}
 		}

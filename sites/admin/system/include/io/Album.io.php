@@ -24,7 +24,7 @@ class AlbumIO extends AjaxIO
 		if( !$FBAlbum = $FB->getInfo($this->facebookID) )
 			throw New Exception('Could not get info on ID');
 
-		$Album = new \Album();
+		$Album = new \Post\Album();
 		$Album->timePublished = strtotime($FBAlbum->created_time);
 		$Album->timeCreated = time();
 		$Album->title = $FBAlbum->name;
@@ -66,7 +66,7 @@ class AlbumIO extends AjaxIO
 		if( count($Album->media) == 0 )
 			throw New Exception("No photos fetched");
 
-		\Album::saveToDB($Album);
+		\Post\Album::saveToDB($Album);
 
 		Message::addNotice(sprintf('Album "%s" Imported as ID: %s', htmlspecialchars($Album->title), sprintf('<a href="/AlbumEdit.php?postID=%1$u">%1$u</a>', $Album->postID)));
 	}

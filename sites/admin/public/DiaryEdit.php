@@ -5,12 +5,12 @@ require '../Init.inc.php';
 
 if( !isset($_GET['postID']) )
 {
-	$Post = \Diary::addToDB();
+	$Post = \Post\Diary::addToDB();
 	header(sprintf('Location: /DiaryEdit.php?postID=%u', $Post->postID));
 	exit();
 }
 
-$Post = \Diary::loadOneFromDB($_GET['postID']);
+$Post = \Post\Diary::loadOneFromDB($_GET['postID']);
 
 if( !$Post )
 	echo \Element\Page::error(MESSAGE_ROW_MISSING);

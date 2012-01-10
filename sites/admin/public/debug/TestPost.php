@@ -10,7 +10,7 @@ die();
 $query = \DB::prepareQuery("SELECT ID FROM Posts WHERE type = %s", POST_TYPE_TRACK);
 $postIDs = \DB::queryAndFetchArray($query);
 
-$posts = \Track::loadFromDB($postIDs);
+$posts = \Post\Track::loadFromDB($postIDs);
 
 print_r($posts);
 

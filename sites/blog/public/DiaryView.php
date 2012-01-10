@@ -3,7 +3,7 @@ require '../Init.inc.php';
 
 $css[] = '/css/Diary.css';
 
-if( !$Diary = \Diary::loadOneFromDB($_GET['diaryID']) )
+if( !$Diary = \Post\Diary::loadOneFromDB($_GET['diaryID']) )
 	die('Not Found');
 
 $pageTitle = $Diary->title;

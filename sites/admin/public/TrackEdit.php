@@ -5,12 +5,12 @@ require '../Init.inc.php';
 
 if( !isset($_GET['postID']) )
 {
-	$Post = \Track::addToDB();
+	$Post = \Post\Track::addToDB();
 	header(sprintf('Location: /TrackEdit.php?postID=%u', $Post->postID));
 	exit();
 }
 
-$Post = \Track::loadOneFromDB($_GET['postID']);
+$Post = \Post\Track::loadOneFromDB($_GET['postID']);
 
 if( !$Post )
 	echo \Element\Page::error(MESSAGE_ROW_MISSING);

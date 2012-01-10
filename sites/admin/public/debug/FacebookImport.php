@@ -47,7 +47,7 @@ $albumID = 10150223316092304;
 
 $FB = new Facebook('AAACEdEose0cBAOgfZB6kE15VZBpHQMkZBksuF5tjJWZBZB5PoMZBxNqJytJZAlQvmr6TLEfUTUjJo346jc7XN32LMj9e5JZCS9KVZCt9BqZA9ZCEQZDZD');
 
-$Album = new \Album();
+$Album = new \Post\Album();
 
 if( $FBAlbum = $FB->getInfo($albumID) )
 {
@@ -88,7 +88,7 @@ if( $FBAlbum = $FB->getInfo($albumID) )
 	}
 }
 
-\Album::saveToDB($Album);
+\Post\Album::saveToDB($Album);
 
 print_r($Album);
 

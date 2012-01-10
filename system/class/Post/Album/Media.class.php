@@ -12,12 +12,13 @@ class Media
 				mediaID,
 				postID,
 				isVisible,
+				sortOrder,
 				comment,
 				tags
 			FROM
 				PostAlbumMedia
 			WHERE
-				AND ID IN %a",
+				ID IN %a",
 			$postAlbumMediaIDs);
 
 		$result = \DB::queryAndFetchResult($query);
@@ -30,18 +31,19 @@ class Media
 			$albumMedias[] = $row;
 		}
 
-		$media = \Manager\Media::loadFromDB($mediaIDs);
+		$medias = \Manager\Media::loadFromDB($mediaIDs);
 
 		foreach($albumMedias as $albumMedia)
 		{
 			$mediaID = (int)$albumMedia['mediaID'];
 
-			if( isset($media[$mediaID]) )
+			if( isset($medias[$mediaID]) )
 			{
-				$Media = clone $media[$mediaID];
+				$Media = clone $medias[$mediaID];
 
 				$Media->postAlbumMediaID = (int)$albumMedia['postAlbumMediaID'];
 				$Media->isVisible = (bool)$albumMedia['isVisible'];
+				$Media->sortOrder = (int)$albumMedia['sortOrder'];
 				$Media->comment = $albumMedia['comment'];
 				$Media->tags = $albumMedia['tags'];
 
@@ -51,7 +53,7 @@ class Media
 
 		$postAlbumMedias = array_filter($postAlbumMedias);
 
-		return $posts;
+		return $postAlbumMedias;
 	}
 
 	public static function saveToDB(\Post\Album $Post, \Media\Common\_Root $Media)

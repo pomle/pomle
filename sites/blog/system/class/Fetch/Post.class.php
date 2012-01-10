@@ -30,7 +30,7 @@ class Post
 
 		$postIDs = $this->queryAndFetchArrayAndTotal($query);
 
-		$posts = \Album::loadFromDB($postIDs);
+		$posts = \Post\Album::loadFromDB($postIDs);
 
 		return $posts;
 	}
@@ -54,7 +54,7 @@ class Post
 
 		$postIDs = $this->queryAndFetchArrayAndTotal($query);
 
-		$posts = \Diary::loadFromDB($postIDs);
+		$posts = \Post\Diary::loadFromDB($postIDs);
 
 		return $posts;
 	}
@@ -182,7 +182,7 @@ class Post
 
 		$postIDs = $this->queryAndFetchArrayAndTotal($query);
 
-		return \Track::loadFromDB($postIDs);
+		return \Post\Track::loadFromDB($postIDs);
 	}
 
 	public function queryAndFetchArrayAndTotal($query)

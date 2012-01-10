@@ -34,7 +34,7 @@ try
 		$query = \DB::prepareQuery("SELECT postID FROM PostTracks WHERE lastFmID = %u", $lastFmID);
 		$postID = \DB::queryAndFetchOne($query);
 
-		$Post = $postID ? \Track::loadOneFromDB($postID) : \Track::addToDB();
+		$Post = $postID ? \Post\Track::loadOneFromDB($postID) : \Post\Track::addToDB();
 
 		if( !isset($Post->isPublished) ) $Post->isPublished = true;
 
@@ -80,7 +80,7 @@ try
 			}
 		}
 
-		\Track::saveToDB($Post);
+		\Post\Track::saveToDB($Post);
 	}
 }
 catch(\FileException $e)

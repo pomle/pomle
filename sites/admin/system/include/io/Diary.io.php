@@ -12,7 +12,7 @@ class DiaryIO extends AjaxIO
 	public function load()
 	{
 		global $result;
-		$Post = \Diary::loadOneFromDB($this->postID);
+		$Post = \Post\Diary::loadOneFromDB($this->postID);
 		$Post->timePublished = \Format::timestamp($Post->timePublished, true);
 		$result = $Post;
 	}
@@ -21,7 +21,7 @@ class DiaryIO extends AjaxIO
 	{
 		$this->importArgs('isPublished', 'timePublished', 'title', 'uri', 'content', 'previewMediaID');
 
-		$Post = \Diary::loadOneFromDB($this->postID);
+		$Post = \Post\Diary::loadOneFromDB($this->postID);
 
 		$Post->isPublished = (bool)$this->isPublished;
 		$Post->timePublished = strtotime($this->timePublished);
@@ -57,7 +57,7 @@ class DiaryIO extends AjaxIO
 			}
 		}
 
-		\Diary::saveToDB($Post);
+		\Post\Diary::saveToDB($Post);
 
 		Message::addNotice(MESSAGE_ROW_UPDATED);
 

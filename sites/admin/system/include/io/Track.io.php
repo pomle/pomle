@@ -30,7 +30,7 @@ class TrackIO extends AjaxIO
 				$query = \DB::prepareQuery("SELECT postID FROM PostTracks WHERE lastFmID = %u", $lastFmID);
 				$postID = \DB::queryAndFetchOne($query);
 
-				$Post = $postID ? \Track::loadOneFromDB($postID) : \Track::addToDB();
+				$Post = $postID ? \Post\Track::loadOneFromDB($postID) : \Post\Track::addToDB();
 
 				if( !isset($Post->isPublished) ) $Post->isPublished = true;
 
@@ -76,7 +76,7 @@ class TrackIO extends AjaxIO
 					}
 				}
 
-				\Track::saveToDB($Post);
+				\Post\Track::saveToDB($Post);
 			}
 		}
 		catch(\FileException $e)
@@ -93,7 +93,7 @@ class TrackIO extends AjaxIO
 	public function load()
 	{
 		global $result;
-		$Post = \Track::loadOneFromDB($this->postID);
+		$Post = \Post\Track::loadOneFromDB($this->postID);
 		$Post->timePublished = \Format::timestamp($Post->timePublished, true);
 		$result = $Post;
 	}
@@ -102,7 +102,7 @@ class TrackIO extends AjaxIO
 	{
 		$this->importArgs('isPublished', 'timePublished', 'title', 'uri',  'previewMediaID', 'artist', 'track', 'artistURL', 'trackURL', 'spotifyURI');
 
-		$Post = \Track::loadOneFromDB($this->postID);
+		$Post = \Post\Track::loadOneFromDB($this->postID);
 
 		$Post->isPublished = (bool)$this->isPublished;
 		$Post->timePublished = strtotime($this->timePublished);
@@ -143,7 +143,7 @@ class TrackIO extends AjaxIO
 			}
 		}*/
 
-		\Track::saveToDB($Post);
+		\Post\Track::saveToDB($Post);
 
 		Message::addNotice(MESSAGE_ROW_UPDATED);
 
