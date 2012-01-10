@@ -1,7 +1,9 @@
 <?
-class Album extends Post
+namespace Post;
+
+class Album extends \Post
 {
-	const TYPE = POST_TYPE_ALBUM;
+	const TYPE = \POST_TYPE_ALBUM;
 
 
 	public
@@ -36,12 +38,8 @@ class Album extends Post
 		if( $skipMedia === false )
 		{
 			$query = \DB::prepareQuery("SELECT
-					mediaID,
-					ID AS postAlbumMediaID,
-					postID,
-					isVisible,
-					comment,
-					tags
+					ID,
+					postID
 				FROM
 					PostAlbumMedia
 				WHERE
@@ -51,26 +49,17 @@ class Album extends Post
 					sortOrder ASC",
 				$postIDs);
 
-			$postMedias = \DB::queryAndFetchArray($query);
+			$albumMedias = \DB::queryAndFetchArray($query);
 
-			$mediaIDs = array_keys($postMedias);
+			$postAlbumMedias = Album\Media::loadFromDB(array_keys($albumMedias));
 
-			$media = \Manager\Media::loadFromDB($mediaIDs);
-
-			foreach($postMedias as $mediaID => $postMedia)
+			foreach($albumMedias as $postAlbumMediaID => $postID)
 			{
-				if( !isset($media[$mediaID]) ) continue;
-
-				$postID = (int)$postMedia['postID'];
-				$Post = $posts[$postID];
-				$Media = $media[$mediaID];
-
-				$Media->postAlbumMediaID = (int)$postMedias['postAlbumMediaID'];
-				$Media->isVisible = (bool)$postMedia['isVisible'];
-				$Media->comment = $postMedia['comment'];
-				$Media->tags = $postMedia['tags'];
-
-				$Post->addMedia($Media);
+				if( isset($postAlbumMedias[$postAlbumMediaID]) )
+				{
+					$postID = (int)$postID;
+					$posts[$postID]->addMedia($postAlbumMedias[$postAlbumMediaID]);
+				}
 			}
 		}
 
@@ -92,6 +81,8 @@ class Album extends Post
 				description = VALUES(description)",
 			$Post->postID,
 			$Post->description);
+
+		#throw New Exception($query);
 
 		\DB::query($query);
 

@@ -1,8 +1,6 @@
 <?
 class Post extends \Manager\Common\DB
 {
-	const TYPE = 'post';
-
 	public
 		$postID,
 		$isPublished,
@@ -134,7 +132,7 @@ class Post extends \Manager\Common\DB
 			) VALUES(
 				NULLIF(%u, 0),
 				NULLIF(%u, 0),
-				%s,
+				NULLIF(%s, ''),
 				%u,
 				%u,
 				%u,

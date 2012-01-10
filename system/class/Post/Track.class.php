@@ -1,7 +1,9 @@
 <?
-class Track extends Post
+namespace Post;
+
+class Track extends \Post
 {
-	const TYPE = POST_TYPE_TRACK;
+	const TYPE = \POST_TYPE_TRACK;
 
 
 	public static function loadFromDB($postIDs)

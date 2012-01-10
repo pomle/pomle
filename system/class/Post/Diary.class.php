@@ -1,7 +1,9 @@
 <?
-class Diary extends Post
+namespace Post;
+
+class Diary extends \Post
 {
-	const TYPE = POST_TYPE_DIARY;
+	const TYPE = \POST_TYPE_DIARY;
 
 	public
 		$content;
