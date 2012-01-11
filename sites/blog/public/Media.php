@@ -11,33 +11,31 @@ elseif( isset($_GET['mediaID']) )
 	$Media_Primary = \Manager\Media::loadOneFromDB(is_array($_GET['mediaID']) ? reset($_GET['mediaID']) : $_GET['mediaID']);
 
 
-if( $Media_Primary )
+### If this image is to be displayed as a browseable group of images, get them
+if( isset($_GET['albumID']) && ($Album = \Post\Album::loadOneFromDB($_GET['albumID'])) )
+	$media = $Album->media;
+elseif( isset($_GET['mediaID']) && is_array($_GET['mediaID']) )
+	$media = \Manager\Media::loadFromDB($_GET['mediaID']);
+
+
+### If we have an array of extra media to be browseable, prepare it
+if( isset($media) && is_array($media) )
 {
-	### If this image is to be displayed as a browseable group of images, get them
-	if( isset($_GET['albumID']) && ($Album = \Post\Album::loadOneFromDB($_GET['albumID'])) )
-		$media = $Album->media;
-	elseif( isset($_GET['mediaID']) && is_array($_GET['mediaID']) )
-		$media = \Manager\Media::loadFromDB($_GET['mediaID']);
-	else
-		$media = array($Media_Primary);
+	if( !isset($Media_Primary) ) $Media_Primary = reset($media);
 
-
-	### If we have an array of extra media to be browseable, prepare it
-	if( isset($media) && is_array($media) )
+	$i = 0;
+	foreach($media as $Media)
 	{
-		$i = 0;
-		foreach($media as $Media)
-		{
-			if( $Media->mediaID == $Media_Primary->mediaID )
-				$page = ($MediaScrubber->index = $i) + 1;
+		if( $Media->mediaID == $Media_Primary->mediaID )
+			$page = ($MediaScrubber->index = $i) + 1;
 
-			$MediaScrubber->addItem($Media);
+		$MediaScrubber->addItem($Media);
 
-			$i++;
-		}
+		$i++;
 	}
 }
-else ### Fallback if none is found
+
+if( isset($Media_Primary) ) ### Fallback if none is found
 {
 	$Media_Primary = \Manager\Media::integrateIntoLibrary(\Media\Image::createFromFile(DIR_SITE_RESOURCE . 'FileNotFound.jpg'));
 	$MediaScrubber->addItem($Media_Primary);

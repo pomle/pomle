@@ -57,7 +57,7 @@ class Diary extends \Post
 		return $posts;
 	}
 
-	public static function saveToDB(\Diary $Post)
+	public static function saveToDB(Diary $Post)
 	{
 		parent::saveToDB($Post);
 

@@ -17,24 +17,26 @@ class BrickTile
 		return $B;
 	}
 
-	public function __construct()
+	public function __construct($id = null)
 	{
 		global $UserSettings;
 
 		$this->layout = isset($UserSettings->brickTileLayout) ? $UserSettings->brickTileLayout : 'matrix';
+
+		$this->id = $id;
 
 		$this->items = array();
 
 		$this->fallbackImageURLs = array(
 			POST_TYPE_DIARY => array
 			(
-				'/img/BrickTile_Fallback_Diary_Blue.png',
-				'/img/BrickTile_Fallback_Diary_Green.png',
-				'/img/BrickTile_Fallback_Diary_Orange.png',
-				'/img/BrickTile_Fallback_Diary_Purple.png',
-				'/img/BrickTile_Fallback_Diary_Swamp.png',
+				'/img/BrickTile_Fallback_Blue.png',
+				'/img/BrickTile_Fallback_Green.png',
+				'/img/BrickTile_Fallback_Orange.png',
+				'/img/BrickTile_Fallback_Purple.png',
+				'/img/BrickTile_Fallback_Swamp.png',
 			),
-			POST_TYPE_TRACK => array('/img/BrickTile_Fallback_Track.png')
+			POST_TYPE_TRACK => array('/img/BrickTile_Fallback_LastFM.png')
 		);
 	}
 
@@ -42,7 +44,7 @@ class BrickTile
 	{
 		ob_start();
 		?>
-		<div class="brickTile <? echo $this->layout; ?>">
+		<div class="brickTile <? echo $this->layout; ?>" id="<? echo $this->id; ?>">
 			<a href="/ajax/BrickTile.php" title="Växla vy" class="layoutSwitch"></a>
 			<div class="items">
 				<?
@@ -101,7 +103,7 @@ class BrickTile
 		?>
 		<div class="item <? echo $class; ?>" <? if( is_array($mediaHashs) && count($mediaHashs) ) printf('data-mediapool="%s"', htmlspecialchars(json_encode($mediaHashs))); ?>>
 			<div class="content">
-				<a href="<? echo $href; ?>" class="image"><? if( $imageURL ) printf('<img src="%s" alt="">', $imageURL); ?></a>
+				<a href="<? echo $href; ?>" class="image"><? printf('<img src="%s" alt="">', $imageURL); ?></a>
 				<a href="<? echo $href; ?>" class="mainText"><? echo $mainText; ?></a>
 				<div class="smallText"><? echo $smallText; ?></div>
 				<div class="badge"></div>

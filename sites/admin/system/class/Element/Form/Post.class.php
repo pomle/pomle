@@ -17,6 +17,13 @@ class Post extends \Element\Common\Root
 
 	public function __toString()
 	{
-		return (string)$this->Table;
+		ob_start();
+		?>
+		<fieldset>
+			<legend><? echo \Element\Tag::legend('book', _('Post')); ?></legend>
+			<? echo $this->Table; ?>
+		</fieldset>
+		<?
+		return ob_get_clean();
 	}
 }

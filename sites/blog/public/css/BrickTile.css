@@ -13,9 +13,9 @@
 
 .brickTile .layoutSwitch {
 	background: url('../img/BoolSwitch.png');
-	background-position: 100% 100%;
-	height: 20px;
-	width: 79px;
+	background-position: 0 -15px;
+	height: 15px;
+	width: 60px;
 
 	-moz-transition: top  ease .5s;
 	-o-transition: top ease .5s;
@@ -26,6 +26,10 @@
 	clear: both;
 }
 
+.brickTile .item .mainText small {
+	font-size: 60%;
+}
+
 
 /* ### MATRIX ### */
 .brickTile.matrix {
@@ -33,10 +37,10 @@
 }
 
 .brickTile.matrix .layoutSwitch {
-	background-position: 100% 0;
+	background-position: 0 0;
 	position: absolute;
 	right: 0;
-	top: -26px;
+	top: -20px;
 }
 
 .brickTile.matrix .item {
@@ -130,6 +134,9 @@
 	z-index: 200;
 }
 
+.brickTile .item .mainText small {
+	display: block;
+}
 
 .brickTile.matrix .item .smallText {
 	background: url('../img/BG-Black-Transparent-Medium.png');
@@ -186,7 +193,7 @@
 .brickTile.list .item {
 	clear: both;
 	display: block;
-	margin: 10px 0;
+	margin: 5px 0 10px 0;
 	position: relative;
 	max-width: 600px;
 }
@@ -218,9 +225,8 @@
 }
 
 .brickTile.list .image img {
-	left: -25px;
-	height: 100px;
-	margin: -20px 0 0 -25px;
+	min-height: 100%;
+	max-width: 100%;
 }
 
 
@@ -228,12 +234,13 @@
 	display: block;
 	font-family: Delicious;
 	font-size: 20px;
-	height: 23px;
 	margin-top: 2px;
-	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
+.brickTile .item .mainText small {
+	display: block;
+}
 
 .brickTile.list .item .smallText {
 	color: #bfbfbf;

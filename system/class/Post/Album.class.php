@@ -29,9 +29,9 @@ class Album extends \Post
 
 		while($post = \DB::assoc($result))
 		{
-			$postID = (int)$row['postID'];
-			$Post = $post[$postID];
-			$Post->description = $row['description'];
+			$postID = (int)$post['postID'];
+			$Post = $posts[$postID];
+			$Post->description = $post['description'];
 			$Post->skipMedia = $skipMedia;
 		}
 
@@ -66,7 +66,7 @@ class Album extends \Post
 		return $posts;
 	}
 
-	public static function saveToDB(\Album $Post)
+	public static function saveToDB(Album $Post)
 	{
 		parent::saveToDB($Post);
 
@@ -82,7 +82,7 @@ class Album extends \Post
 			$Post->postID,
 			$Post->description);
 
-		#throw New Exception($query);
+		#throw New \Exception($query);
 
 		\DB::query($query);
 

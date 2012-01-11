@@ -1,15 +1,14 @@
 <?
-class AlbumIO extends AjaxIO
-{
-	public function delete()
-	{
-		$query = \DB::prepareQuery("DELETE FROM Posts WHERE ID = %u", $this->postID);
-		\DB::query($query);
+require_once DIR_AJAX_IO . 'common/Post.io.php';
 
-		Message::addNotice(MESSAGE_ROW_DELETED);
+class AlbumIO extends PostIO
+{
+	final public function loadPost($postID)
+	{
+		return \Post\Album::loadOneFromDB($postID);
 	}
 
-	public function importFacebook()
+	final public function importFacebook()
 	{
 		$this->importArgs('accessToken', 'facebookID');
 
@@ -71,7 +70,7 @@ class AlbumIO extends AjaxIO
 		Message::addNotice(sprintf('Album "%s" Imported as ID: %s', htmlspecialchars($Album->title), sprintf('<a href="/AlbumEdit.php?postID=%1$u">%1$u</a>', $Album->postID)));
 	}
 
-	public function purge()
+	final public function purge()
 	{
 		$query = \DB::prepareQuery("DELETE FROM PostAlbumMedia WHERE postID = %u", $this->postID);
 		\DB::query($query);
@@ -79,27 +78,15 @@ class AlbumIO extends AjaxIO
 		Message::addCall('$("#antiloopAlbumMedia").trigger("reload");');
 	}
 
-	public function save()
+	final public function savePost(\Post $Post)
 	{
-		$this->importArgs('isPublished', 'timePublished', 'title');
+		$this->importArgs('description');
 
-		$query = \DB::prepareQuery("UPDATE
-				Posts
-			SET
-				isPublished = %u,
-				timeModified = UNIX_TIMESTAMP(),
-				timePublished = %u,
-				title = %s
-			WHERE
-				ID = %u",
-			$this->isPublished,
-			strtotime($this->timePublished),
-			$this->title,
-			$this->postID);
+		$Post->description = $this->description;
 
-		\DB::query($query);
+		$Post->skipMedia = true;
 
-		Message::addNotice(MESSAGE_ROW_UPDATED);
+		\Post\Album::saveToDB($Post);
 	}
 }
 

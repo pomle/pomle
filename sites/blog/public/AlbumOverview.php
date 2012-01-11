@@ -20,6 +20,7 @@ foreach($posts as $postID => $Post)
 	$BrickTile->addPost($Post);
 }
 
+$pageTitle = $pageTitle . ': Fotoalbum';
 $pageCaption = 'Fotoalbum';
 
 require HEADER;

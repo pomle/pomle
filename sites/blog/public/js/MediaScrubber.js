@@ -40,19 +40,20 @@ $(function()
 
 function MediaScrubber(mediaScrubber)
 {
-	var E = $(mediaScrubber); // The jQuery element
-	var M = this;
-	var B = E.find('.busy');
+	var Self = this;
 
-	var T = null;
-	var S = null;
+	var element_Self = $(mediaScrubber); // The jQuery element
+	var element_Busy = element_Self.find('.busy');
 
-	var Control = E.find('.control');
-	var Canvas = E.find('.image');
-	var Caption = Control.find('.caption');
+	var timer_Busy = null;
+	var timer_Slideshow = null;
 
-	this.mediaPool = jQuery.parseJSON(E.attr('data-mediaPool'));
-	this.index = parseInt(E.attr('data-pageIndex'), 10);
+	var element_Control = element_Self.find('.control');
+	var element_Canvas = element_Self.find('.image');
+	var element_Caption = element_Control.find('.caption');
+
+	this.mediaPool = jQuery.parseJSON(element_Self.attr('data-mediaPool'));
+	this.index = parseInt(element_Self.attr('data-pageIndex'), 10);
 	this.length = this.mediaPool.length;
 
 	this.indexRequested = this.index;
@@ -61,15 +62,15 @@ function MediaScrubber(mediaScrubber)
 	this.isFetching = false;
 	this.isPlaying = false;
 
+	this.slideshowDelay = 5000;
+
 	this.displayMedia = function(Media)
 	{
 		try
 		{
 			if( !Media.url ) throw('Media.url not set');
 
-			Caption.html(Media.caption || '');
-
-			M.updateCanvas(Media.url);
+			Self.updateCanvas(Media);
 		}
 		catch (error)
 		{
@@ -79,9 +80,9 @@ function MediaScrubber(mediaScrubber)
 
 	this.fetchMedia = function(Media, displayOnComplete)
 	{
-		if( Media && !Media.url && !M.isFetching )
+		if( Media && !Media.url && !Self.isFetching )
 		{
-			M.isFetching = true;
+			Self.isFetching = true;
 
 			jQuery.ajax(
 			{
@@ -91,20 +92,20 @@ function MediaScrubber(mediaScrubber)
 				data: Media,
 				complete: function()
 				{
-					M.isFetching = false;
-					if( displayOnComplete ) M.updateMedia();
+					Self.isFetching = false;
+					if( displayOnComplete ) Self.updateMedia();
 				},
 				error: function(x, textStatus)
 				{
 					displayOnComplete = false;
-					M.removeHash(Media.mediaHash);
+					Self.removeHash(Media.mediaHash);
 				},
 				success: function(Media_Completed)
 				{
 					if( Media_Completed.url )
 						Media.url = Media_Completed.url;
 					else
-						M.removeHash(Media.mediaHash);
+						Self.removeHash(Media.mediaHash);
 				}
 			});
 		}
@@ -114,49 +115,49 @@ function MediaScrubber(mediaScrubber)
 
 	this.findIndex = function(pointer)
 	{
-		if( M.length == 0 ) return false;
+		if( Self.length == 0 ) return false;
 
-		var index = pointer % M.length;
-		if(index < 0) index += M.length;
+		var index = pointer % Self.length;
+		if(index < 0) index += Self.length;
 		return index;
 	};
 
 	this.go = function(diff)
 	{
-		M.seekDiff(diff);
-		M.updateMedia();
+		Self.seekDiff(diff);
+		Self.updateMedia();
 		return this;
 	};
 
 	this.goTo = function(index)
 	{
-		M.seekIndex(index);
-		M.updateMedia();
+		Self.seekIndex(index);
+		Self.updateMedia();
 		return this;
 	};
 
 	this.next = function()
 	{
-		M.seekNext();
-		M.updateMedia();
+		Self.seekNext();
+		Self.updateMedia();
 		return this;
 	};
 
 	this.prev = function()
 	{
-		M.seekPrev();
-		M.updateMedia();
+		Self.seekPrev();
+		Self.updateMedia();
 		return this;
 	};
 
 	this.removeHash = function(mediaHash)
 	{
-		for(key in M.mediaPool)
+		for(key in Self.mediaPool)
 		{
-			if( M.mediaPool[key].mediaHash == mediaHash )
+			if( Self.mediaPool[key].mediaHash == mediaHash )
 			{
-				M.mediaPool.splice(key, 1);
-				M.length = M.mediaPool.length;
+				Self.mediaPool.splice(key, 1);
+				Self.length = Self.mediaPool.length;
 				break;
 			}
 		}
@@ -165,27 +166,27 @@ function MediaScrubber(mediaScrubber)
 
 	this.seekDiff = function(diff)
 	{
-		return M.seekIndex(M.index + diff);
+		return Self.seekIndex(Self.index + diff);
 	};
 
 	this.seekIndex = function(index)
 	{
-		index = M.findIndex(index);
+		index = Self.findIndex(index);
 
 		if( index !== false )
-			M.index = index;
+			Self.index = index;
 
 		return this;
 	};
 
 	this.seekNext = function()
 	{
-		return M.seekDiff(1);
+		return Self.seekDiff(1);
 	};
 
 	this.seekPrev = function()
 	{
-		return M.seekDiff(-1);
+		return Self.seekDiff(-1);
 	};
 
 	this.seekTo = function(mediaHash)
@@ -193,11 +194,11 @@ function MediaScrubber(mediaScrubber)
 		return false; // Deprecated
 
 		var i = 0;
-		for(index in M.hashPool)
+		for(index in Self.hashPool)
 		{
-			if( M.hashPool[index] == mediaHash )
+			if( Self.hashPool[index] == mediaHash )
 			{
-				M.seekIndex(i);
+				Self.seekIndex(i);
 				break;
 			}
 			i++;
@@ -207,78 +208,84 @@ function MediaScrubber(mediaScrubber)
 
 	this.slideshowPlay = function()
 	{
-		M.isPlaying = true;
-		E.addClass('isPlaying');
-		M.next();
+		clearTimeout(timer_Slideshow);
+
+		Self.isPlaying = true;
+		element_Self.addClass('isPlaying');
+		Self.next();
 	}
 
 	this.slideshowStop = function()
 	{
-		clearTimeout(S);
-		E.removeClass('isPlaying');
-		M.isPlaying = false;
+		clearTimeout(timer_Slideshow);
+
+		element_Self.removeClass('isPlaying');
+		Self.isPlaying = false;
 	}
 
 	this.slideshowToggle = function()
 	{
-		if( M.isPlaying )
-			M.slideshowStop();
+		if( Self.isPlaying )
+			Self.slideshowStop();
 		else
-			M.slideshowPlay();
+			Self.slideshowPlay();
 	}
 
 	this.updateBusy = function()
 	{
-		if( M.indexRequested == M.indexDisplaying )
+		if( Self.indexRequested == Self.indexDisplaying )
 		{
-			B.fadeOut('fast');
-			clearTimeout(T);
+			element_Busy.fadeOut('fast');
+			clearTimeout(timer_Busy);
 		}
 		else
-			B.fadeIn('fast');
+			element_Busy.fadeIn('fast');
 
 		return this;
 	}
 
-	this.updateCanvas = function(mediaURL)
+	this.updateCanvas = function(Media)
 	{
-		Canvas.fadeOut(25, (function() {
-			var Buffer = new Image();
-			Buffer.onload = function()
+		element_Caption.html('');
+		var Buffer = new Image();
+		Buffer.onload = function()
+		{
+			element_Canvas.fadeOut(25, (function()
 			{
-				Canvas.css('background-image', 'url(' + this.src + ')').fadeIn(150);
-				Control.find('.mediaURL').attr('href', this.src);
-
-				if( M.isPlaying ) S = setTimeout(M.next, 5000);
-			}
-			Buffer.src = mediaURL;
-			return this;
-		}));
-
-
+				element_Canvas.css('background-image', 'url(' + Media.url + ')').fadeIn(150);
+				element_Control.find('.mediaURL').attr('href', Media.url);
+				element_Caption.html(Media.caption);
+			}));
+		}
+		Buffer.src = Media.url;
+		return this;
 	}
 
 	this.updateMedia = function()
 	{
-		T = setTimeout(M.updateBusy, 1000);
+		timer_Busy = setTimeout(Self.updateBusy, 1000);
 
-		Control.find('.pageIndex').text((M.index + 1) + ' / ' + (M.length));
+		element_Control.find('.pageIndex').text((Self.index + 1) + ' / ' + (Self.length));
 
-		if( !M.mediaPool[M.index] )
+		if( !Self.mediaPool[Self.index] )
 			return false;
 
-		var Media = M.mediaPool[M.index];
+		var Media = Self.mediaPool[Self.index];
 
-		M.indexRequested = M.index;
+		Self.indexRequested = Self.index;
 
 		if( !Media.url )
-			return M.fetchMedia(Media, true);
+			return Self.fetchMedia(Media, true);
+
+		clearTimeout(timer_Slideshow);
 
 		this.displayMedia(Media);
 
-		M.indexDisplaying = this.index;
+		Self.indexDisplaying = this.index;
 
 		this.updateBusy();
+
+		if( Self.isPlaying ) timer_Slideshow = setTimeout(Self.slideshowPlay, Self.slideshowDelay);
 
 		return this;
 	}

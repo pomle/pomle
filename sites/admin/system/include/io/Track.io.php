@@ -1,14 +1,8 @@
 <?
-class TrackIO extends AjaxIO
+require_once DIR_AJAX_IO . 'common/Post.io.php';
+
+class TrackIO extends PostIO
 {
-	public function delete()
-	{
-		$query = \DB::prepareQuery("DELETE FROM Posts WHERE ID = %u", $this->postID);
-		\DB::query($query);
-
-		Message::addNotice(MESSAGE_ROW_DELETED);
-	}
-
 	public function import()
 	{
 		/*try
@@ -90,24 +84,14 @@ class TrackIO extends AjaxIO
 		}*/
 	}
 
-	public function load()
+	final public function loadPost($postID)
 	{
-		global $result;
-		$Post = \Post\Track::loadOneFromDB($this->postID);
-		$Post->timePublished = \Format::timestamp($Post->timePublished, true);
-		$result = $Post;
+		return \Post\Track::loadOneFromDB($postID);
 	}
 
-	public function save()
+	final public function savePost(\Post\Track $Post)
 	{
-		$this->importArgs('isPublished', 'timePublished', 'title', 'uri',  'previewMediaID', 'artist', 'track', 'artistURL', 'trackURL', 'spotifyURI');
-
-		$Post = \Post\Track::loadOneFromDB($this->postID);
-
-		$Post->isPublished = (bool)$this->isPublished;
-		$Post->timePublished = strtotime($this->timePublished);
-		$Post->title = $this->title;
-		$Post->uri = $this->uri;
+		$this->importArgs('artist', 'track', 'artistURL', 'trackURL', 'spotifyURI');
 
 		$Post->artist = $this->artist;
 		$Post->track = $this->track;
@@ -115,39 +99,7 @@ class TrackIO extends AjaxIO
 		$Post->trackURL = $this->trackURL;
 		$Post->spotifyURI = $this->spotifyURI;
 
-		if( $this->previewMediaID )
-			if( $Media = \Manager\Media::loadOneFromDB($this->previewMediaID) )
-				$Post->setPreviewMedia($Media);
-
-
-		/*if( !$Post->PreviewMedia )
-		{
-			if( ($mediaIDs = $Post->getContentMediaIDs()) && ($Media = \Manager\Media::loadOneFromDB(reset($mediaIDs))) )
-			{
-				$Post->setPreviewMedia($Media);
-			}
-			else
-			{
-				### Break on first successful import
-				foreach($Post->getPlugins() as $Plugin)
-				{
-					if( $Plugin::TAG == 'embed' )
-					{
-						if( $Media = $Plugin->getPreviewMedia() )
-						{
-							$Post->setPreviewMedia($Media);
-							break;
-						}
-					}
-				}
-			}
-		}*/
-
 		\Post\Track::saveToDB($Post);
-
-		Message::addNotice(MESSAGE_ROW_UPDATED);
-
-		$this->load();
 	}
 }
 

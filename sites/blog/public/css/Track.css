@@ -1,0 +1,62 @@
+.track {
+
+}
+
+.track h1,
+.track h1 a {
+	color: #fff;
+	font-family: Delicious;
+	font-size: 32px;
+	line-height: 1;
+	margin-bottom: 5px;
+}
+
+.track h1 a:hover {
+	color: #0096ff;
+}
+
+.track  ul {
+	list-style: disc inside none;
+}
+
+.track .header .timestamp {
+	font-family: Georgia;
+}
+
+.track .canvas {
+	background: url('../img/BG-DiagStripes-Transparent-High.png');
+	border-radius: 20px;
+	box-shadow: 0 5px 20px rgba(0,0,0,1);
+	float: left;
+	overflow: hidden;
+	margin: 0 20px 20px 0;
+	z-index: 10;
+}
+
+.track .canvas .image {
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 296px;
+	width: 296px;
+}
+
+.track .resources {
+	float: left;
+	clear: left;
+}
+
+.track .description {
+	background: #e8e8e8;
+	color: #454545;
+	display: none;
+	border-radius: 20px;
+	font-family: 'Calibri', 'Arial', 'Helvetica', sans-serif;
+	line-height: 1.5;
+	margin: 15px 0 0 35px;
+	overflow: hidden;
+	padding: 20px 30px;
+	text-align: justify;
+}
+
+.track .description .bio {
+}

@@ -1,9 +1,11 @@
 <?
 require '_Debug.inc.php';
 
-$posts = \Post::loadAutoTypedFromDB(array(30148, 20335, 20314, 30501));
+$posts = \Post::loadAutoTypedFromDB(array(30531));
 
 print_r(array_keys($posts));
+
+print_r($posts);
 
 die();
 

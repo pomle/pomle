@@ -1,7 +1,7 @@
 var Messenger = {
 
 	display: function message(scopes, messages, prepend) {
-		var scopes = $(scopes).eq(0);
+		//var scopes = $(scopes).eq(0);
 
 		if(typeof(messages) == 'object') {
 

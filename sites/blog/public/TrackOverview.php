@@ -1,16 +1,15 @@
 <?
 require '../Init.inc.php';
 
-#$js[] = '/js/BrickTile.RandomizedUpdate.js';
 $rssHref = '/RSSFeed.php?type=' . POST_TYPE_TRACK;
-
 $pageLen = 12;
+$pageCaption = 'Loved tracks';
+
 
 $Fetcher = new \Fetch\Post($pageLen + 1, $pageLen * $pageIndex);
 $posts = $Fetcher->getTracks();
 
 $BrickTile = new \Element\BrickTile();
-
 $i = 0;
 $hasMore = false;
 foreach($posts as $postID => $Post)
@@ -19,13 +18,11 @@ foreach($posts as $postID => $Post)
 	$BrickTile->addPost($Post);
 }
 
-$pageCaption = 'Last.fm Loved Tracks';
-
 require HEADER;
 
-echo
-	$BrickTile
-	;
+$pageTitle = $pageTitle . ': Älskade låtar';
+
+echo $BrickTile;
 
 $Paginator = new \Element\Paginator($page, max(1, $page - 4), $page + 4);
 echo $Paginator;

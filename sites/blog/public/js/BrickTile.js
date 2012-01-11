@@ -127,7 +127,7 @@ var BrickTile =
 			return false; // This hash was unsuccessful once, so we don't grab it again
 
 		if( this.fetched[mediaHash] )
-			return this.updateTile(tile, this.fetched[mediaHash]);
+			return this.updateTiles(tile, this.fetched[mediaHash]);
 
 		this.ajaxRunning = true;
 		jQuery.ajax
@@ -146,7 +146,7 @@ var BrickTile =
 			success: function(url)
 			{
 				if( !url ) return false;
-				BrickTile.updateTile(tile, url);
+				BrickTile.updateTiles(tile, url);
 				BrickTile.fetched[mediaHash] = url;
 			}
 		});
@@ -154,9 +154,15 @@ var BrickTile =
 		return true;
 	},
 
-	updateTile: function(tile, url, onComplete)
+	updateTiles: function(tile, url, href, bigtext, smalltext)
 	{
+		tile = $(tile);
+
 		var imgTag = tile.find('img');
+
+		if( href ) tile.find('a').attr('href', href);
+		if( bigtext ) tile.find('.mainText').html(bigtext);
+		if( smalltext ) tile.find('.smallText').html(smalltext);
 
 		var updateImage = function()
 		{
@@ -165,11 +171,11 @@ var BrickTile =
 			return true;
 		};
 
-		if( this.images[url] )
+		/*if( this.images[url] )
 		{
 			//console.log("Cached!!!");
 			return this.images[url].onload();
-		}
+		}*/
 
 		this.images[url] = new Image();
 		this.images[url].onload = updateImage;

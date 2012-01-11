@@ -3,6 +3,8 @@ require '../../../Init.inc.php';
 
 try
 {
+	#sleep(3);
+
 	if( isset($_GET['postAlbumMediaID']) )
 	{
 		if( !$media = \Post\Album\Media::loadFromDB((array)$_GET['postAlbumMediaID']) )

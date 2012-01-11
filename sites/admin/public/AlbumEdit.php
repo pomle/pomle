@@ -31,7 +31,14 @@ echo $IOCall->getHead();
 	<legend><? echo \Element\Tag::legend('application_double', _('Egenskaper')); ?></legend>
 	<?
 	echo new \Element\Form\Post($Post);
-
+	?>
+	<fieldset>
+		<legend><? echo \Element\Tag::legend('text_align_left', _('Beskrivning')); ?></legend>
+		<?
+		echo new \Element\TextArea('description', $Post->description, 60, 5);
+		?>
+	</fieldset>
+	<?
 	$Control = new \Element\IOControl($IOCall);
 	$Control
 		->addButton(new \Element\Button\Save())
@@ -60,7 +67,7 @@ echo $IOCall->getFoot();
 		<input type="hidden" name="postAlbumMediaID">
 
 		<fieldset>
-			<legend><? echo \Element\Tag::legend('page_edit', _('Funktion')); ?></legend>
+			<legend><? echo \Element\Tag::legend('page_edit', _('Redigera')); ?></legend>
 			<?
 			$size = 40;
 			echo \Element\Table::inputs()
@@ -83,46 +90,52 @@ echo $IOCall->getFoot();
 	echo $IOCall->getFoot();
 	?>
 
+	<fieldset>
+		<legend><? echo \Element\Tag::legend('table_row_insert', _('Import')); ?></legend>
+
+		<fieldset>
+			<legend><? echo \Element\Tag::legend('page_add', _('Upload')); ?></legend>
+
+			<?
+			$Upload = new \Element\FileUpload($IOCall, 'upload', $permParams);
+			echo $Upload;
+			?>
+
+		</fieldset>
+
+		<?
+		$IOControl = new \Element\IOControl($IOCall);
+
+		echo $IOCall->getHead();
+		?>
+		<fieldset>
+			<legend><? echo \Element\Tag::legend('world_link', _('Download')); ?></legend>
+
+			<?
+			echo \Element\Table::inputs()
+				->addRow(_('URL'), \Element\Input::text('url')->size(100))
+				;
+
+			echo $IOControl->setButtons(\Element\Button::IO('download', 'world_add', _('Hämta')));
+			?>
+		</fieldset>
+
+		<fieldset>
+			<legend><? echo \Element\Tag::legend('world_link', _('Connect')); ?></legend>
+
+			<?
+			echo \Element\Table::inputs()
+				->addRow(_('Media ID'), \Element\Input::text('mediaID'))
+				;
+
+			echo $IOControl->setButtons(\Element\Button::IO('importMedia', 'add', 'Importera'));
+			?>
+		</fieldset>
+		<?
+		echo $IOCall->getFoot();
+		?>
+	</fieldset>
+
 </fieldset>
-
-<fieldset>
-	<legend><? echo \Element\Tag::legend('page_add', _('Ladda upp')); ?></legend>
-
-	<?
-	$Upload = new \Element\FileUpload($IOCall, 'upload', $permParams);
-	echo $Upload;
-	?>
-
-</fieldset>
-
 <?
-echo $IOCall->getHead();
-$IOControl = new \Element\IOControl($IOCall);
-?>
-<fieldset>
-	<legend><? echo \Element\Tag::legend('world_link', _('Ladda ner')); ?></legend>
-
-	<?
-	echo \Element\Table::inputs()
-		->addRow(_('URL'), \Element\Input::text('url')->size(100))
-		;
-
-	echo $IOControl->setButtons(\Element\Button::IO('download', 'world_add', _('Hämta')));
-	?>
-</fieldset>
-
-<fieldset>
-	<legend><? echo \Element\Tag::legend('world_link', _('Ladda ner')); ?></legend>
-
-	<?
-	echo \Element\Table::inputs()
-		->addRow(_('Media ID'), \Element\Input::text('mediaID'))
-		;
-
-	echo $IOControl->setButtons(\Element\Button::IO('importMedia', 'add', 'Importera'));
-	?>
-</fieldset>
-<?
-echo $IOCall->getFoot();
-
 require FOOTER;

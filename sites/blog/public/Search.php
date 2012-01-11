@@ -3,7 +3,7 @@ require '../Init.inc.php';
 
 $js[] = '/js/BrickTile.RandomizedUpdate.js';
 
-$pageLen = 12;
+$pageLen = 24;
 
 $Fetcher = new \Fetch\Post($pageLen + 1, $pageLen * $pageIndex);
 $posts = $Fetcher->getSearch($_GET['q']);

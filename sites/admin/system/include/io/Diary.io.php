@@ -1,38 +1,18 @@
 <?
-class DiaryIO extends AjaxIO
+require_once DIR_AJAX_IO . 'common/Post.io.php';
+
+class DiaryIO extends PostIO
 {
-	public function delete()
+	final public function loadPost($postID)
 	{
-		$query = \DB::prepareQuery("DELETE FROM Posts WHERE ID = %u", $this->postID);
-		\DB::query($query);
-
-		Message::addNotice(MESSAGE_ROW_DELETED);
+		return \Post\Diary::loadOneFromDB($postID);
 	}
 
-	public function load()
+	final public function savePost(\Post $Post)
 	{
-		global $result;
-		$Post = \Post\Diary::loadOneFromDB($this->postID);
-		$Post->timePublished = \Format::timestamp($Post->timePublished, true);
-		$result = $Post;
-	}
+		$this->importArgs('content');
 
-	public function save()
-	{
-		$this->importArgs('isPublished', 'timePublished', 'title', 'uri', 'content', 'previewMediaID');
-
-		$Post = \Post\Diary::loadOneFromDB($this->postID);
-
-		$Post->isPublished = (bool)$this->isPublished;
-		$Post->timePublished = strtotime($this->timePublished);
-		$Post->title = $this->title;
-		$Post->uri = $this->uri;
 		$Post->content = $this->content;
-
-		if( $this->previewMediaID )
-			if( $Media = \Manager\Media::loadOneFromDB($this->previewMediaID) )
-				$Post->setPreviewMedia($Media);
-
 
 		if( !$Post->PreviewMedia )
 		{
@@ -58,10 +38,6 @@ class DiaryIO extends AjaxIO
 		}
 
 		\Post\Diary::saveToDB($Post);
-
-		Message::addNotice(MESSAGE_ROW_UPDATED);
-
-		$this->load();
 	}
 }
 

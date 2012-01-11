@@ -2,8 +2,10 @@
 require '../Init.inc.php';
 
 $css[] = '/css/Track.css';
+$js[] = '/js/LastFM.js';
+$js[] = '/js/TrackView.js';
 
-if( !$Track = \Post\Track::loadOneFromDB($_GET['diaryID']) )
+if( !$Track = \Post\Track::loadOneFromDB($_GET['trackID']) )
 {
 	$Track = new \Post\Track();
 	$Track->title = '404';
@@ -17,14 +19,34 @@ else
 
 $pageTitle = $Track->title;
 
+if( $Track->PreviewMedia )
+	$imageURL = \Media\Producer\Blog::createFromMedia($Track->PreviewMedia)->getTrackImage();
+else
+	$imageURL = '';
+
 require HEADER;
 ?>
-<div class="track">
+<div class="track" data-artist="<? echo htmlspecialchars($Track->artist); ?>" data-track="<? echo htmlspecialchars($Track->track); ?>" data-url_artist="<? echo htmlspecialchars(urlencode($Track->artist)); ?>" data-url_track="<? echo htmlspecialchars(urlencode($Track->track)); ?>">
+	<a href="<? echo $Track->artistURL; ?>" class="canvas">
+		<div class="image" style="background-image: url('<? echo $imageURL; ?>');">
+
+		</div>
+	</a>
+
+	<ul class="resources">
+		<li><a href="<? echo $Track->getSpotifyURI(); ?>">Spotify</a></li>
+		<li><a href="<? echo $Track->artistURL; ?>">Last.FM</a></li>
+	</ul>
+
 	<div class="header">
-		<h1><? echo htmlspecialchars($Track->title); ?></h1>
+		<h1><a href="<? echo $Track->artistURL; ?>"><? echo htmlspecialchars($Track->artist); ?></a> - <a href="<? echo $Track->trackURL; ?>"><? echo htmlspecialchars($Track->track); ?></a></h1>
 		<ul class="details">
-			<li><span class="timestamp"><? echo htmlspecialchars($Track->timestamp); ?></span></li>
+			<li><span class="timestamp">Älskad <? echo htmlspecialchars($Track->timestamp); ?></span></li>
 		</ul>
+	</div>
+
+	<div class="description">
+		<div class="bio"></div>
 	</div>
 </div>
 <?

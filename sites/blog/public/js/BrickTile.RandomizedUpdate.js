@@ -7,7 +7,7 @@ $(function()
 	var refreshRandomTile = function()
 	{
 		var result = BrickTile.randomizeMap(tileMap);
-		console.log(result);
+		//console.log(result);
 		var waitTime = minTime + devTime * Math.random();
 		setTimeout(refreshRandomTile, waitTime);
 	};

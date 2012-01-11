@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
 	<meta charset="utf-8">
 	<?
@@ -30,10 +30,11 @@
 				<nav>
 					<a class="item" href="/DiaryOverview.php"><img src="/img/Menu_Item_Diary.png" alt="Dagbok (numera känt som blogg) - här skriver saker med debaterbar intressehalt."></a>
 					<a class="item" href="/AlbumOverview.php"><img src="/img/Menu_Item_Album.png" alt="Fotoalbum - innehåller förstås bilder på skit jag fotograferat och tycker om"></a>
-					<a class="item" href="/TrackOverview.php"><img src="/img/Menu_Item_Track.png" alt="Musik - Låtar jag älskar och vad som spelas just nu hos mig"></a>
+					<a class="item" href="/TrackOverview.php"><img src="/img/Menu_Item_Track.png" alt="Hitlista - låtar jag fullkomligen älskar"></a>
+					<a class="item" href="/ScrobbleOverview.php"><img src="/img/Menu_Item_Scrobble.png" alt="Spellista - det jag spelar just nu, mest i månaden och sånt"></a>
 				</nav>
 			</div>
 
-			<div class="caption"><? if(isset($pageCaption)) echo htmlspecialchars($pageCaption); ?></div>
+			<!--<div class="caption"><? if(isset($pageCaption)) echo htmlspecialchars($pageCaption); ?></div>-->
 		</header>
 		<section class="pageContent">

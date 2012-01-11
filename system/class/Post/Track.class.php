@@ -33,7 +33,7 @@ class Track extends \Post
 		return $posts;
 	}
 
-	public static function saveToDB(\Track $Post)
+	public static function saveToDB(Track $Post)
 	{
 		parent::saveToDB($Post);
 
@@ -71,12 +71,17 @@ class Track extends \Post
 	}
 
 
+	public function getSpotifyURI()
+	{
+		return isset($this->spotifyURI) ? $this->spotifyURI : 'spotify:search:' . urlencode(preg_replace('/[-]/', ' ', $this->artist . ' ' . $this->track));
+	}
+
 	public function getSummary()
 	{
 		return sprintf(
-			'<a href="%s" class="spotifySearch">Spotify Sök</a>' .
+			'<a href="%s" class="spotifySearch">Spotify</a>' .
 			'<a href="%s" class="lastFMLookUp">LastFM Lookup</a>',
-			isset($this->spotifyURI) ? $this->spotifyURI : 'spotify:search:' . urlencode(preg_replace('/[-]/', ' ', $this->artist . ' ' . $this->track)),
+			$this->getSpotifyURI(),
 			$this->artistURL
 		);
 	}
