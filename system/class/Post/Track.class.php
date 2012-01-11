@@ -83,7 +83,7 @@ class Track extends \Post
 
 	public function getURL()
 	{
-		return $this->trackURL;
+		#return $this->trackURL;
 		return sprintf('/TrackView.php?trackID=%u', $this->postID);
 	}
 }
