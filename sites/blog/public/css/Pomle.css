@@ -98,58 +98,111 @@ footer {
 	padding: 10px 0 0px 0;
 }
 
-footer .related .item {
+footer .social .item {
+	background-image: url('../img/SocialIcons.png');
+	background-repeat: no-repeat;
+	float: left;
 	margin-right: 5px;
 	opacity: .15;
+	height: 16px;
+	width: 16px;
+
+	-moz-transition: opacity ease 1.5s;
+	-o-transition: opacity ease 1.5s;
+	-webkit-transition: opacity ease 1.5s;
 }
 
-footer .related .item:hover {
+footer .social .item:hover {
 	opacity: 1;
+
+	-moz-transition: opacity ease .3s;
+	-o-transition: opacity ease .3s;
+	-webkit-transition: opacity ease .3s;
 }
+
+footer .social .item.lastfm { background-position: 0 0; }
+footer .social .item.lastfm:hover { background-position: 0 100%; }
+
+footer .social .item.songkick { background-position: -16px 0; }
+footer .social .item.songkick:hover { background-position: -16px 100%; }
+
+footer .social .item.facebook { background-position: -32px 0; }
+footer .social .item.facebook:hover { background-position: -32px 100%; }
+
+footer .social .item.youtube { background-position: -48px 0; }
+footer .social .item.youtube:hover { background-position: -48px 100%; }
+
+/*
+FUN FEST PARALLAX
+footer .social .item.lastfm { background-position: 0 0; }
+footer .social .item.lastfm:hover { background-position: -64px 100%; }
+
+footer .social .item.songkick { background-position: -16px 0; }
+footer .social .item.songkick:hover { background-position: -16px 100%; }
+
+footer .social .item.facebook { background-position: -32px 0; }
+footer .social .item.facebook:hover { background-position: 32px 100%; }
+
+footer .social .item.youtube { background-position: -48px 0; }
+footer .social .item.youtube:hover { background-position: -48px -100%; }*/
+
 
 .paginator {
+	background: url('../img/BG-Black-Transparent-High.png');
+	border-radius: 22px;
 	clear: both;
-	font-family: Delicious;s
+	font-family: Delicious;
+	height: 44px;
 	overflow: hidden;
-	margin: 10px 0;
+	margin: 15px auto;
 }
 
 .paginator .prev,
 .paginator .next {
-	background: url('../img/white-transparent-50.png');
+	background: url('../img/BG-Black-Transparent-Low.png');
+	/*border-radius: 22px;*/
 	color: #fff;
-	font-size: 17px;
-	padding: 8px 15px;
-	min-width: 60px;
+	font-size: 32px;
+	line-height: 39px;
+	height: 44px;
+	text-align: center;
+	width: 44px;
+}
+
+.paginator .prev:hover,
+.paginator .next:hover {
+	background: url('../img/BG-Cyan-Transparent-High.png');
 }
 
 .paginator .prev {
-	border-radius: 0 0 20px 0;
 	float: left;
-	text-align: left;
 }
 
 .paginator .next {
-	border-radius: 0 0 0 20px;
 	float: right;
-	text-align: right;
 }
 
 .paginator .pageIndex {
-	margin-top: 6px;
+	margin: 6px auto;
+	max-width: 500px;
 	text-align: center;
 }
 
 .paginator .pageIndex .pageNumber {
-	background: url('../img/white-transparent-50.png');
+	background: url('../img/BG-Black-Transparent-Low.png');
 	border-radius: 10px;
 	color: #fff;
 	display: inline-block;
-	font-size: 15px;
+	font-size: 17px;
 	font-weight: bold;
-	padding: 4px 0 6px 0;
+	line-height: 26px;
+	height: 28px;
 	margin: 2px;
 	width: 28px;
+}
+
+.paginator .pageIndex .pageNumber:hover {
+	background: url('../img/BG-Cyan-Transparent-High.png');
 }
 
 .paginator .pageIndex .pageNumber.isCurrent {

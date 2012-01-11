@@ -116,7 +116,7 @@
 
 
 .brickTile.matrix .item .mainText {
-	background: url('../img/black-transparent-50.png');
+	background: url('../img/BG-Black-Transparent-Medium.png');
 	border-radius: 0 8px 0 0;
 	bottom: 0;
 	color: #fff;
@@ -132,7 +132,7 @@
 
 
 .brickTile.matrix .item .smallText {
-	background: url('../img/black-transparent-50.png');
+	background: url('../img/BG-Black-Transparent-Medium.png');
 	border-radius: 0 0 0 8px;
 	color: #fff;
 	font-family: Delicious;
@@ -195,7 +195,7 @@
 }
 
 .brickTile.list .item .content {
-	background: url('../img/black-transparent-25.png');
+	background: url('../img/BG-Black-Transparent-High.png');
 	border-radius: 20px;
 	overflow: hidden;
 	position: relative;

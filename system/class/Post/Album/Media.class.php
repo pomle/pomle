@@ -23,7 +23,7 @@ class Media
 
 		$result = \DB::queryAndFetchResult($query);
 
-		$mediaIDs = array();
+		$albumMedias = $mediaIDs = array();
 
 		while($row = \DB::assoc($result))
 		{

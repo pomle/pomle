@@ -1,13 +1,24 @@
 $(function()
 {
-	$('.mediaDock').each(function() {
-		var M = new MediaDock(this);
+	$('.mediaScrubber').each(function()
+	{
+		var M = new MediaScrubber(this);
+
+		$(this).bind('play',
+			function() { M.slideshowPlay(); }
+		).bind('stop',
+			function() { M.slideshowStop(); }
+		).bind('toggle',
+			function() { M.slideshowToggle(); }
+		);
 
 		$(this).find('.next,.prev').bind('click', function(e)
 		{
 			e.preventDefault();
 			M.go(parseInt(this.rel, 10));
 		});
+
+		$(this).find('.slideshowToggle').click(function() { $(this).trigger('toggle'); });
 
 		$(document).keydown(function(e)
 		{
@@ -27,39 +38,38 @@ $(function()
 	});
 });
 
-function MediaDock(mediaDock)
+function MediaScrubber(mediaScrubber)
 {
-	var E = $(mediaDock); // The jQuery element
+	var E = $(mediaScrubber); // The jQuery element
 	var M = this;
 	var B = E.find('.busy');
 
 	var T = null;
+	var S = null;
 
 	var Control = E.find('.control');
 	var Canvas = E.find('.image');
+	var Caption = Control.find('.caption');
 
-	this.hashPool = jQuery.parseJSON(E.attr('data-mediaHashs'));
-	this.mediaPool = {};
+	this.mediaPool = jQuery.parseJSON(E.attr('data-mediaPool'));
 	this.index = parseInt(E.attr('data-pageIndex'), 10);
-	this.length = this.hashPool.length;
+	this.length = this.mediaPool.length;
 
 	this.indexRequested = this.index;
 	this.indexDisplaying = this.index;
 
 	this.isFetching = false;
+	this.isPlaying = false;
 
 	this.displayMedia = function(Media)
 	{
 		try
 		{
-			//var txtCaption = Media.caption ? Media.caption : '';
-			if( !Media.mediaURL ) throw('Media.url not set');
+			if( !Media.url ) throw('Media.url not set');
 
-			/*if( Media.mediaID )
-				directLink.attr('href', '#mediaID:' + Media.mediaID).show();
-			else
-				directLink.attr('href', '#mediaID:').hide();*/
-			this.updateCanvas(Media.mediaURL);
+			Caption.html(Media.caption || '');
+
+			M.updateCanvas(Media.url);
 		}
 		catch (error)
 		{
@@ -67,19 +77,18 @@ function MediaDock(mediaDock)
 		}
 	};
 
-	this.fetchMedia = function(mediaHash, displayOnComplete)
+	this.fetchMedia = function(Media, displayOnComplete)
 	{
-		if( mediaHash && !M.isFetching )
+		if( Media && !Media.url && !M.isFetching )
 		{
 			M.isFetching = true;
 
-			var dataSet = {'mediaHash': mediaHash};
 			jQuery.ajax(
 			{
 				url: '/helpers/mediaGen/MediaScrubber.php',
 				type: 'get',
 				dataType: 'json',
-				data: dataSet,
+				data: Media,
 				complete: function()
 				{
 					M.isFetching = false;
@@ -88,14 +97,14 @@ function MediaDock(mediaDock)
 				error: function(x, textStatus)
 				{
 					displayOnComplete = false;
-					M.removeHash(mediaHash);
+					M.removeHash(Media.mediaHash);
 				},
-				success: function(media)
+				success: function(Media_Completed)
 				{
-					if( media[mediaHash] )
-						M.mediaPool[mediaHash] = media[mediaHash];
+					if( Media_Completed.url )
+						Media.url = Media_Completed.url;
 					else
-						M.removeHash(mediaHash);
+						M.removeHash(Media.mediaHash);
 				}
 			});
 		}
@@ -105,49 +114,49 @@ function MediaDock(mediaDock)
 
 	this.findIndex = function(pointer)
 	{
-		if( this.length == 0 ) return false;
+		if( M.length == 0 ) return false;
 
-		var index = pointer % this.length;
-		if(index < 0) index += this.length;
+		var index = pointer % M.length;
+		if(index < 0) index += M.length;
 		return index;
 	};
 
 	this.go = function(diff)
 	{
-		this.seekDiff(diff);
-		this.updateMedia();
+		M.seekDiff(diff);
+		M.updateMedia();
 		return this;
 	};
 
 	this.goTo = function(index)
 	{
-		this.seekIndex(index);
-		this.updateMedia();
+		M.seekIndex(index);
+		M.updateMedia();
 		return this;
 	};
 
 	this.next = function()
 	{
-		this.seekNext();
-		this.updateMedia();
+		M.seekNext();
+		M.updateMedia();
 		return this;
 	};
 
 	this.prev = function()
 	{
-		this.seekPrev();
-		this.updateMedia();
+		M.seekPrev();
+		M.updateMedia();
 		return this;
 	};
 
 	this.removeHash = function(mediaHash)
 	{
-		for(key in this.hashPool)
+		for(key in M.mediaPool)
 		{
-			if( this.hashPool[key] == mediaHash )
+			if( M.mediaPool[key].mediaHash == mediaHash )
 			{
-				this.hashPool.splice(key, 1);
-				this.length = this.hashPool.length;
+				M.mediaPool.splice(key, 1);
+				M.length = M.mediaPool.length;
 				break;
 			}
 		}
@@ -156,43 +165,67 @@ function MediaDock(mediaDock)
 
 	this.seekDiff = function(diff)
 	{
-		return this.seekIndex(this.index + diff);
+		return M.seekIndex(M.index + diff);
 	};
 
 	this.seekIndex = function(index)
 	{
-		index = this.findIndex(index);
+		index = M.findIndex(index);
 
 		if( index !== false )
-			this.index = index;
+			M.index = index;
 
 		return this;
 	};
 
 	this.seekNext = function()
 	{
-		return this.seekDiff(1);
+		return M.seekDiff(1);
 	};
 
 	this.seekPrev = function()
 	{
-		return this.seekDiff(-1);
+		return M.seekDiff(-1);
 	};
 
 	this.seekTo = function(mediaHash)
 	{
+		return false; // Deprecated
+
 		var i = 0;
-		for(index in this.hashPool)
+		for(index in M.hashPool)
 		{
-			if( this.hashPool[index] == mediaHash )
+			if( M.hashPool[index] == mediaHash )
 			{
-				this.seekIndex(i);
+				M.seekIndex(i);
 				break;
 			}
 			i++;
 		}
 		return this;
 	};
+
+	this.slideshowPlay = function()
+	{
+		M.isPlaying = true;
+		E.addClass('isPlaying');
+		M.next();
+	}
+
+	this.slideshowStop = function()
+	{
+		clearTimeout(S);
+		E.removeClass('isPlaying');
+		M.isPlaying = false;
+	}
+
+	this.slideshowToggle = function()
+	{
+		if( M.isPlaying )
+			M.slideshowStop();
+		else
+			M.slideshowPlay();
+	}
 
 	this.updateBusy = function()
 	{
@@ -209,30 +242,39 @@ function MediaDock(mediaDock)
 
 	this.updateCanvas = function(mediaURL)
 	{
-		var Buffer = new Image();
-		Buffer.onload = function()
-		{
-			Canvas.css('background-image', 'url(' + this.src + ')');
-			Control.find('.mediaURL').attr('href', this.src);
-		}
-		Buffer.src = mediaURL;
-		return this;
+		Canvas.fadeOut(25, (function() {
+			var Buffer = new Image();
+			Buffer.onload = function()
+			{
+				Canvas.css('background-image', 'url(' + this.src + ')').fadeIn(150);
+				Control.find('.mediaURL').attr('href', this.src);
+
+				if( M.isPlaying ) S = setTimeout(M.next, 5000);
+			}
+			Buffer.src = mediaURL;
+			return this;
+		}));
+
+
 	}
 
 	this.updateMedia = function()
 	{
-		T = setTimeout(M.updateBusy, 500);
+		T = setTimeout(M.updateBusy, 1000);
 
-		Control.find('.pageIndex').text((this.index + 1) + ' / ' + (this.length));
+		Control.find('.pageIndex').text((M.index + 1) + ' / ' + (M.length));
 
-		var mediaHash = this.hashPool[this.index];
+		if( !M.mediaPool[M.index] )
+			return false;
 
-		M.indexRequested = this.index;
+		var Media = M.mediaPool[M.index];
 
-		if( !this.mediaPool[mediaHash] )
-			return this.fetchMedia(mediaHash, true);
+		M.indexRequested = M.index;
 
-		this.displayMedia(this.mediaPool[mediaHash]);
+		if( !Media.url )
+			return M.fetchMedia(Media, true);
+
+		this.displayMedia(Media);
 
 		M.indexDisplaying = this.index;
 

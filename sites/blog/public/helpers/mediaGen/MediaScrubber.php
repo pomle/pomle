@@ -3,34 +3,41 @@ require '../../../Init.inc.php';
 
 try
 {
-	if( isset($_GET['mediaHash']) )
+	if( isset($_GET['postAlbumMediaID']) )
+	{
+		if( !$media = \Post\Album\Media::loadFromDB((array)$_GET['postAlbumMediaID']) )
+			throw New Exception('No postAlbumMediaIDs found');
+	}
+	elseif( isset($_GET['mediaID']) )
+	{
+		if( !$media = \Manager\Media::loadFromDB((array)$_GET['mediaID']) )
+			throw New Exception('No mediaIDs found');
+	}
+	elseif( isset($_GET['mediaHash']) )
 	{
 		if( !$Media = \Manager\Media::loadByHash($_GET['mediaHash']) )
 			throw New Exception('mediaHash not found');
 
 		$media = array($Media);
 	}
-	elseif( isset($_GET['mediaID']) )
-	{
-		if( !$media = \Manager\Media::loadFromDB((array)$_GET['mediaID']) )
-			throw New Exception('No media IDs found');
-	}
 	else
 	{
 		throw New Exception("Nothing to do...");
 	}
 
-	$jsonObject = array();
+	$mediaPool = array();
 
 	foreach($media as $Media)
-	{
-		$Media->mediaURL = \Media\Producer\Blog::createFromMedia($Media)->getAlbumImage();
-		$jsonObject[$Media->mediaHash] = $Media;
-	}
+		$mediaPool[] = new \Element\MediaScrubberItem($Media);
 
-	exit(json_encode($jsonObject));
+	foreach($mediaPool as $MediaScrubberItem)
+		$MediaScrubberItem->getURL();
+
+	echo json_encode(count($mediaPool) == 1 ? reset($mediaPool) : $mediaPool);
+	die(0);
 }
 catch(Exception $e)
 {
-	die(json_encode(array('result' => 'error', 'message' => $e->getMessage())));
+	echo json_encode(array('result' => 'error', 'message' => $e->getMessage()));
+	die(1);
 }

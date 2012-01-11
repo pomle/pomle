@@ -1,7 +1,10 @@
 		</section>
 		<footer class="footer">
-			<div class="related">
-				<a class="item" href="http://www.last.fm/user/pomle"><img src="/img/Icon_LastFM.png" alt="Last.fm" height="16" width="16"></a><a class="item" href="http://www.songkick.com/users/Pomle"><img src="/img/Icon_SongKick.png" alt="Last.fm" height="16" width="16"></a><a class="item" href="http://www.facebook.com/pontus.alexander"><img src="/img/Icon_Facebook.png" alt="Facebook" height="16" width="16"></a><a class="item" href="http://www.youtube.com/user/pomdeterre"><img src="/img/Icon_YouTube.png" alt="YouTube" height="16" width="16"></a>
+			<div class="social">
+				<a class="item lastfm" href="http://www.last.fm/user/pomle"></a>
+				<a class="item songkick" href="http://www.songkick.com/users/Pomle"></a>
+				<a class="item facebook" href="http://www.facebook.com/pontus.alexander"></a>
+				<a class="item youtube" href="http://www.youtube.com/user/pomdeterre"></a>
 			</div>
 		</footer>
 	</div>

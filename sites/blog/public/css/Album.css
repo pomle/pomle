@@ -1,8 +1,30 @@
 .album {
 }
 
-.album .container {
+.album .header h1 {
+	color: #fff;
+	font-family: Delicious;
+	font-size: 32px;
+	line-height: 1;
+}
 
+.album .header ul {
+	margin: 5px 0 10px 0;
+	list-style: disc inside none;
+}
+
+.album .header .timestamp {
+	font-family: Georgia;
+}
+
+.album .header p {
+	background: #e8e8e8;
+	border-radius: 15px;
+	margin: 15px 0;
+	padding: 20px 30px;
+}
+
+.album .container {
 	margin: 0 -1px -1px 0;
 }
 
@@ -27,106 +49,5 @@
 }
 
 .album .image .overlay:hover {
-	background-image: url('../img/white-transparent-75.png');
-}
-
-.frame {
-	background: transparent url('/img/AlbumImageFrame.png') 0 0 repeat;
-	height: 752px !important;
-	position: relative;
-}
-
-.frame .image {
-	background-position: center;
-	background-repeat: no-repeat;
-	height: 100%;
-}
-
-.frame .overlay {
-	box-shadow: 0 0 30px rgba(0,0,0,.8) inset;
-	height: 100%;
-}
-
-.frame .busy {
-	background: #fff url('../img/MediaScrubberLoader.gif') no-repeat center;
-	border-radius: 10px;
-	display: none;
-	left: 470px;
-	height: 40px;
-	opacity: .5;
-	position: absolute;
-	top: 355px;
-	width: 40px;
-}
-
-.frame .control {
-	transition: opacity ease .3s;
-	-moz-transition: opacity ease .3s;
-	-o-transition: opacity ease .3s;
-	-webkit-transition: opacity ease .3s;
-	height: 100%;
-	opacity: 0;
-	position: relative;
-}
-
-.frame .control:hover {
-	opacity: 1;
-}
-
-.frame .control .pageIndex {
-	background: url('../img/black-transparent-50.png');
-	border-radius: 0 0 30px 30px;
-	color: #fff;
-	font-family: Delicious;
-	font-size: 24px;
-	margin: 0 auto;
-	padding: 5px 0;
-	text-align: center;
-	width: 200px;
-}
-
-.frame .control .prev,
-.frame .control .next
-{
-	background-image: url('../img/ImageSkip.png');
-	display: block;
-	height: 103px;
-	opacity: .3;
-	position: absolute;
-	top: 325px;
-	width: 51px;
-
-	transition: opacity ease .2s;
-	-moz-transition: opacity ease .2s;
-	-o-transition: opacity ease .2s;
-	-webkit-transition: opacity ease .2s;
-}
-
-.frame .control .prev:hover,
-.frame .control .next:hover
-{
-	opacity: .65;
-}
-
-.frame .control .prev {
-	background-position: -51px 0;
-	left: 0;
-}
-
-.frame .control .next {
-	background-position: 0 0;
-	right: 0;
-}
-
-.frame .control .info {
-	background: url('../img/black-transparent-50.png');
-	border-radius: 18px;
-	color: #fff;
-	margin: 650px 10% 0 10%;
-	padding: 10px;
-}
-
-.frame .control .info .mediaURL {
-	font-size: 9px;
-	text-align: center;
+	background-image: url('../img/BG-White-Transparent-Low.png');
 }

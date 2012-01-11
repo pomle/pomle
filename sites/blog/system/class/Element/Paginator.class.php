@@ -22,17 +22,17 @@ class Paginator
 		echo '<div class="paginator">';
 
 		if( $this->pageCurrent > $this->pageFirst )
-			printf('<a class="prev" href="%spage=%d">%s</a>', $this->baseURL, $this->pageCurrent - 1, '&laquo; Föregående');
+			printf('<a class="prev" href="%spage=%d">%s</a>', $this->baseURL, $this->pageCurrent - 1, '&laquo;');
 
 		if( $this->pageCurrent < $this->pageLast )
-			printf('<a class="next" href="%spage=%d">%s</a>', $this->baseURL, $this->pageCurrent + 1, 'Nästa &raquo;');
+			printf('<a class="next" href="%spage=%d">%s</a>', $this->baseURL, $this->pageCurrent + 1, '&raquo;');
 
 		if( $this->showPageIndex )
 		{
 			echo '<div class="pageIndex">';
 
 			for($page = $this->pageFirst; $page <= $this->pageLast; $page++)
-				printf('<a class="pageNumber%s" href="%spage=%d">%d</a>', $this->pageCurrent == $page ? ' isCurrent' : '', $this->baseURL, $page, $page);
+				printf('<a class="pageNumber%s" href="%spage=%d" rel="nofollow">%d</a>', $this->pageCurrent == $page ? ' isCurrent' : '', $this->baseURL, $page, $page);
 
 			echo '</div>';
 		}
