@@ -3,6 +3,8 @@ $(function()
 	var timer = null;
 	var delay = 1000 * 60 * 5;
 
+	//delay = 5000;
+
 	var scrobbleUpdate = function()
 	{
 		var tiles = $('#recentScrobbles.brickTile .item');
@@ -27,15 +29,21 @@ $(function()
 					if( !(track = $(tracks).eq(index)) )
 						return false;
 
-					var imageURL = track.find('image[size="extralarge"]').text();
+					var imageURL = track.find('image[size="extralarge"]').text() || '/img/BrickTile_Fallback_LastFM.png';
+					var url = track.find('url').text();
+					var title = track.find('name').text() + '<small>' + track.find('artist').text() + '</small>';
+					var info = track.attr('nowplaying') ? '<img src="/img/LastFM-EQ-Icon.gif"> Now Playing...' : track.find('date').text();
 
-					BrickTile.updateTiles(
-						tile,
-						imageURL,
-						track.find('url').text(),
-						track.find('name').text() + '<small>' + track.find('artist').text() + '</small>',
-						track.attr('nowplaying') ? '<img src="/img/LastFM-EQ-Icon.gif"> Now Playing...' : track.find('date').text()
-					);
+					setTimeout(function()
+					{
+						BrickTile.updateTiles(
+							tile,
+							imageURL,
+							url,
+							title,
+							info
+						);
+					}, 100 + Math.random() * 1000);
 				});
 			}
 		});
