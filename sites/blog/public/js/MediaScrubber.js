@@ -3,6 +3,7 @@ $(function()
 	$('.mediaScrubber').each(function()
 	{
 		var M = new MediaScrubber(this);
+		var skipSteps = Math.max(5, Math.floor(M.length / 10));
 
 		$(this).bind('play',
 			function() { M.slideshowPlay(); }
@@ -22,16 +23,37 @@ $(function()
 
 		$(document).keydown(function(e)
 		{
+			console.log(e.keyCode);
 			switch(e.keyCode)
 			{
-				case 37:
+				case 37: // Left Arrow
 					e.preventDefault();
 					M.prev();
 				break;
 
-				case 39:
+				case 39: // Right Arrow
 					e.preventDefault();
 					M.next();
+				break;
+
+				case 34: // Page Down
+					e.preventDefault();
+					M.go(skipSteps);
+				break;
+
+				case 33: // Page Up
+					e.preventDefault();
+					M.go(-skipSteps);
+				break;
+
+				case 36: // Home
+					e.preventDefault();
+					M.goTo(0);
+				break;
+
+				case 35: // End
+					e.preventDefault();
+					M.goTo(M.length - 1);
 				break;
 			}
 		});
