@@ -26,7 +26,7 @@ else
 
 require HEADER;
 ?>
-<div class="track" data-artist="<? echo htmlspecialchars($Track->artist); ?>" data-track="<? echo htmlspecialchars($Track->track); ?>" data-url_artist="<? echo htmlspecialchars(urlencode($Track->artist)); ?>" data-url_track="<? echo htmlspecialchars(urlencode($Track->track)); ?>">
+<div class="track" data-artist="<? echo htmlspecialchars($Track->artist); ?>" data-track="<? echo htmlspecialchars($Track->track); ?>">
 	<a href="<? echo $Track->artistURL; ?>" class="canvas">
 		<div class="image" style="background-image: url('<? echo $imageURL; ?>');">
 

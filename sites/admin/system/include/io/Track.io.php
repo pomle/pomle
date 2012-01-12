@@ -3,18 +3,22 @@ require_once DIR_AJAX_IO . 'common/Post.io.php';
 
 class TrackIO extends PostIO
 {
-	public function import()
+	public function importLastFM()
 	{
-		/*try
+		$this->importArgs('username');
+
+		try
 		{
 			$count = 250;
 
-			$url = sprintf('http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=%s&api_key=%s&limit=%u', urlencode('pomle'), urlencode(LAST_FM_API_KEY), $count);
-			echo $url;
+			$url = sprintf('http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user=%s&api_key=%s&limit=%u', urlencode($this->username), urlencode(LAST_FM_API_KEY), $count);
+			#echo $url;
 
 			$loveXML = file_get_contents($url);
 
 			$LoveXML = new SimpleXMLElement($loveXML);
+
+			$importCount = 0;
 
 			foreach($LoveXML->xpath('/lfm/lovedtracks/track') as $track)
 			{
@@ -24,9 +28,12 @@ class TrackIO extends PostIO
 				$query = \DB::prepareQuery("SELECT postID FROM PostTracks WHERE lastFmID = %u", $lastFmID);
 				$postID = \DB::queryAndFetchOne($query);
 
-				$Post = $postID ? \Post\Track::loadOneFromDB($postID) : \Post\Track::addToDB();
+				if( $postID )
+					break;
 
-				if( !isset($Post->isPublished) ) $Post->isPublished = true;
+				$Post = new \Post\Track();
+
+				$Post->isPublished = true;
 
 				$Post->timePublished = $lovedUTS;
 
@@ -59,7 +66,7 @@ class TrackIO extends PostIO
 
 					if( $images = $ImageXML->xpath('/lfm/images/image/sizes/size[@name="original"]') )
 					{
-						foreach( as $imageURL)
+						foreach($images as $imageURL)
 						{
 							$imageURL = (string)$imageURL;
 							if( $Media = \Operation\Media::downloadFileToLibrary($imageURL, MEDIA_TYPE_IMAGE) )
@@ -71,17 +78,22 @@ class TrackIO extends PostIO
 				}
 
 				\Post\Track::saveToDB($Post);
+
+				$importCount++;
 			}
+
+			#throw New Exception((string)$importCount);
 		}
 		catch(\FileException $e)
 		{
-			printf("Could not read \"%s\" Last FM Service probably stopped responding\n", $imageURL);
+			throw New Exception("Could not read \"%s\" Last FM Service probably stopped responding\n", $imageURL);
 		}
 		catch(\Exception $e)
 		{
-			print_r($e);
-			die("Error: " . $e->getMessage());
-		}*/
+			throw New Exception("Error: " . $e->getMessage());
+		}
+
+		Message::addNotice(sprintf('%d new tracks imported', $importCount));
 	}
 
 	final public function loadPost($postID)

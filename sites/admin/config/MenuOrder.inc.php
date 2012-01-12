@@ -1,6 +1,7 @@
 <?
 $order = array
 (
-	'Databas',
-	'System',
+	_('Databas'),
+	_('Innehåll'),
+	_('System'),
 );

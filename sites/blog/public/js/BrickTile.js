@@ -154,7 +154,7 @@ var BrickTile =
 		return true;
 	},
 
-	updateTiles: function(tile, url, href, bigtext, smalltext)
+	updateTiles: function(tile, imageURL, href, bigtext, smalltext)
 	{
 		tile = $(tile);
 
@@ -171,14 +171,14 @@ var BrickTile =
 			return true;
 		};
 
-		/*if( this.images[url] )
+		/*if( this.images[imageURL] )
 		{
 			//console.log("Cached!!!");
-			return this.images[url].onload();
+			return this.images[imageURL].onload();
 		}*/
 
-		this.images[url] = new Image();
-		this.images[url].onload = updateImage;
-		this.images[url].src = url;
+		this.images[imageURL] = new Image();
+		this.images[imageURL].onload = updateImage;
+		this.images[imageURL].src = imageURL;
 	}
 }

@@ -5,13 +5,10 @@ $(function()
 	var artist = dom.attr('data-artist');
 	var track = dom.attr('data-track');
 
-	var url_artist = dom.attr('data-url_artist');
-	var url_track = dom.attr('data-url_track');
-
 	$.ajax(
 	{
 		type: "GET",
-		url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=' + lastfm_api_key + '&artist=' + url_artist,
+		url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=' + lastfm_api_key + '&artist=' + escape(artist),
 		dataType: "xml",
 		success: function(xml)
 		{
