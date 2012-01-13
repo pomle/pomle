@@ -55,13 +55,13 @@ require HEADER;
 		<div class="pagination">
 			<?
 			$query = \DB::prepareQuery("SELECT ID FROM Posts WHERE type = %s AND isPublished = 1 AND timePublished > %u ORDER BY timePublished ASC LIMIT 1", POST_TYPE_DIARY, $Diary->timePublished);
-			if( ($postID = \DB::queryAndFetchOne($query)) && ($Diary_Later = \Post\Diary::loadOneFromDB($postID)) )
+			if( ($postID = \DB::queryAndFetchOne($query)) && ($Diary_Later = \Post\Diary::loadOneFromDB($postID, true)) )
 			{
 				printf('<a class="next" href="%s" title="Nyare">%s &raquo;</a>', $Diary_Later->getURL(), htmlspecialchars($Diary_Later->title));
 			}
 
 			$query = \DB::prepareQuery("SELECT ID FROM Posts WHERE type = %s AND isPublished = 1 AND timePublished < %u ORDER BY timePublished DESC LIMIT 1", POST_TYPE_DIARY, $Diary->timePublished);
-			if( ($postID = \DB::queryAndFetchOne($query)) && ($Diary_Earlier = \Post\Diary::loadOneFromDB($postID)) )
+			if( ($postID = \DB::queryAndFetchOne($query)) && ($Diary_Earlier = \Post\Diary::loadOneFromDB($postID, true)) )
 			{
 				printf('<a class="prev" href="%s" title="Äldre">&laquo; %s</a>', $Diary_Earlier->getURL(), htmlspecialchars($Diary_Earlier->title));
 			}
