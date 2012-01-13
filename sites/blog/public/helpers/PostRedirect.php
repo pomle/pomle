@@ -11,4 +11,5 @@ if( $Post = reset(\Post::loadAutoTypedFromDB(array($_GET['postID']))) )
 }
 
 header('HTTP/1.0 404 Not Found');
+header('Location: /');
 exit();
