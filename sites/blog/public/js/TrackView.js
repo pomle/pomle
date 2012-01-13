@@ -8,7 +8,7 @@ $(function()
 	$.ajax(
 	{
 		type: "GET",
-		url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=' + lastfm_api_key + '&artist=' + escape(artist),
+		url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=' + lastfm_api_key + '&artist=' + encodeURIComponent(artist),
 		dataType: "xml",
 		success: function(xml)
 		{
