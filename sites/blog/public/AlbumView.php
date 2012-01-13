@@ -25,7 +25,7 @@ else
 	$Album->timestamp = \Format::timestamp($Album->timePublished);
 
 	if( $Album->PreviewMedia )
-		$previewMediaHash = $Album->PreviewMedia->mediaHash;
+		$pageImageURL = '/helpers/mediaGen/PagePreview.php?mediaHash=' . $Album->PreviewMedia->mediaHash;
 }
 
 $pageTitle = $Album->title;

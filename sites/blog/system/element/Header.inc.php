@@ -8,11 +8,10 @@
 	foreach($css as $path)
 		printf('<link rel="stylesheet" type="text/css" href="%s">', $path);
 
-	if( isset($previewMediaHash) )
+	if( isset($pageImageURL) )
 	{
-		$previewURL = '/helpers/mediaGen/PagePreview.php?mediaHash=' . $previewMediaHash;
 		#printf('<meta property="og:image" content="%s">', $previewURL);
-		printf('<link rel="image_src" href="%s">', $previewURL);
+		printf('<link rel="image_src" href="%s">', $pageImageURL);
 	}
 	?>
 	<meta name="viewport" content="width=820">

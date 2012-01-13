@@ -3,6 +3,8 @@ require '../Init.inc.php';
 
 $js[] = '/js/BrickTile.RandomizedUpdate.js';
 
+$pageImageURL = '/img/SitePreview.jpg';
+
 $pageLen = 12;
 
 $Fetcher = new \Fetch\Post($pageLen + 1, $pageLen * $pageIndex);

@@ -15,7 +15,7 @@ else
 	$Diary->timestamp = \Format::timestamp($Diary->timePublished);
 
 	if( $Diary->PreviewMedia )
-		$previewMediaHash = $Diary->PreviewMedia->mediaHash;
+		$pageImageURL = '/helpers/mediaGen/PagePreview.php?mediaHash=' . $Diary->PreviewMedia->mediaHash;
 }
 
 $pageTitle = $Diary->title;
