@@ -7,6 +7,13 @@
 
 	foreach($css as $path)
 		printf('<link rel="stylesheet" type="text/css" href="%s">', $path);
+
+	if( isset($previewMediaHash) )
+	{
+		$previewURL = '/helpers/mediaGen/PagePreview.php?mediaHash=' . $previewMediaHash;
+		#printf('<meta property="og:image" content="%s">', $previewURL);
+		printf('<link rel="image_src" href="%s">', $previewURL);
+	}
 	?>
 	<meta name="viewport" content="width=820">
 	<link rel="alternate" type="application/rss+xml" title="<? echo htmlspecialchars($rssTitle); ?>" href="<? echo $rssHref; ?>">

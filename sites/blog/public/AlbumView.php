@@ -23,6 +23,9 @@ if( !$Album = \Post\Album::loadOneFromDB($_GET['albumID']) )
 else
 {
 	$Album->timestamp = \Format::timestamp($Album->timePublished);
+
+	if( $Album->PreviewMedia )
+		$previewMediaHash = $Album->PreviewMedia->mediaHash;
 }
 
 $pageTitle = $Album->title;

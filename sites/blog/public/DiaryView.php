@@ -13,6 +13,9 @@ if( !$Diary = \Post\Diary::loadOneFromDB($_GET['diaryID']) )
 else
 {
 	$Diary->timestamp = \Format::timestamp($Diary->timePublished);
+
+	if( $Diary->PreviewMedia )
+		$previewMediaHash = $Diary->PreviewMedia->mediaHash;
 }
 
 $pageTitle = $Diary->title;

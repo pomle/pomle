@@ -13,13 +13,18 @@ class Blog extends CrossSite
 		return $this->getCustom(200, 200, true);
 	}
 
-	public function getTrackImage()
+	public function getPagePreview()
 	{
-		return $this->getCustom(300, 300, false);
+		return $this->getCustom(300, 300, true);
 	}
 
 	public function getRSSPreview()
 	{
 		return $this->getCustom(150, 150, true);
+	}
+
+	public function getTrackImage()
+	{
+		return $this->getCustom(300, 300, false);
 	}
 }
