@@ -42,6 +42,8 @@ require HEADER;
 		<h1><a href="<? echo $Track->artistURL; ?>"><? echo htmlspecialchars($Track->artist); ?></a> - <a href="<? echo $Track->trackURL; ?>"><? echo htmlspecialchars($Track->track); ?></a></h1>
 		<ul class="details">
 			<li><span class="timestamp">Älskad <? echo htmlspecialchars($Track->timestamp); ?></span></li>
+			<li><span class="playcount_artist">Artist spelad: <span class="count">-</span> gånger</span></li>
+			<li><span class="playcount_track">Låt spelad: <span class="count">-</span> gånger</span></li>
 		</ul>
 	</div>
 

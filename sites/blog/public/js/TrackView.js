@@ -8,14 +8,30 @@ $(function()
 	$.ajax(
 	{
 		type: "GET",
-		url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=' + lastfm_api_key + '&artist=' + encodeURIComponent(artist),
+		url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=' + lastfm_api_key + '&artist=' + encodeURIComponent(artist) + '&username=' + lastfm_user,
 		dataType: "xml",
 		success: function(xml)
 		{
 			var bio = $(xml).find('bio').find('content').text();
+			var playcount = $(xml).find('userplaycount').text();
+
 			bio = bio.replace(/\n/g, '<br>');
 			dom.find('.description').find('.bio').html(bio);
 			dom.find('.description').fadeIn(1000);
+
+			dom.find('.playcount_artist').find('.count').text(playcount);
+		}
+	});
+
+	$.ajax(
+	{
+		type: "GET",
+		url: 'http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=' + lastfm_api_key + '&artist=' + encodeURIComponent(artist) + '&track=' + encodeURIComponent(track) + '&username=pomle&username=' + lastfm_user,
+		dataType: "xml",
+		success: function(xml)
+		{
+			var playcount = $(xml).find('userplaycount').text();
+			dom.find('.playcount_track').find('.count').text(playcount);
 		}
 	});
 
