@@ -48,32 +48,29 @@ var scrobbleUpdate = function()
 				updateWait = 100 + Math.random() * spread;
 				//updateWait = 100 + 100 * i;
 
-				setTimeout(function()
+				$.ajax(
+				{
+					type: "GET",
+					url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + encodeURIComponent(t_artist) + '&api_key=' + lastfm_api_key,
+					dataType: "xml",
+					error: function()
 					{
-						$.ajax(
-						{
-							type: "GET",
-							url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + encodeURIComponent(t_artist) + '&api_key=' + lastfm_api_key,
-							dataType: "xml",
-							success: function(xml)
-							{
-								var artist_image_url = $(xml).find('artist:first').eq(0).find('image[size="extralarge"]:first').text();
-								BrickTile.updateTiles(
-									tile,
-									artist_image_url || track_image_url || '/img/BrickTile_Fallback_LastFM.png',
-									url,
-									title,
-									info
-								);
-
-								attachSpotifyURI(tile, t_track, t_artist);
-							}
-						});
-
-
+						BrickTile.updateTiles(tile, '/img/BrickTile_Fallback_LastFM.png', url, title, info);
 					},
-					updateWait
-				);
+					success: function(xml)
+					{
+						var artist_image_url = $(xml).find('artist:first').eq(0).find('image[size="extralarge"]:first').text();
+
+						setTimeout(
+							function()
+							{
+								BrickTile.updateTiles(tile, artist_image_url || track_image_url, url, title, info);
+								attachSpotifyURI(tile, t_track, t_artist);
+							},
+							updateWait
+						);
+					}
+				});
 
 				i++;
 			});
