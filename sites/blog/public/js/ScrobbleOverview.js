@@ -53,7 +53,7 @@ var scrobbleUpdate = function()
 						$.ajax(
 						{
 							type: "GET",
-							url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + escape(t_artist) + '&api_key=' + lastfm_api_key,
+							url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + encodeURIComponent(t_artist) + '&api_key=' + lastfm_api_key,
 							dataType: "xml",
 							success: function(xml)
 							{
@@ -94,7 +94,7 @@ var attachSpotifyURI = function(tile, track, artist)
 	$.ajax(
 	{
 		type: "GET",
-		url: 'http://ws.spotify.com/search/1/track?q=' + escape(artist + ' ' + track.replace(/[&-]/g, ' ')),
+		url: 'http://ws.spotify.com/search/1/track?q=' + encodeURIComponent(artist + ' ' + track.replace(/[&-]/g, ' ')),
 		dateType: "xml",
 		success: function(xml)
 		{
