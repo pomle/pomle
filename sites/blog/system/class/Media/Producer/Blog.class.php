@@ -15,7 +15,7 @@ class Blog extends CrossSite
 
 	public function getPagePreview()
 	{
-		return $this->getCustom(300, 300, true);
+		return $this->getCustom(300, 300, false);
 	}
 
 	public function getRSSPreview()
