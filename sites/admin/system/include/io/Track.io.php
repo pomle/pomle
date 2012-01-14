@@ -109,7 +109,26 @@ class TrackIO extends PostIO
 		$Post->track = $this->track;
 		$Post->artistURL = $this->artistURL;
 		$Post->trackURL = $this->trackURL;
+
+		if( !$Post->title ) $Post->title = $Post->artist . ' - ' . $Post->track;
+
 		$Post->spotifyURI = $this->spotifyURI;
+
+		if( !$Post->spotifyURI )
+			$Post->spotifyURI = $Post->getSpotifyURI();
+
+
+		$LastFM = new \API\LastFM(LAST_FM_API_KEY);
+
+		if( !$Post->previewMediaID )
+			if( $Image = $LastFM->getArtistImage($Post->artist) )
+				$Post->setPreviewMedia($Image);
+
+		if( !$Post->artistURL )
+			$Post->artistURL = $LastFM->getArtistURL($Post->artist);
+
+		if( !$Post->trackURL )
+			$Post->trackURL = $LastFM->getTrackURL($Post->track, $Post->artist);
 
 		\Post\Track::saveToDB($Post);
 	}

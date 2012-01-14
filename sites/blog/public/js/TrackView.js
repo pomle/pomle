@@ -30,7 +30,7 @@ $(function()
 		dataType: "xml",
 		success: function(xml)
 		{
-			var playcount = $(xml).find('userplaycount').text();
+			var playcount = $(xml).find('userplaycount').text() || 0;
 			dom.find('.playcount_track').find('.count').text(playcount);
 		}
 	});
