@@ -5,6 +5,8 @@ $css[] = '/css/Track.css';
 $js[] = '/js/LastFM.js';
 $js[] = '/js/TrackView.js';
 
+$imageURL = '';
+
 if( !$Track = \Post\Track::loadOneFromDB($_GET['trackID']) )
 {
 	$Track = new \Post\Track();
@@ -20,9 +22,10 @@ else
 $pageTitle = $Track->title;
 
 if( $Track->PreviewMedia )
+{
+	$pageImageURL = '/helpers/mediaGen/PagePreview.php?mediaHash=' . $Track->PreviewMedia->mediaHash;
 	$imageURL = \Media\Producer\Blog::createFromMedia($Track->PreviewMedia)->getTrackImage();
-else
-	$imageURL = '';
+}
 
 require HEADER;
 ?>

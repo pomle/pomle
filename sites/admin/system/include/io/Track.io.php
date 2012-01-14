@@ -103,7 +103,9 @@ class TrackIO extends PostIO
 
 	final public function savePost(\Post\Track $Post)
 	{
-		$this->importArgs('artist', 'track', 'artistURL', 'trackURL', 'spotifyURI');
+		$this->importArgs('artist', 'track', 'artistURL', 'trackURL', 'spotifyURI', 'lastFmID');
+
+		$Post->lastFmID = $this->lastFmID;
 
 		$Post->artist = $this->artist;
 		$Post->track = $this->track;

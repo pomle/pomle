@@ -35,13 +35,19 @@ if( isset($media) && is_array($media) )
 	foreach($media as $Media)
 	{
 		if( $Media->mediaID == $primaryMediaID )
+		{
+			$Primary_Media = $Media;
 			$page = ($MediaScrubber->index = $i) + 1;
+		}
 
 		$MediaScrubber->addItem($Media);
 
 		$i++;
 	}
 }
+
+if( $Primary_Media )
+	$pageImageURL = '/helpers/mediaGen/PagePreview.php?mediaHash=' . $Primary_Media->mediaHash;
 
 require HEADER;
 

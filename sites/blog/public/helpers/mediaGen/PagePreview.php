@@ -6,7 +6,7 @@ $mediaURL = \Media\Producer\Blog::createFromHash($_GET['mediaHash'])->getPagePre
 if( !$mediaURL )
 {
 	header('HTTP/1.0 404 Not Found');
-	exit();
+	exit("You're missing something");
 }
 
 header("Location: ". $mediaURL);
