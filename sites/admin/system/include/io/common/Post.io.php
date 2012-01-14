@@ -34,7 +34,8 @@ abstract class PostIO extends AjaxIO
 	{
 		$this->importArgs('postID', 'previewMediaID', 'isPublished', 'timePublished', 'title', 'uri');
 
-		$Post = $this->loadPost($this->postID);
+		if( !$Post = $this->loadPost($this->postID) )
+			throw New \Exception(MESSAGE_ROW_MISSING);
 
 		$Post->isPublished = (bool)$this->isPublished;
 		$Post->timePublished = strtotime($this->timePublished) ?: time();
@@ -44,6 +45,9 @@ abstract class PostIO extends AjaxIO
 		if( $this->previewMediaID )
 			if( $Media = \Manager\Media::loadOneFromDB($this->previewMediaID) )
 				$Post->setPreviewMedia($Media);
+		else
+			$Post->setPreviewMedia(null);
+
 
 		$this->savePost($Post);
 

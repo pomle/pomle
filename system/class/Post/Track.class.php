@@ -5,6 +5,13 @@ class Track extends \Post
 {
 	const TYPE = \POST_TYPE_TRACK;
 
+	public
+		$artist,
+		$track,
+		$artistURL,
+		$trackURL,
+		$spotifyURI;
+
 
 	public static function loadFromDB($postIDs)
 	{
@@ -26,7 +33,7 @@ class Track extends \Post
 				$Post->track = $track['track'];
 				$Post->artistURL = $track['artistURL'];
 				$Post->trackURL = $track['trackURL'];
-				$Post->spotifyURI = $track['spotifyURI'];
+				$Post->spotifyURI = ($track['spotifyURI'] ?: ($Post->artist || $Post->track) ? 'spotify:search:' . urlencode(trim(preg_replace('/[-]/', ' ', $Post->artist . ' ' . $Post->track))) : null);
 			}
 		}
 
@@ -71,9 +78,20 @@ class Track extends \Post
 	}
 
 
+
 	public function getSpotifyURI()
 	{
-		return isset($this->spotifyURI) ? $this->spotifyURI : 'spotify:search:' . urlencode(preg_replace('/[-]/', ' ', $this->artist . ' ' . $this->track));
+		$spotifyURI = null;
+
+		$url = sprintf('http://ws.spotify.com/search/1/track?q=%s', urlencode(preg_replace('/[&-]/', ' ', $this->artist . ' ' . $this->track)));
+
+		$XML = simplexml_load_file($url);
+		$XML->registerXPathNamespace('s', 'http://www.spotify.com/ns/music/1');
+
+		foreach($XML->xpath('/s:tracks/s:track[@href]') as $track)
+			if( $spotifyURI = $track['href'] ) break;
+
+		return $spotifyURI;
 	}
 
 	public function getSummary()
@@ -81,14 +99,13 @@ class Track extends \Post
 		return sprintf(
 			'<a href="%s" class="spotifySearch">Spotify</a>' .
 			'<a href="%s" class="lastFMLookUp">LastFM Lookup</a>',
-			$this->getSpotifyURI(),
+			$this->spotifyURI,
 			$this->artistURL
 		);
 	}
 
 	public function getURL()
 	{
-		#return $this->trackURL;
 		return sprintf('/TrackView.php?trackID=%u', $this->postID);
 	}
 }
