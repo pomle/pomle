@@ -13,7 +13,7 @@ $(function()
 		success: function(xml)
 		{
 			var bio = $(xml).find('bio').find('content').text();
-			var playcount = $(xml).find('userplaycount').text();
+			var playcount = $(xml).find('userplaycount').text() || 0;
 
 			bio = bio.replace(/\n/g, '<br>');
 			dom.find('.description').find('.bio').html(bio);
