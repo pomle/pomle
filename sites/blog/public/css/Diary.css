@@ -67,6 +67,21 @@
 	padding: 10px;
 }
 
+.diary .content ul,
+.diary .content ol {
+	list-style: disc outside;
+}
+
+.diary .content ul li,
+.diary .content ol li {
+	margin: 0 0 1em 2em ;
+}
+
+.diary .content ol {
+	list-style-type: decimal;
+}
+
+
 .diary .page .media {
 	text-align: center;
 }
