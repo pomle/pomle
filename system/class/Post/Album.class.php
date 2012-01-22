@@ -10,7 +10,7 @@ class Album extends \Post
 		$description;
 
 
-	public static function loadFromDB($postIDs, $skipMedia = false)
+	public static function loadFromDB($postIDs, $skipMedia = false, $skipInvisible = true)
 	{
 		$posts = parent::loadFromDB($postIDs);
 
@@ -43,10 +43,11 @@ class Album extends \Post
 				FROM
 					PostAlbumMedia
 				WHERE
-					isVisible = 1
+					(isVisible = 1 OR 0 = %u)
 					AND postID IN %a
 				ORDER BY
 					sortOrder ASC",
+				$skipInvisible,
 				$postIDs);
 
 			$albumMedias = \DB::queryAndFetchArray($query);
