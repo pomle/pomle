@@ -99,7 +99,7 @@ class Album extends \Post
 		return true;
 	}
 
-	public static function saveMediaToDB($postID, \Media\Common\_Root $Media)
+	public static function saveMediaToDB($postID, \Media $Media)
 	{
 		$query = \DB::prepareQuery("INSERT INTO
 				PostAlbumMedia (

@@ -56,7 +56,7 @@ class Media
 		return $postAlbumMedias;
 	}
 
-	public static function saveToDB(\Post\Album $Post, \Media\Common\_Root $Media)
+	public static function saveToDB(\Post\Album $Post, \Media $Media)
 	{
 		$query = \DB::prepareQuery("INSERT INTO
 				PostAlbumMedia (

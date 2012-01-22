@@ -11,7 +11,7 @@ class MediaScrubberItem
 		$caption,
 		$url;
 
-	public function __construct(\Media\Common\_Root $Media, $caption = null)
+	public function __construct(\Media $Media, $caption = null)
 	{
 		$this->Media = $Media;
 		$this->url = null;

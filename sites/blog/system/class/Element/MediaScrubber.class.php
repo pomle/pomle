@@ -61,7 +61,7 @@ class MediaScrubber
 	}
 
 
-	public function addItem(\Media\Common\_Root $Media, $caption = null)
+	public function addItem(\Media $Media, $caption = null)
 	{
 		$this->items[] = new MediaScrubberItem($Media, $caption);
 		return $this;

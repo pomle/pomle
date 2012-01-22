@@ -182,7 +182,7 @@ class Post extends \Manager\Common\DB
 	}
 
 
-	public function addMedia(\Media\Common\_Root $Media)
+	public function addMedia(\Media $Media)
 	{
 		$this->media[] = $Media;
 		return $this;
@@ -198,7 +198,7 @@ class Post extends \Manager\Common\DB
 		return false;
 	}
 
-	public function setPreviewMedia(\Media\Common\_Root $Media = null)
+	public function setPreviewMedia(\Media $Media = null)
 	{
 		$this->PreviewMedia = $Media;
 		return $this;

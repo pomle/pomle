@@ -1,7 +1,7 @@
 <?
 class AlbumMediaIO extends AjaxIO
 {
-	private function addMediaToAlbum(\Media\Common\_Root $Media, $albumID)
+	private function addMediaToAlbum(\Media $Media, $albumID)
 	{
 		$this->importArgs('insertOrder');
 
