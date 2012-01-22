@@ -31,24 +31,14 @@ fieldset {
 }
 
 /*fieldset color toggle */
-/*fieldset,
+fieldset,
 fieldset fieldset fieldset {
-	background-color: #f3f6f9;
+	background-color: #e4ecf2;
 }
 fieldset fieldset,
 fieldset fieldset fieldset fieldset {
 	background-color: #fff;
-}*/
-
-fieldset {
-	border-color: rgba(0,0,0,.1);
-	background-color: rgba(0,138,255, .05); }
-fieldset fieldset {
-	background-color: rgba(0,138,255, .1); }
-fieldset fieldset fieldset {
-	background-color: rgba(0,138,255, .15); }
-fieldset fieldset fieldset fieldset {
-	background-color: rgba(0,138,255, .2); }
+}
 
 fieldset>legend {
 	color: #2591d4;
