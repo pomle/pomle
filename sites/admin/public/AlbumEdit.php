@@ -88,10 +88,16 @@ echo $IOCall->getFoot();
 	</div>
 	<?
 	echo $IOCall->getFoot();
-	?>
 
+	echo $IOCall->getHead();
+	?>
 	<fieldset>
 		<legend><? echo \Element\Tag::legend('table_row_insert', _('Import')); ?></legend>
+
+		<?
+		echo \Element\Table::inputs()
+			->addRow(_('Insert'), \Element\SelectBox::keyPair('insertOrder', 'last', array('first' => _('First'), 'last' => _('Last'))));
+		?>
 
 		<fieldset>
 			<legend><? echo \Element\Tag::legend('page_add', _('Upload')); ?></legend>
@@ -105,8 +111,6 @@ echo $IOCall->getFoot();
 
 		<?
 		$IOControl = new \Element\IOControl($IOCall);
-
-		echo $IOCall->getHead();
 		?>
 		<fieldset>
 			<legend><? echo \Element\Tag::legend('world_link', _('Download')); ?></legend>
@@ -131,11 +135,11 @@ echo $IOCall->getFoot();
 			echo $IOControl->setButtons(\Element\Button::IO('importMedia', 'add', 'Importera'));
 			?>
 		</fieldset>
-		<?
-		echo $IOCall->getFoot();
-		?>
-	</fieldset>
 
+	</fieldset>
+	<?
+	echo $IOCall->getFoot();
+	?>
 </fieldset>
 <?
 require FOOTER;

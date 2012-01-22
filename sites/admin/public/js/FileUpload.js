@@ -6,7 +6,7 @@ $(function(){
 		var fileUpload = $(this);
 		var fileList = fileUpload.find('.fileList');
 
-		var form = fileUpload.parent('form');
+		var form = fileUpload.closest('form');
 
 		var messageBox = fileUpload.find('.messageBox');
 		var dropbox = fileUpload.find('.dropbox');

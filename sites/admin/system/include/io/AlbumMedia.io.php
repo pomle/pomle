@@ -3,6 +3,22 @@ class AlbumMediaIO extends AjaxIO
 {
 	private function addMediaToAlbum(\Media\Common\_Root $Media, $albumID)
 	{
+		$this->importArgs('insertOrder');
+
+		if( $this->insertOrder == 'first' )
+		{
+			$query = \DB::prepareQuery("UPDATE PostAlbumMedia SET sortOrder = sortOrder + 1 WHERE postID = %u", $albumID);
+			\DB::query($query);
+
+			$query = \DB::prepareQuery("SELECT MIN(sortOrder) FROM PostAlbumMedia WHERE postID = %u", $albumID);
+			$sortOrder = -1 + \DB::queryAndFetchOne($query);
+		}
+		else
+		{
+			$query = \DB::prepareQuery("SELECT MAX(sortOrder) FROM PostAlbumMedia WHERE postID = %u", $albumID);
+			$sortOrder = 1 + \DB::queryAndFetchOne($query);
+		}
+
 		$query = \DB::prepareQuery("INSERT INTO
 			PostAlbumMedia (
 				ID,
@@ -13,24 +29,23 @@ class AlbumMediaIO extends AjaxIO
 				sortOrder,
 				comment,
 				tags
-			) SELECT
+			) VALUES(
 				NULLIF(%u, 0),
 				%u,
 				%u,
 				UNIX_TIMESTAMP(),
 				%u,
-				COUNT(*),
+				%d,
 				null,
 				null
-			FROM
-				PostAlbumMedia
-			WHERE
-				postID = %u",
+			)",
 			null,
 			$albumID,
 			$Media->mediaID,
 			true,
-			$albumID);
+			$sortOrder);
+
+		#throw New Exception($query);
 
 		$rowID = \DB::queryAndGetID($query);
 

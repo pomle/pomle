@@ -28,7 +28,7 @@ $Antiloop
 	->addFields
 	(
 		Field::id('postAlbumMediaID'),
-		new Field\Media(null, null, null, 100, 100, false),
+		Field::thumb(),
 		Field::enabled('isVisible'),
 		Field::count('sortOrder'),
 		Field::text('comment', _('Kommentar'), 'comment'),
