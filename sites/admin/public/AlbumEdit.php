@@ -23,6 +23,14 @@ $pageSubtitle = $Post->postID;
 
 require HEADER;
 
+$SubLinks = new \Element\SubLinks();
+$SubLinks
+	->addLink(sprintf('/AlbumMediaEdit.php?postID=%u', $Post->postID), 'images', _('Redigera Media'))
+	;
+
+echo $SubLinks;
+
+
 $IOCall = new \Element\IOCall('Album', $permParams);
 
 echo $IOCall->getHead();
