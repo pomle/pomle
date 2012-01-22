@@ -2,7 +2,8 @@
 namespace Element;
 
 global $css, $js;
-$js[] = '/js/BlockSort.js';
+$css[] = '/css/Element/BlockSort.css';
+$js[] = '/js/Element/BlockSort.js';
 
 class BlockSort
 {
@@ -25,7 +26,7 @@ class BlockSort
 					?>
 					<div class="item">
 						<?
-						printf('<input type="hidden" name="%s[]" value="%s">', htmlspecialchars($prefix), $Element->sortID);
+						printf('<input class="sortID" type="hidden" name="%s[]" value="%s">', htmlspecialchars($this->prefix), $Element->sortID);
 						echo $Element;
 						?>
 					</div>
