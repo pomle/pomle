@@ -28,6 +28,7 @@ var scrobbleUpdate = function()
 		{
 			var i = 0;
 			var tracks = $(xml).find('track');
+			var artists = {};
 
 			tiles.each(function(index, tile)
 			{
@@ -45,34 +46,57 @@ var scrobbleUpdate = function()
 				var title = t_track + '<small>' + t_artist + '</small>';
 				var info = track.attr('nowplaying') ? '<img src="/img/LastFM-EQ-Icon.gif"> Now Playing...' : track.find('date').text();
 
-				updateWait = 100 + Math.random() * spread;
-				//updateWait = 100 + 100 * i;
+				if( !artists[t_artist] )
+					artists[t_artist] = [];
 
+				artists[t_artist].push(
+					{
+						'title': t_track,
+						'info': info,
+						'url': url,
+						'image': track_image_url,
+						'tile': tile
+					}
+				);
+
+				i++;
+			});
+
+			$.each(artists, function(artist, tracks)
+			{
 				$.ajax(
-				{
+					{
 					type: "GET",
-					url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + encodeURIComponent(t_artist) + '&api_key=' + lastfm_api_key,
+					url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + encodeURIComponent(artist) + '&api_key=' + lastfm_api_key,
 					dataType: "xml",
 					error: function()
 					{
-						BrickTile.updateTiles(tile, '/img/BrickTile_Fallback_LastFM.png', url, title, info);
+						$.each(tracks, function(index, track)
+						{
+							BrickTile.updateTiles(track.tile, '/img/BrickTile_Fallback_LastFM.png', track.url, track.title, track.info);
+						});
 					},
 					success: function(xml)
 					{
-						var artist_image_url = $(xml).find('artist:first').eq(0).find('image[size="extralarge"]:first').text();
+						var artist_images = $(xml).find('artist').eq(0).find('image[size="extralarge"]');
 
-						setTimeout(
-							function()
-							{
-								BrickTile.updateTiles(tile, artist_image_url || track_image_url, url, title, info);
-								attachSpotifyURI(tile, t_track, t_artist);
-							},
-							updateWait
-						);
+						$.each(tracks, function(index, track) {
+							var updateWait = 100 + Math.random() * spread;
+							var image_index = index % artist_images.length;
+							var image_url = artist_images.eq(image_index).text();
+
+							setTimeout(
+								function()
+								{
+									BrickTile.updateTiles(track.tile, image_url, track.url, track.title, track.info);
+									attachSpotifyURI(track.tile, track.title, artist);
+								},
+								updateWait
+							);
+						});
 					}
 				});
 
-				i++;
 			});
 		}
 	});
