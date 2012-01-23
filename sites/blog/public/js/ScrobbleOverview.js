@@ -43,7 +43,7 @@ var scrobbleUpdate = function()
 				var mbid = track.find('artist').attr('mbid');
 				var t_artist = track.find('artist').text();
 				var t_track = track.find('name').text();
-				var title = t_track + '<small>' + t_artist + '</small>';
+				var caption = t_track + '<small>' + t_artist + '</small>';
 				var info = track.attr('nowplaying') ? '<img src="/img/LastFM-EQ-Icon.gif"> Now Playing...' : track.find('date').text();
 
 				if( !artists[t_artist] )
@@ -52,6 +52,7 @@ var scrobbleUpdate = function()
 				artists[t_artist].push(
 					{
 						'title': t_track,
+						'caption': caption,
 						'info': info,
 						'url': url,
 						'image': track_image_url,
@@ -73,7 +74,7 @@ var scrobbleUpdate = function()
 					{
 						$.each(tracks, function(index, track)
 						{
-							BrickTile.updateTiles(track.tile, '/img/BrickTile_Fallback_LastFM.png', track.url, track.title, track.info);
+							BrickTile.updateTiles(track.tile, '/img/BrickTile_Fallback_LastFM.png', track.url, track.caption, track.info);
 						});
 					},
 					success: function(xml)
@@ -88,7 +89,7 @@ var scrobbleUpdate = function()
 							setTimeout(
 								function()
 								{
-									BrickTile.updateTiles(track.tile, image_url, track.url, track.title, track.info);
+									BrickTile.updateTiles(track.tile, image_url, track.url, track.caption, track.info);
 									attachSpotifyURI(track.tile, track.title, artist);
 								},
 								updateWait
