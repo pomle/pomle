@@ -171,7 +171,7 @@ class AlbumMediaIO extends AjaxIO
 		if( !isset($_FILES) || !is_array($_FILES) )
 			throw New Exception(_('Inga filer hittades i begäran'));
 
-		$preferredMediaType = $_POST['preferredMediaType'] ?: null;
+		$preferredMediaType = $_POST['preferredMediaType'] ?: MEDIA_TYPE_IMAGE;
 
 		foreach($_FILES as $file)
 		{
