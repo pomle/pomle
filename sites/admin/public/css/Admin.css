@@ -32,11 +32,13 @@ fieldset {
 
 /*fieldset color toggle */
 fieldset,
-fieldset fieldset fieldset {
-	background-color: #edf2f5;
+fieldset fieldset fieldset,
+fieldset fieldset fieldset fieldset fieldset {
+	background-color: #f1f4f5;
 }
 fieldset fieldset,
-fieldset fieldset fieldset fieldset {
+fieldset fieldset fieldset fieldset,
+fieldset fieldset fieldset fieldset fieldset fieldset {
 	background-color: #fff;
 }
 
