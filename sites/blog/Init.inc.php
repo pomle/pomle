@@ -48,3 +48,5 @@ if( $UserSettings->showFramework === false )
 
 $js = array();
 $js[] = '//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+
+header("Content-type: text/html; charset=utf-8");

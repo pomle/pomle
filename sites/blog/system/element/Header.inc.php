@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-	<meta charset="utf-8">
 	<?
 	if( isset($pageTitle) ) printf('<title>%s</title>', htmlspecialchars($pageTitle));
 
