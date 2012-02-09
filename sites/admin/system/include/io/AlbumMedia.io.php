@@ -125,12 +125,53 @@ class AlbumMediaIO extends AjaxIO
 		Message::addNotice(MESSAGE_ROW_UPDATED);
 	}
 
+	public function saveLayout()
+	{
+		$this->importArgs('sortOrder', 'isVisible', 'mediaID', 'postID', 'previewMediaID');
+
+		### Delete IDs that are not in sortOrder list. Non-existing will obviously be skipped
+		$query = \DB::prepareQuery("DELETE FROM PostAlbumMedia WHERE postID = %u AND NOT ID IN %a", $this->postID, $this->sortOrder);
+		$affectedRows = \DB::queryAndCountAffected($query);
+
+		if( $this->sortOrder )
+		{
+			$query = "INSERT INTO PostAlbumMedia (ID, postID, mediaID, isVisible, timeCreated, sortOrder) VALUES";
+
+			foreach($this->sortOrder as $index => $postAlbumMediaID)
+			{
+				$sortOrder = $index;
+				$query .= \DB::prepareQuery("(NULLIF(%u, 0), %u, %u, %u, UNIX_TIMESTAMP(), %u),",
+					$postAlbumMediaID,
+					$this->postID,
+					$this->mediaID[$index],
+					isset($this->isVisible[$index]),
+					$sortOrder
+				);
+			}
+
+			$query = trim($query, ',') . " ON DUPLICATE KEY UPDATE isVisible = VALUES(isVisible), sortOrder = VALUES(sortOrder)";
+			$affectedRows = \DB::queryAndCountAffected($query);
+		}
+
+
+		$query = \DB::prepareQuery("UPDATE Posts SET previewMediaID = NULLIF(%u, 0) WHERE ID = %u", $this->previewMediaID, $this->postID);
+		$affectedRows = \DB::queryAndCountAffected($query);
+
+
+		Message::addNotice(MESSAGE_ROW_UPDATED);
+	}
+
+	public function saveMeta()
+	{
+
+	}
+
 	public function upload()
 	{
 		if( !isset($_FILES) || !is_array($_FILES) )
 			throw New Exception(_('Inga filer hittades i begäran'));
 
-		$preferredMediaType = $_POST['preferredMediaType'] ?: null;
+		$preferredMediaType = $_POST['preferredMediaType'] ?: MEDIA_TYPE_IMAGE;
 
 		foreach($_FILES as $file)
 		{

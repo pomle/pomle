@@ -1,0 +1,30 @@
+.blockSort {
+}
+
+.blockSort .items {
+	overflow: hidden;
+}
+
+.blockSort .items>.item {
+	border: solid 1px rgba(0, 0, 0, .1);
+	float: left;
+	margin: 0 .5em .5em 0;
+	padding: .5em;
+}
+
+.blockSort .items>.item:hover {
+	background-color: rgba(0, 144, 255, .2);
+}
+
+.blockSort.isDragging .items>.item:hover {
+	background: none;
+	border-left: solid 1px black;
+}
+
+.blockSort .items>.item.selected {
+	background-color: rgba(0, 144, 255, .8);
+}
+
+.blockSort.isDragging .items>.item.selected {
+	opacity: .5;
+}

@@ -20,6 +20,11 @@ function asenineLog($string, $space = 'Global')
 	}
 }
 
+function getMediaURL($mediaHash, $w, $h, $isCroppedToFill = false)
+{
+	return \Media\Producer\CrossSite::createFromHash($mediaHash)->getCustom($w, $h, $isCroppedToFill);
+}
+
 function recGlob($pattern, $path)
 {
 	$command = sprintf("%s %s -name %s", 'find', escapeshellarg($path), escapeshellarg($pattern));

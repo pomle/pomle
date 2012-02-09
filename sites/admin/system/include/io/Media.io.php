@@ -8,6 +8,7 @@ switch($action)
 			throw New Exception(_('Inga filer hittades i begäran'));
 
 		$preferredMediaType = $_POST['preferredMediaType'] ?: null;
+		$mediaID = $_GET['mediaID'] ?: null;
 
 		foreach($_FILES as $file)
 		{
@@ -15,7 +16,7 @@ switch($action)
 
 			try
 			{
-				$Media = \Operation\Media::importFileToLibrary($file['tmp_name'], $file['name'], $preferredMediaType);
+				$Media = \Operation\Media::importFileToLibrary($file['tmp_name'], $file['name'], $preferredMediaType, null, $mediaID);
 
 				Message::addNotice('Upload Success "' . $file['name'] . '": Identified as: ' . $Media::DESCRIPTION . ', Media ID: ' . sprintf('<a href="/MediaEdit.php?mediaID=%1$u">%1$u</a>', $Media->mediaID));
 
@@ -34,7 +35,7 @@ switch($action)
 		{
 			$url = $_POST['url'];
 
-			$Media = \Operation\Media::downloadFileToLibrary($url);
+			$Media = \Operation\Media::downloadFileToLibrary($url, $_GET['mediaID']);
 
 			Message::addNotice('Fetch Success "' . $url . '": Identified as: ' . $Media::DESCRIPTION . ', Media ID: ' . sprintf('<a href="/MediaEdit.php?mediaID=%1$u">%1$u</a>', $Media->mediaID));
 
@@ -47,6 +48,43 @@ switch($action)
 		}
 	break;
 
+	case 'publishToImgur':
+		$mediaID = $_POST['mediaID'];
+
+		if( !$Media = \Manager\Media::loadOneFromDB($_POST['mediaID']) )
+			throw New Exception("Invalid Media ID");
+
+		$fileName = $Media->getFilePath();
+
+		$data = file_get_contents($fileName);
+
+		$pvars = array('image' => base64_encode($data), 'key' => IMGUR_API_KEY);
+		$timeout = 30;
+		$curl = curl_init();
+
+		curl_setopt($curl, CURLOPT_URL, 'http://api.imgur.com/2/upload.json');
+		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $pvars);
+
+		$json = curl_exec($curl);
+
+		curl_close($curl);
+
+		$response = json_decode($json);
+
+		if( !$response )
+			throw New \Exception("Non or weird Imgur Response");
+
+		#print_r();
+
+
+		Message::addNotice(sprintf('Imgur Original: <a href="%1$s">%1$s</a>', htmlspecialchars($response->upload->links->original)));
+
+		#throw New Exception($json);
+
+	break;
 
 	case 'flushAutogen':
 		ensurePolicies('AllowDeleteMedia');

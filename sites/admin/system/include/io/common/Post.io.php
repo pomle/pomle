@@ -12,7 +12,8 @@ abstract class PostIO extends AjaxIO
 		$this->importArgs('postID');
 
 		$query = \DB::prepareQuery("DELETE FROM Posts WHERE ID = %u", $this->postID);
-		\DB::query($query);
+		if( !\DB::queryAndCountAffected($query) )
+			throw New \Exception(MESSAGE_ROW_MISSING);
 
 		Message::addNotice(MESSAGE_ROW_DELETED);
 	}

@@ -19,7 +19,7 @@ $(function()
 			M.go(parseInt(this.rel, 10));
 		});
 
-		$(this).find('.slideshowToggle').click(function() { $(this).trigger('toggle'); });
+		$(this).find('.slideshowToggle').click(function(e) { e.preventDefault(); $(this).trigger('toggle'); });
 
 		$(document).keydown(function(e)
 		{

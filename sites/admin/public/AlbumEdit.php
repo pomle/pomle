@@ -23,14 +23,6 @@ $pageSubtitle = $Post->postID;
 
 require HEADER;
 
-$SubLinks = new \Element\SubLinks();
-$SubLinks
-	->addLink(sprintf('/AlbumMediaEdit.php?postID=%u', $Post->postID), 'images', _('Redigera Media'))
-	;
-
-echo $SubLinks;
-
-
 $IOCall = new \Element\IOCall('Album', $permParams);
 
 echo $IOCall->getHead();
@@ -63,6 +55,15 @@ echo $IOCall->getFoot();
 	<legend><? echo \Element\Tag::legend('images', _('Media')); ?></legend>
 
 	<?
+	$SubLinks = new \Element\SubLinks();
+	$SubLinks
+		->addLink(sprintf('/AlbumMediaLayoutEdit.php?postID=%u', $Post->postID), 'images', _('Edit Layout'))
+		->addLink(sprintf('/AlbumMediaMetaEdit.php?postID=%u', $Post->postID), 'comment', _('Edit Meta'))
+		;
+
+	echo $SubLinks;
+
+
 	$MediaList = \Element\Antiloop::getAsDomObject('AlbumMedia', null, $permParams)->setID('antiloopAlbumMedia');
 	echo $MediaList;
 	?>

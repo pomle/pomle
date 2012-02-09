@@ -31,15 +31,16 @@ if( isset($_GET['download']) && $fileReadable )
 
 $MediaInfo = \Element\Table::inputs();
 $MediaInfo
-	->addRow(_('Typ'), new \Element\Module('SelectBox.MediaTypes', 'mediaType', true, $Media::TYPE))
+	->addRow(_('Type'), new \Element\Module('SelectBox.MediaTypes', 'mediaType', true, $Media::TYPE))
+	->addRow(_('ID'), $Media->mediaID . ' ' . sprintf('(<a href="/MediaUpload.php?mediaID=%u">%s</a>)', $Media->mediaID, _('Replace')))
 	->addRow(_('Hash'), $Media->mediaHash)
-	->addRow(_('Uppladdningsdatum'), Format::timestamp($mediaInfo['timeCreated']))
-	->addRow(_('Orginalfilnamn'), $isAdmin ? \Element\Input::text('fileOriginalName', $mediaInfo['fileOriginalName'])->size(32) : $mediaInfo['fileOriginalName'] ?: MESSAGE_NOT_AVAILABLE)
-	->addRow(_('Källfil'), $displayFullPaths ? $filePath : str_replace(DIR_MEDIA, '', $filePath))
-	->addRow(_('Existerar'), sprintf('%s %s', $fileExists ? MESSAGE_POSITIVE : MESSAGE_NEGATIVE, $fileReadable ? sprintf('(<a href="?mediaID=%u&download=1">%s</a>)', $Media->mediaID, _('Ladda ner')) : ''))
-	->addRow(_('Läsbar'), $fileReadable ? MESSAGE_POSITIVE : MESSAGE_NEGATIVE)
-	->addRow(_('Skrivbar'), $fileWritable ? MESSAGE_POSITIVE : MESSAGE_NEGATIVE)
-	->addRow(_('Filstorlek'), $fileSize ? \Format::fileSize($fileSize) : MESSAGE_NOT_AVAILABLE);
+	->addRow(_('Upload Time'), Format::timestamp($mediaInfo['timeCreated']))
+	->addRow(_('Orginal Fiilename'), $isAdmin ? \Element\Input::text('fileOriginalName', $mediaInfo['fileOriginalName'])->size(32) : $mediaInfo['fileOriginalName'] ?: MESSAGE_NOT_AVAILABLE)
+	->addRow(_('Source file'), $displayFullPaths ? $filePath : str_replace(DIR_MEDIA, '', $filePath))
+	->addRow(_('Exists'), sprintf('%s %s', $fileExists ? MESSAGE_POSITIVE : MESSAGE_NEGATIVE, $fileReadable ? sprintf('(<a href="?mediaID=%u&download=1">%s</a>)', $Media->mediaID, _('Download')) : ''))
+	->addRow(_('Readable'), $fileReadable ? MESSAGE_POSITIVE : MESSAGE_NEGATIVE)
+	->addRow(_('Writeable'), $fileWritable ? MESSAGE_POSITIVE : MESSAGE_NEGATIVE)
+	->addRow(_('Filesize'), $fileSize ? \Format::fileSize($fileSize) : MESSAGE_NOT_AVAILABLE);
 
 
 $IOCall = new \Element\IOCall('Media', array('mediaID' => $Media->mediaID));
@@ -47,7 +48,9 @@ $IOCall = new \Element\IOCall('Media', array('mediaID' => $Media->mediaID));
 $MediaControl = new \Element\IOControl($IOCall);
 $MediaControl
 	->addButton(new \Element\Button\Save())
-	->addButton(new \Element\Button\Delete());
+	->addButton(new \Element\Button\Delete())
+	->addButton(\Element\Button::IO('publishToImgur', 'world', _('Publish')))
+	;
 
 $AutogenControl = new \Element\IOControl($IOCall);
 $AutogenControl
@@ -65,13 +68,16 @@ echo $IOCall->getHead();
 	<legend><? echo _('Information'); ?></legend>
 
 	<?
+	echo \Element\Input::hidden('mediaID', $Media->mediaID);
 	echo
 		$MediaInfo,
 		$MediaControl;
 	?>
 
 </fieldset>
-
+<?
+echo $IOCall->getFoot();
+?>
 <fieldset>
 	<legend><? echo _('Förhandsgranskning'); ?></legend>
 	<?
@@ -79,31 +85,5 @@ echo $IOCall->getHead();
 	echo $MediaPreview;
 	?>
 </fieldset>
-
 <?
-$files = \Manager\Dataset\Media::getSpreadByHash($Media->mediaHash);
-?>
-<fieldset>
-	<legend><? printf(_('Biblioteksförekomst (%u)'), count($files)); ?></legend>
-	<?
-	if( count($files) > 0 )
-	{
-		echo '<ul>';
-		foreach($files as $file)
-			printf('<li><a href="%s">%s</a></li>',
-				str_replace(DIR_MEDIA, URL_MEDIA, $file),
-				htmlspecialchars($displayFullPaths ? $file : str_replace(DIR_MEDIA, '', $file)));
-		echo '</ul>';
-	}
-
-	unset($files);
-
-	echo $AutogenControl;
-	?>
-</fieldset>
-
-<?
-echo $IOCall->getFoot();
-
 require FOOTER;
-
