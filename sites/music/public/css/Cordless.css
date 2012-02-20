@@ -1,0 +1,83 @@
+.cordless {
+	height: 55px;
+}
+
+.cordless .scrubber {
+	display: block;
+	margin: 1px -2px 4px -2px;
+	height: 12px;
+}
+
+.cordless .scrubber .scrubArea {
+	background-color: #003b62;
+	background-image: url('../img/Cordless_ScrubArea.png');
+	border: solid 1px #232526;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.cordless .scrubber .progress {
+	background-color: #1b87cb;
+	background-image: url('../img/Cordless_Scrubber.png');
+	background-position: 100% 0;
+	border-radius: 5px;
+	height: 2px;
+	width: 0%;
+
+	-moz-transition: all ease .15s;
+	-webkit-transition: all .15s;
+}
+
+header:hover .cordless .scrubber .progress {
+	height: 9px;
+	opacity: 1;
+}
+
+.cordless .time {
+	float: right;
+}
+
+.cordless .controls {
+	height: 22px;
+}
+
+.cordless .controls .play_pause,
+.cordless .controls .next,
+.cordless .controls .prev {
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 15px;
+	overflow: hidden;
+	text-indent: 50px;
+	width: 15px;
+
+	-moz-transition: background-position ease .5s;
+	-webkit-transition: background-position ease .5s;
+}
+
+.cordless .controls .play_pause {
+	background-image: url('../img/Cordless_PlayPause.png');
+	margin-right: 5px;
+}
+
+.cordless.isPlaying .controls .play_pause {
+	background-position: 0 100%;
+}
+
+.cordless .controls .next,
+.cordless .controls .prev {
+}
+
+.cordless .controls .next {
+	background-image: url('../img/Cordless_Next.png');
+}
+.cordless .controls .prev {
+	background-image: url('../img/Cordless_Prev.png');
+}
+
+
+.cordless .trackinfo {
+	color: #618eaa;
+	font-size: 11px;
+}

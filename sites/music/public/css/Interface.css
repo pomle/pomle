@@ -1,0 +1,175 @@
+a {
+	color: #0096ff;
+	text-decoration: none;
+}
+
+body {
+	color: #4f4f4f;
+	background: #0f0f0f url('../img/Noise_Dark.png') repeat;
+	font-family: Arial, sans-serif;
+	font-size: 10pt;
+	margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-weight: bold;
+}
+
+.pageContainer {
+	margin: 0 auto;
+	min-width: 250px;
+}
+
+header {
+	background: rgba(0,0,0,.5);
+	font-size: 12px;
+	overflow: hidden;
+
+	height: 70px;
+
+	position: fixed;
+	left: 0;
+	right: 0;
+
+	width: 100%;
+}
+
+header .inner {
+	margin: 10px 10px 0 10px;
+}
+
+header .torus {
+	float: left;
+}
+
+header .search {
+	float: right;
+	margin: 0 0 5px 5px;
+}
+
+header .search input {
+	background: #fff url('../img/Magnifier.png') 3px 50% no-repeat;
+	border: none;
+	border-radius: 10px;
+	color: #6f6f6f;
+	padding: 3px 5px 3px 22px;
+}
+
+header nav {
+}
+
+header nav a {
+	height: 16px;
+	margin-right: 6px;
+	opacity: .3;
+}
+
+header nav a:hover {
+	opacity: 1;
+}
+
+header .cordless {
+	margin: 0 200px 0 170px;
+}
+
+#library {
+	font-family: Calibri;
+	float: left;
+	margin: 70px 0 0 10px;
+}
+
+#library h1 {
+	font-size: 24px;
+	color: #fff;
+	margin-bottom: 10px;
+}
+
+#playlists {
+	background: rgba(0,0,0,.25);
+	border-radius: 0 0 0 20px;
+	position: fixed;
+	right: -345px;
+	top: 70px;
+	width: 400px;
+
+	-moz-transition: right ease .4s;
+	-webkit-transition: right ease .4s;
+}
+
+#playlists:hover {
+	right: 0px;
+}
+
+#playlists .tabs {
+	margin: 10px;
+}
+
+#playlists .panels {
+	overflow: auto;
+}
+
+
+
+.dropUpload {
+	width: 400px;
+}
+
+.dropUpload .dropArea {
+	background: #36b8d4 url('../img/Upload_DropArea_Highlight.png') 0 0 repeat;
+	border-radius: 10px;
+	color: rgba(255,255,255,.5);
+	font-size: 20px;
+	font-weight: bold;
+	height: 55px;
+	line-height: 55px;
+	margin: 0 0 10px 0;
+	position: relative;
+	text-align: center;
+}
+
+.dropUpload .dropArea.isHovering {
+	background: #ff6c00 url('../img/Upload_DropArea.png') 0 0 repeat;
+}
+
+.dropUpload .queue {
+	margin: 0 0 10px 0;
+}
+
+.dropUpload .queue .progressBar {
+	background-image: url('../img/Cordless_ScrubArea.png');
+}
+
+.dropUpload .queue .progress {
+	background-image: url('../img/Cordless_Scrubber.png');
+	height: 6px;
+	width: 0;
+}
+
+
+
+.messages {
+}
+
+.messages .message {
+	background-color: #313131;
+	border-radius: 8px;
+	margin: 0 0 3px 0;
+	padding: 0px 10px;
+}
+
+.messages .message.alert {
+	background-color: #ebaa42;
+}
+
+.messages .message.error {
+	color: #c49a9a;
+	background-color: #760d0d;
+}
+
+.messages .message.notice {
+	color: #fff;
+	background-color: #1d96eb;
+}

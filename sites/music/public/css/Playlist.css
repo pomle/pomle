@@ -1,0 +1,74 @@
+.playlist {
+
+}
+
+.playlist .items {
+	font-size: 9px;
+	max-height: 100%;
+	overflow: auto;
+}
+
+.playlist .item {
+	/*background-image: url('../img/White-Black-Opac-10.png');*/
+	clear: both;
+	min-height: 40px;
+	overflow: hidden;
+}
+
+.playlist.compact .item {
+	min-height: 0;
+	padding: 1px 3px;
+}
+
+.playlist .item:nth-child(2n+0) {
+	background-color: rgba(255,255,255,.02);
+}
+
+.playlist .item:nth-child(2n+1) {
+	background-color: rgba(0,0,0,.2);
+}
+
+.playlist .item .image {
+	float: left;
+	height: 40px;
+	margin-right: 10px;
+	width: 40px;
+}
+
+.playlist.compact .item .image {
+	display: none;
+}
+
+.playlist .item .image img {
+	height: 100%;
+	width: 100%;
+}
+
+.playlist .item .meta {
+	margin: 3px 10px 0 0;
+}
+
+.playlist.compact .item .meta>* {
+	display: inline;
+}
+
+.playlist .item .title {
+	font-size: 11px;
+}
+
+.playlist .item .artist {
+	color: #335481;
+}
+
+.playlist .item.isCurrent {
+	background: #006eb2 url('../img/Playlist_Current.png') repeat-x;
+}
+
+.playlist .item.isCurrent .title {
+	color: #000;
+}
+
+.playlist .item.isCurrent .artist {
+	color: #181f2a;
+}
+
