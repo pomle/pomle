@@ -33,12 +33,22 @@ header:hover .cordless .scrubber .progress {
 	opacity: 1;
 }
 
+header:hover .cordless .controls>* {
+	opacity: 1;
+}
+
+
+
 .cordless .time {
 	float: right;
 }
 
 .cordless .controls {
 	height: 22px;
+}
+
+.cordless .controls>* {
+	opacity: .8;
 }
 
 .cordless .controls .play_pause,

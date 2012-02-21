@@ -45,12 +45,10 @@ class UserTrackList
 				<a href="#" class="append">Append</a>
 			</div>
 
-			<div class="items">
-				<?
-				foreach($this->userTrackItems as $UserTrackItem)
-					echo $this->getItemHTML($UserTrackItem);
-				?>
-			</div>
+			<?
+			echo $this->getItemsHTML($this->userTrackItems);
+			?>
+
 		</div>
 		<?
 		return ob_get_clean();
@@ -83,6 +81,20 @@ class UserTrackList
 			$this->addUserTrackItem($UserTrackItem);
 
 		return $this;
+	}
+
+	public function getItemsHTML($userTrackItems)
+	{
+		ob_start();
+		?>
+		<div class="userTrackItems items">
+			<?
+			foreach($userTrackItems as $UserTrackItem)
+				echo $this->getItemHTML($UserTrackItem);
+			?>
+		</div>
+		<?
+		return ob_get_clean();
 	}
 
 	public function getItemHTML(UserTrackItem $UserTrackItem)

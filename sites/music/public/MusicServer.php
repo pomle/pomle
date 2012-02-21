@@ -62,8 +62,6 @@ try
 			throw New \Exception("File Generation Failed");
 	}
 
-	$UserTrack->registerPlay();
-
 	servePartial($fileName, $fileTitle, $contentType);
 }
 catch(Exception $e)

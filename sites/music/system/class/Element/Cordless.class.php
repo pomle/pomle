@@ -12,7 +12,7 @@ class Cordless
 	{
 		ob_start();
 		?>
-		<section class="player cordless">
+		<section id="cordless" class="player cordless">
 
 			<div class="time">
 				<span class="current">0:00</span> /
@@ -34,6 +34,7 @@ class Cordless
 			<div class="trackinfo">
 				<div class="artist"></div>
 				<div class="title"></div>
+				<div class="error"></div>
 			</div>
 
 		</section>

@@ -10,15 +10,13 @@ class Playlist extends UserTrackList
 		<div class="userTrackList playlist">
 
 			<div class="control">
-
+				<a href="#" class="clear"><img src="/img/PlayQueue_Icon_Clear.png" title="<? echo _('Clear'); ?>"></a>
+				<a href="#" class="shuffle"><img src="/img/PlayQueue_Icon_Shuffle.png" title="<? echo _('Shuffle'); ?>"></a>
 			</div>
 
-			<div class="items">
-				<?
-				foreach($this->userTrackItems as $UserTrackItem)
-					echo $this->getItemHTML($UserTrackItem);
-				?>
-			</div>
+			<?
+			echo $this->getItemsHTML($this->userTrackItems);
+			?>
 
 		</div>
 		<?

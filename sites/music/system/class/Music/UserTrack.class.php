@@ -27,7 +27,6 @@ class UserTrack
 		return true;
 	}
 
-
 	public static function createInDB(self $UserTrack)
 	{
 		$timeCreated = time();

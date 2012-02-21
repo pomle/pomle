@@ -78,7 +78,7 @@ header .cordless {
 #library {
 	font-family: Calibri;
 	float: left;
-	margin: 70px 0 0 10px;
+	margin: 80px 0 0 50px;
 }
 
 #library h1 {
@@ -87,37 +87,131 @@ header .cordless {
 	margin-bottom: 10px;
 }
 
-#playlists {
-	background: rgba(0,0,0,.25);
-	border-radius: 0 0 0 20px;
+
+
+.sidebar {
+	background: rgba(10,10,10,.95);
+	/*padding: 10px;*/
 	position: fixed;
-	right: -345px;
 	top: 70px;
+}
+
+.sidebar>.control {
+	background: rgba(10,10,10,.95);
+	padding-top: 10px;
+	padding-bottom: 10px;
+	position: absolute;
+}
+
+.sidebar>.content {
+	margin: 10px 10px 15px 10px;
+}
+
+
+
+.sidebar .control .icon {
+	display: inline-block;
+	height: 15px;
+
+	overflow: hidden;
+	text-indent: 11px;
+	width: 11px;
+}
+
+.sidebar .control .lock {
+	background: transparent url('../img/Lock_Unlocked.png');
+	opacity: .5;
+}
+
+.sidebar .control .lock:hover {
+	opacity: 1;
+}
+
+.sidebar.locked .control .lock {
+	background: transparent url('../img/Lock_Locked.png');
+}
+
+
+
+
+#playqueue {
+	border-radius: 0 0 0 20px;
+	right: -345px;
 	width: 400px;
 
 	-moz-transition: right ease .4s;
 	-webkit-transition: right ease .4s;
 }
 
-#playlists:hover {
+#playqueue:hover,
+#playqueue.extended,
+#playqueue.locked {
 	right: 0px;
 }
 
-#playlists .tabs {
-	margin: 10px;
+#playqueue>.control {
+	border-radius: 10px 0 0 10px;
+	padding-left: 8px;
+	padding-right: 4px;
+	right: 100%;
+	top: 20px;
 }
 
-#playlists .panels {
+#playqueue>.control .logo {
+	background: transparent url('../img/Sidebar_Icon_PlayQueue.png');
+}
+
+#playqueue .playlist .items {
+	height: 200px;
 	overflow: auto;
 }
 
-
-
-.dropUpload {
-	width: 400px;
+#playqueue .playlist>.control {
+	opacity: .5;
 }
 
-.dropUpload .dropArea {
+#playqueue:hover .playlist>.control {
+	opacity: 1;
+}
+
+
+
+
+
+
+
+#upload {
+	border-radius: 0 0 20px 0;
+	position: fixed;
+	left: -390px;
+	min-height: 200px;
+	top: 70px;
+	width: 400px;
+
+	-moz-transition: left ease .4s;
+	-webkit-transition: left ease .4s;
+}
+
+#upload:hover,
+#upload.locked,
+#upload.extended.locked {
+	left: 0px;
+}
+
+#upload>.control {
+	border-radius: 0 10px 10px 0;
+	left: 100%;
+	padding-left: 4px;
+	padding-right: 8px;
+	top: 20px;
+}
+
+#upload>.control .logo {
+	background: transparent url('../img/Sidebar_Icon_Upload.png');
+}
+
+
+#upload .dropArea {
 	background: #36b8d4 url('../img/Upload_DropArea_Highlight.png') 0 0 repeat;
 	border-radius: 10px;
 	color: rgba(255,255,255,.5);
@@ -130,19 +224,19 @@ header .cordless {
 	text-align: center;
 }
 
-.dropUpload .dropArea.isHovering {
+#upload .dropArea.isHovering {
 	background: #ff6c00 url('../img/Upload_DropArea.png') 0 0 repeat;
 }
 
-.dropUpload .queue {
+#upload .queue {
 	margin: 0 0 10px 0;
 }
 
-.dropUpload .queue .progressBar {
+#upload .queue .progressBar {
 	background-image: url('../img/Cordless_ScrubArea.png');
 }
 
-.dropUpload .queue .progress {
+#upload .queue .progress {
 	background-image: url('../img/Cordless_Scrubber.png');
 	height: 6px;
 	width: 0;

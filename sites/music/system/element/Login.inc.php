@@ -1,7 +1,7 @@
 <?
 $username = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
 
-require HEADER;
+//require HEADER;
 ?>
 
 <form action="<? echo getenv('REQUEST_URI'); ?>" method="post">
@@ -26,6 +26,6 @@ require HEADER;
 </form>
 
 <?
-require FOOTER;
+//require FOOTER;
 
 die();

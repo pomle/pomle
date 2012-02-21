@@ -45,14 +45,17 @@ $js[] = '//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
 $js[] = '/js/jquery/jquery.dropUpload.js';
 #$js[] = '/js/jquery/jquery.filedrop.js';
 
-$js[] = '/js/Interface.js';
-$js[] = '/js/Cordless.js';
-$js[] = '/js/Playlist.js';
-$js[] = '/js/Upload.js';
-#$js[] = '/js/UploadI.js';
 
-$js[] = '/js/lib/fxb-last.fm-api/lastfm.api.md5.js';
-$js[] = '/js/lib/fxb-last.fm-api/lastfm.api.js';
+$js[] = '/js/CordlessController.js';
+$js[] = '/js/PlaylistController.js';
+$js[] = '/js/PanelController.js';
+
+$js[] = '/js/Interface.js';
+$js[] = '/js/Main.js';
+$js[] = '/js/Upload.js';
+
+#$js[] = '/js/lib/fxb-last.fm-api/lastfm.api.md5.js';
+#$js[] = '/js/lib/fxb-last.fm-api/lastfm.api.js';
 
 header("Content-type: text/html; charset=utf-8");
 
