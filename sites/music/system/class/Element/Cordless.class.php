@@ -20,9 +20,9 @@ class Cordless
 			</div>
 
 			<div class="controls">
-				<a href="#" class="play_pause">Play/Pause</a>
-				<a href="#" class="prev">Prev</a>
-				<a href="#" class="next">Next</a>
+				<a href="#" class="play_pause" title="<? echo htmlspecialchars(_('Toggle Play/Pause')); ?>"><? echo htmlspecialchars(_('Play/Pause')); ?></a>
+				<a href="#" class="prev" title="<? echo htmlspecialchars(_('Prev Queue Track')); ?>"><? echo htmlspecialchars(_('Prev')); ?></a>
+				<a href="#" class="next" title="<? echo htmlspecialchars(_('Next Queue Track')); ?>"><? echo htmlspecialchars(_('Next')); ?></a>
 			</div>
 
 			<a href="#" class="scrubber">

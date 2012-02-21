@@ -6,7 +6,7 @@ try
 	if( !isset($_GET['type']) || preg_match('/[^A-Za-z]/', $type = $_GET['type']) > 0 )
 		throw New \Exception('Invalid Panel Type');
 
-	if( !isset($_GET['name']) || preg_match('/[^A-Za-z]/', $name = $_GET['name']) > 0 )
+	if( !isset($_GET['name']) || preg_match('/[^A-Za-z\-]/', $name = $_GET['name']) > 0 )
 		throw New \Exception('Invalid Panel Name');
 
 	$includeFile = DIR_ELEMENT_PANEL . sprintf('%s.%s.inc.php', $type, $name);

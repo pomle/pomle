@@ -7,7 +7,7 @@ try
 
 	$userTracks = $Fetch->getRecent();
 
-	echo \Element\UserTrackList::createFromUserTracks($userTracks);
+	echo \Element\Tracklist::createFromUserTracks($userTracks);
 }
 catch(\Exception $e)
 {

@@ -1,0 +1,60 @@
+.tracklist {
+
+}
+
+.tracklist .control {
+	margin: 4px;
+}
+
+.tracklist .control .item {
+	margin-right: 6px;
+	opacity: .6;
+}
+
+.tracklist .control .item:hover {
+	opacity: 1;
+}
+
+.tracklist .items {
+	font-size: 11px;
+}
+
+.tracklist .items .item {
+	/*background-image: url('../img/White-Black-Opac-10.png');*/
+	float: left;
+	height: 60px;
+	overflow: hidden;
+	width: 200px;
+}
+
+.tracklist .items .item {
+	background: rgba(0,0,0,.2) url('../img/Tracklist_Item_BG.png') -50px -20px no-repeat;
+}
+
+/*.tracklist .item:nth-child(2n+1) {
+	background-color: rgba(0,0,0,.2);
+}*/
+
+.tracklist .items .item .image {
+	float: left;
+	height: 60px;
+	margin-right: 10px;
+	width: 60px;
+}
+
+.tracklist .items .item .image img {
+	height: 100%;
+	width: 100%;
+}
+
+.tracklist .items .item .meta {
+	margin: 3px 10px 0 0;
+}
+
+.tracklist .items .item .title {
+	font-size: 11px;
+}
+
+.tracklist .items .item .artist {
+	color: #335481;
+}

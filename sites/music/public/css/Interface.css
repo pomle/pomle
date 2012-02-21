@@ -1,3 +1,7 @@
+@font-face { font-family: Delicious; src: url('../font/delicious-roman.otf'); }
+@font-face { font-family: Delicious; font-weight: bold; src: url('../font/delicious-bold.otf'); }
+@font-face { font-family: SilkScreen; src: url('../font/SilkScreen.ttf'); }
+
 a {
 	color: #0096ff;
 	text-decoration: none;
@@ -35,6 +39,8 @@ header {
 	right: 0;
 
 	width: 100%;
+
+	z-index: 4;
 }
 
 header .inner {
@@ -78,11 +84,13 @@ header .cordless {
 #library {
 	font-family: Calibri;
 	float: left;
-	margin: 80px 0 0 50px;
+	margin: 80px 70px 20px 70px;
 }
 
 #library h1 {
-	font-size: 24px;
+	font-family: Delicious, Calibri;
+	font-weight: normal;
+	font-size: 20px;
 	color: #fff;
 	margin-bottom: 10px;
 }
@@ -136,8 +144,10 @@ header .cordless {
 
 #playqueue {
 	border-radius: 0 0 0 20px;
-	right: -345px;
+	right: -342px;
 	width: 400px;
+
+	z-index: 2;
 
 	-moz-transition: right ease .4s;
 	-webkit-transition: right ease .4s;
@@ -188,13 +198,15 @@ header .cordless {
 	top: 70px;
 	width: 400px;
 
+	z-index: 3;
+
 	-moz-transition: left ease .4s;
 	-webkit-transition: left ease .4s;
 }
 
 #upload:hover,
 #upload.locked,
-#upload.extended.locked {
+#upload.extended {
 	left: 0px;
 }
 
@@ -208,6 +220,15 @@ header .cordless {
 
 #upload>.control .logo {
 	background: transparent url('../img/Sidebar_Icon_Upload.png');
+}
+
+#upload>.control .close {
+	background: transparent url('../img/Sidebar_Close_Left.png');
+	opacity: .5;
+}
+
+#upload.extended>.control .close {
+	opacity: 1;
 }
 
 

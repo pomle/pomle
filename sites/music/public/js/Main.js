@@ -16,8 +16,6 @@ $(function()
 	var sidebar = $('.sidebar');
 
 	var panel_library = $('#library');
-	var panel_activePlaylist = $('#activePlaylist');
-	var panel_playlistBrowser = $('#playlistBrowser');
 
 	var scrollable_playqueue = $('#playqueue').find('.items');
 	var scrollable_upload = $('#playqueue').find('.queue');
@@ -86,23 +84,32 @@ $(function()
 		$(this).closest('.sidebar').toggleClass('locked');
 	});
 
+	sidebar.find('.close').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('.sidebar').removeClass('extended').removeClass('locked');
+
+	});
 
 
+	// Search
 	$('form#search').on('submit', function(e) {
 		e.preventDefault();
-
 		var url = $(this).attr('action') + '&' + $(this).serialize();
-
 		Panel.placeURL(url, panel_library);
 	});
 
-	// "Live Event Bindings, use minimally
+	// "Live" Event Bindings, use minimally
 	$(document)
 		.on("click", '.panelLibrary', 'click', function(e)
 		{
 			e.preventDefault();
-			var name = $(this).attr('href').substr(1);
-			Panel.placeLibrary(name, panel_library);
+			var href = $(this).attr('href');
+
+			// When href begins with # it means it is a simplified link, so autogenerate URL with placeLibrary()
+			if( href.match(/^#/) )
+				Panel.placeLibrary(href.substr(1), panel_library);
+			else
+				Panel.placeURL(href.substr(1), panel_library);
 		})
 		.on("click", '.panelPlaylist', 'click', function(e)
 		{

@@ -39,11 +39,11 @@ $css[] = '/css/Shitfest.css';
 $css[] = '/css/Interface.css';
 $css[] = '/css/Cordless.css';
 $css[] = '/css/Playlist.css';
+$css[] = '/css/Tracklist.css';
 
 $js = array();
 $js[] = '//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
 $js[] = '/js/jquery/jquery.dropUpload.js';
-#$js[] = '/js/jquery/jquery.filedrop.js';
 
 
 $js[] = '/js/CordlessController.js';

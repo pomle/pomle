@@ -1,7 +1,12 @@
 <?
 namespace Element;
 
-class UserTrackList
+interface iUserTrackList
+{
+	public function __toString();
+}
+
+abstract class UserTrackList
 {
 	public static function createFromUserTracks(Array $userTracks)
 	{
@@ -34,25 +39,6 @@ class UserTrackList
 		$this->userTrackItems = array();
 	}
 
-	public function __toString()
-	{
-		ob_start();
-		?>
-		<div class="userTrackList">
-
-			<div class="controls">
-				<a href="#" class="play">Play</a>
-				<a href="#" class="append">Append</a>
-			</div>
-
-			<?
-			echo $this->getItemsHTML($this->userTrackItems);
-			?>
-
-		</div>
-		<?
-		return ob_get_clean();
-	}
 
 	public function addUserTrack(\Music\UserTrack $UserTrack)
 	{

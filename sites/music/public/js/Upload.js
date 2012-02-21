@@ -28,7 +28,6 @@ $(function()
 		},
 		'onDropSuccess': function()
 		{
-			messages.html('');
 			dropArea.removeClass('isHovering');
 		},
 		'onFileCompleted': function(File)
@@ -66,7 +65,7 @@ $(function()
 
 	$(document)
 		.on('dragenter', function(e) {
-			upload.addClass('extended').addClass('locked');
+			upload.addClass('extended');
 		})
 		;
 });

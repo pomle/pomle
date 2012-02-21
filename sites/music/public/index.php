@@ -49,11 +49,12 @@ require '../Init.inc.php';
 		<div class="control">
 			<div class="icon logo"></div>
 
-			<a href="#" class="icon lock"><? echo _('Lock'); ?></a>
+			<a href="#" class="icon lock" title="<? echo htmlspecialchars(_('Lock panel in extended state')); ?>"><? echo _('Lock'); ?></a>
+			<a href="#" class="icon close" title="<? echo htmlspecialchars(_('Hide panel before upload has finished')); ?>"><? echo _('Hide'); ?></a>
 		</div>
 
 		<div class="content">
-s			<?
+			<?
 			$UploadForm = new \Element\Upload('/ajax/ReceiveFile.php');
 			echo $UploadForm;
 			?>
@@ -64,16 +65,16 @@ s			<?
 		<div class="control">
 			<div class="icon logo"></div>
 
-			<a href="#" class="icon lock"><? echo _('Lock'); ?></a>
+			<a href="#" class="icon lock" title="<? echo htmlspecialchars(_('Lock panel in extended state')); ?>"><? echo _('Lock'); ?></a>
 		</div>
 
 		<div class="content">
 			<?
-			$Fetch = new \Fetch\UserTrack($User);
+			#$Fetch = new \Fetch\UserTrack($User);
 
-			$userTracks = $Fetch->getLastPlaylist();
+			#$userTracks = $Fetch->getLastPlaylist();
 
-			$Playlist = \Element\Playlist::createFromUserTracks($userTracks);
+			$Playlist = new \Element\Playlist(); #\Element\Playlist::createFromUserTracks($userTracks);
 
 			echo $Playlist;
 			?>
