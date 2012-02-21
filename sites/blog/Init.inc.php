@@ -28,7 +28,7 @@ if( !isset($_SESSION['UserSettings']) )
 $UserSettings = $_SESSION['UserSettings'];
 
 
-$page = max(1, (int)$_GET['page']);
+$page = max(1, isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 0);
 $pageIndex = $page - 1;
 
 $pageTitle = 'Pomle.com';
