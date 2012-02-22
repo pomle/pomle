@@ -2,6 +2,8 @@
 require __DIR__ . '/Settings.inc.php';
 require __DIR__ . '/../Init.inc.php';
 
+header("Content-Type: text/html; charset=utf-8");
+
 foreach
 (
 	array
@@ -52,7 +54,7 @@ if( FORCE_SSL && !HTTPS )
 require DIR_ADMIN_INCLUDE . 'Functions.inc.php';
 require DIR_ADMIN_INCLUDE . 'Messages.General.inc.php';
 
-$pageTitlePrefix = 'AsenineAdmin';
+$pageTitlePrefix = 'Asenine Admin';
 
 $css[] = '/css/Admin.css';
 $css[] = '/css/Awesome.css';
