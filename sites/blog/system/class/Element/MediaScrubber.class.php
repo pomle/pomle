@@ -18,6 +18,7 @@ class MediaScrubber
 	{
 		$this->index = 0;
 		$this->items = array();
+		$this->sticky = null;
 	}
 
 	public function __toString()
@@ -51,6 +52,7 @@ class MediaScrubber
 					?>
 					<div class="info">
 						<div class="caption"><? echo htmlspecialchars($caption); ?></div>
+						<div class="sticky"><? if( $this->sticky ) echo $this->sticky; ?></div>
 						<a href="<? echo $url; ?>" class="mediaURL">Direktlänk</a>
 					</div>
 				</div>
