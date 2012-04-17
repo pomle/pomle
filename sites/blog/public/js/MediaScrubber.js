@@ -61,20 +61,20 @@ $(function()
 
 function MediaScrubber(mediaScrubber)
 {
-	var Self = this;
+	var self = this;
 
-	var element_Self = $(mediaScrubber); // The jQuery element
-	var element_Busy = element_Self.find('.busy');
+	var element_self = $(mediaScrubber); // The jQuery element
+	var element_Busy = element_self.find('.busy');
 
 	var timer_Busy = null;
 	var timer_Slideshow = null;
 
-	var element_Control = element_Self.find('.control');
-	var element_Canvas = element_Self.find('.image');
+	var element_Control = element_self.find('.control');
+	var element_Canvas = element_self.find('.image');
 	var element_Caption = element_Control.find('.caption');
 
-	this.mediaPool = jQuery.parseJSON(element_Self.attr('data-mediaPool'));
-	this.index = parseInt(element_Self.attr('data-pageIndex'), 10);
+	this.mediaPool = jQuery.parseJSON(element_self.attr('data-mediaPool'));
+	this.index = parseInt(element_self.attr('data-pageIndex'), 10);
 	this.length = this.mediaPool.length;
 
 	this.indexRequested = this.index;
@@ -91,7 +91,7 @@ function MediaScrubber(mediaScrubber)
 		{
 			if( !Media.url ) throw('Media.url not set');
 
-			Self.updateCanvas(Media);
+			self.updateCanvas(Media);
 		}
 		catch (error)
 		{
@@ -101,9 +101,9 @@ function MediaScrubber(mediaScrubber)
 
 	this.fetchMedia = function(Media, displayOnComplete)
 	{
-		if( Media && !Media.url && !Self.isFetching )
+		if( Media && !Media.url && !self.isFetching )
 		{
-			Self.isFetching = true;
+			self.isFetching = true;
 
 			jQuery.ajax(
 			{
@@ -113,20 +113,21 @@ function MediaScrubber(mediaScrubber)
 				data: Media,
 				complete: function()
 				{
-					Self.isFetching = false;
-					if( displayOnComplete ) Self.updateMedia();
+					self.isFetching = false;
+					if( displayOnComplete )
+						self.updateMedia();
 				},
 				error: function(x, textStatus)
 				{
 					displayOnComplete = false;
-					Self.removeHash(Media.mediaHash);
+					self.removeHash(Media.mediaHash);
 				},
 				success: function(Media_Completed)
 				{
 					if( Media_Completed.url )
 						Media.url = Media_Completed.url;
 					else
-						Self.removeHash(Media.mediaHash);
+						self.removeHash(Media.mediaHash);
 				}
 			});
 		}
@@ -136,49 +137,49 @@ function MediaScrubber(mediaScrubber)
 
 	this.findIndex = function(pointer)
 	{
-		if( Self.length == 0 ) return false;
+		if( self.length == 0 ) return false;
 
-		var index = pointer % Self.length;
-		if(index < 0) index += Self.length;
+		var index = pointer % self.length;
+		if(index < 0) index += self.length;
 		return index;
 	};
 
 	this.go = function(diff)
 	{
-		Self.seekDiff(diff);
-		Self.updateMedia();
+		self.seekDiff(diff);
+		self.updateMedia();
 		return this;
 	};
 
 	this.goTo = function(index)
 	{
-		Self.seekIndex(index);
-		Self.updateMedia();
+		self.seekIndex(index);
+		self.updateMedia();
 		return this;
 	};
 
 	this.next = function()
 	{
-		Self.seekNext();
-		Self.updateMedia();
+		self.seekNext();
+		self.updateMedia();
 		return this;
 	};
 
 	this.prev = function()
 	{
-		Self.seekPrev();
-		Self.updateMedia();
+		self.seekPrev();
+		self.updateMedia();
 		return this;
 	};
 
 	this.removeHash = function(mediaHash)
 	{
-		for(key in Self.mediaPool)
+		for(key in self.mediaPool)
 		{
-			if( Self.mediaPool[key].mediaHash == mediaHash )
+			if( self.mediaPool[key].mediaHash == mediaHash )
 			{
-				Self.mediaPool.splice(key, 1);
-				Self.length = Self.mediaPool.length;
+				self.mediaPool.splice(key, 1);
+				self.length = self.mediaPool.length;
 				break;
 			}
 		}
@@ -187,27 +188,27 @@ function MediaScrubber(mediaScrubber)
 
 	this.seekDiff = function(diff)
 	{
-		return Self.seekIndex(Self.index + diff);
+		return self.seekIndex(self.index + diff);
 	};
 
 	this.seekIndex = function(index)
 	{
-		index = Self.findIndex(index);
+		index = self.findIndex(index);
 
 		if( index !== false )
-			Self.index = index;
+			self.index = index;
 
 		return this;
 	};
 
 	this.seekNext = function()
 	{
-		return Self.seekDiff(1);
+		return self.seekDiff(1);
 	};
 
 	this.seekPrev = function()
 	{
-		return Self.seekDiff(-1);
+		return self.seekDiff(-1);
 	};
 
 	this.seekTo = function(mediaHash)
@@ -215,11 +216,11 @@ function MediaScrubber(mediaScrubber)
 		return false; // Deprecated
 
 		var i = 0;
-		for(index in Self.hashPool)
+		for(index in self.hashPool)
 		{
-			if( Self.hashPool[index] == mediaHash )
+			if( self.hashPool[index] == mediaHash )
 			{
-				Self.seekIndex(i);
+				self.seekIndex(i);
 				break;
 			}
 			i++;
@@ -231,36 +232,36 @@ function MediaScrubber(mediaScrubber)
 	{
 		clearTimeout(timer_Slideshow);
 
-		Self.isPlaying = true;
-		element_Self.addClass('isPlaying');
-		Self.next();
+		self.isPlaying = true;
+		element_self.addClass('isPlaying');
+		self.next();
 	}
 
 	this.slideshowStop = function()
 	{
 		clearTimeout(timer_Slideshow);
 
-		element_Self.removeClass('isPlaying');
-		Self.isPlaying = false;
+		element_self.removeClass('isPlaying');
+		self.isPlaying = false;
 	}
 
 	this.slideshowToggle = function()
 	{
-		if( Self.isPlaying )
-			Self.slideshowStop();
+		if( self.isPlaying )
+			self.slideshowStop();
 		else
-			Self.slideshowPlay();
+			self.slideshowPlay();
 	}
 
 	this.updateBusy = function()
 	{
-		if( Self.indexRequested == Self.indexDisplaying )
+		if( self.indexRequested == self.indexDisplaying )
 		{
-			element_Busy.fadeOut('fast');
+			element_self.removeClass('isBusy');
 			clearTimeout(timer_Busy);
 		}
 		else
-			element_Busy.fadeIn('fast');
+			element_self.addClass('isBusy');
 
 		return this;
 	}
@@ -271,9 +272,9 @@ function MediaScrubber(mediaScrubber)
 		var Buffer = new Image();
 		Buffer.onload = function()
 		{
-			element_Canvas.fadeOut(25, (function()
+			element_Canvas.fadeOut(self.isPlaying ? 150 : 0, (function()
 			{
-				element_Canvas.css('background-image', 'url(' + Media.url + ')').fadeIn(150);
+				element_Canvas.css('background-image', 'url(' + Media.url + ')').fadeIn(self.isPlaying ? 250 : 100);
 				element_Control.find('.mediaURL').attr('href', Media.url);
 				element_Caption.html(Media.caption);
 			}));
@@ -284,29 +285,29 @@ function MediaScrubber(mediaScrubber)
 
 	this.updateMedia = function()
 	{
-		timer_Busy = setTimeout(Self.updateBusy, 1000);
+		timer_Busy = setTimeout(self.updateBusy, 1000);
 
-		element_Control.find('.pageIndex').text((Self.index + 1) + ' / ' + (Self.length));
+		element_Control.find('.pageIndex').text((self.index + 1) + ' / ' + (self.length));
 
-		if( !Self.mediaPool[Self.index] )
+		if( !self.mediaPool[self.index] )
 			return false;
 
-		var Media = Self.mediaPool[Self.index];
+		var Media = self.mediaPool[self.index];
 
-		Self.indexRequested = Self.index;
+		self.indexRequested = self.index;
 
 		if( !Media.url )
-			return Self.fetchMedia(Media, true);
+			return self.fetchMedia(Media, true);
 
 		clearTimeout(timer_Slideshow);
 
-		this.displayMedia(Media);
+		self.displayMedia(Media);
 
-		Self.indexDisplaying = this.index;
+		self.indexDisplaying = self.index;
 
-		this.updateBusy();
+		self.updateBusy();
 
-		if( Self.isPlaying ) timer_Slideshow = setTimeout(Self.slideshowPlay, Self.slideshowDelay);
+		if( self.isPlaying ) timer_Slideshow = setTimeout(self.slideshowPlay, self.slideshowDelay);
 
 		return this;
 	}
