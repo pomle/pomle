@@ -16,6 +16,8 @@ elseif( isset($_GET['albumID']) && ($Album = \Post\Album::loadOneFromDB($_GET['a
 {
 	$media = $Album->media;
 	$primaryMediaID = (int)$_GET['mediaID'];
+
+	$MediaScrubber->sticky = sprintf(_("Från albumet %s"), sprintf('<a href="/helpers/PostRedirect.php?postID=%d">%s</a>', $Album->postID, htmlspecialchars($Album->title)));
 }
 elseif( isset($_GET['mediaID']) ) ### Can be array and will be handled by Media::loadFromDB as if it is
 {
