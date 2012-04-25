@@ -53,7 +53,11 @@ class MediaScrubber
 					<div class="info">
 						<div class="caption"><? echo htmlspecialchars($caption); ?></div>
 						<div class="sticky"><? if( $this->sticky ) echo $this->sticky; ?></div>
-						<a href="<? echo $url; ?>" class="mediaURL">Direktlänk</a>
+
+						<div class="links">
+							<a href="<? printf('/helpers/MediaDownload.php?mediaID=%d', $Item->mediaID); ?>" class="mediaDownloadURL">Orginal</a> |
+							<a href="<? echo $url; ?>" class="mediaURL">Direktlänk</a>
+						</div>
 					</div>
 				</div>
 			</div>

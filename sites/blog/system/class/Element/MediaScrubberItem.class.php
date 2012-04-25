@@ -7,12 +7,14 @@ class MediaScrubberItem
 		$Media;
 
 	public
+		$mediaID,
 		$mediaHash,
 		$caption,
 		$url;
 
 	public function __construct(\Media $Media, $caption = null)
 	{
+		$this->mediaID = $Media->mediaID;
 		$this->Media = $Media;
 		$this->url = null;
 

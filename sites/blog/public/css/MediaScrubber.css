@@ -146,7 +146,7 @@
 	-moz-transition: height ease .5s;
 }
 
-.mediaScrubber .control .info .mediaURL {
+.mediaScrubber .control .info .links {
 	font-size: 9px;
 	text-align: center;
 }
