@@ -276,6 +276,7 @@ function MediaScrubber(mediaScrubber)
 			{
 				element_Canvas.css('background-image', 'url(' + Media.url + ')').fadeIn(self.isPlaying ? 250 : 100);
 				element_Control.find('.mediaURL').attr('href', Media.url);
+				element_Control.find('.mediaDownloadURL').attr('href', '/helpers/MediaDownload.php?mediaID=' + Media.mediaID);
 				element_Caption.html(Media.caption);
 			}));
 		}
