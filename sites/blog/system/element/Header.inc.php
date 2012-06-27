@@ -13,7 +13,7 @@
 		printf('<link rel="image_src" href="%s">', $pageImageURL);
 	}
 	?>
-	<meta name="viewport" content="width=820">
+	<meta name="viewport" content="width=1024">
 	<link rel="alternate" type="application/rss+xml" title="<? echo htmlspecialchars($rssTitle); ?>" href="<? echo $rssHref; ?>">
 	<!--[if IE]>
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
